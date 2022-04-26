@@ -1,0 +1,32 @@
+{
+    "host": "localhost",
+    "port": 3030,
+    "public": "../public/",
+    "paginate": {
+        "default": 10,
+        "max": 50
+    },
+    "authentication": {
+        "entity": "user",
+        "service": "users",
+        "secret": "demanArI3P7bPSNGHHIPJWfbyRo=",
+        "authStrategies": [
+            "jwt",
+            "local"
+        ],
+        "jwtOptions": {
+            "header": {
+                "typ": "access"
+            },
+            "audience": "https://yourdomain.com",
+            "issuer": "feathers",
+            "algorithm": "HS256",
+            "expiresIn": "1d"
+        },
+        "local": {
+            "usernameField": "email",
+            "passwordField": "password"
+        }
+    },
+    "mongodb": "mongodb://localhost:27000/todo_feathers"
+}

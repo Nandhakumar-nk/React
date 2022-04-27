@@ -2,19 +2,21 @@ import React, { useEffect, useState } from "react";
 
 import { post, get } from "../api-functions/api-functions";
 
-function DefaultCategories() {
+function DefaultCategories(props) {
   const icons = [
-    { name: "light_mode_outlined", color: "", text: "My Day" },
-    { name: "star_border", color: "", text: "Important" },
-    { name: "event_outlined", color: "", text: "Planned" },
-    { name: "person_outline", color: "green-icon", text: "Assigned to me" },
-    { name: "home_outlined", color: "blue-icon", text: "Tasks" },
+    { name: "light_mode_outlined", color: "", text: "My Day", tasks:[]},
+    { name: "star_border", color: "", text: "Important", tasks: props.importantTasks},
+    { name: "event_outlined", color: "", text: "Planned", tasks:[]},
+    { name: "person_outline", color: "green-icon", text: "Assigned to me", tasks:[] },
+    { name: "home_outlined", color: "blue-icon", text: "Tasks", tasks:[] },
   ];
   const elements = icons.map((icon, index) => {
+    console.log("icon tasks length:" + icon.text +icon.tasks.length);
     return (
       <li className={icon.color} key={index}>
         <i className="material-icons list-icons">{icon.name}</i>
         <span>{icon.text}</span>
+        <span className="task-count">{(icon.tasks.length > 0) ? icon.tasks.length : ""}</span>
       </li>
     );
   });
@@ -109,7 +111,7 @@ function BottomIcons(props) {
 }
 
 function Categories(props) {
-
+  console.log("categories --- imporatnt tasks:"+props.importantTasks.length);
   return (
     <div className="left-container">
       <div className="menu-button-container">
@@ -119,7 +121,7 @@ function Categories(props) {
       </div>
 
       <div className="menu-added-items-container">
-        <DefaultCategories />
+        <DefaultCategories importantTasks={props.importantTasks} />
         <DynamicCategories categories={props.categories} changeCategory={props.changeCategory} />
       </div>
 

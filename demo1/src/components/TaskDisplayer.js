@@ -36,24 +36,41 @@ function ShedulingIcons(props) {
 //onClick={markAsImportantTask}
 //{props.tasks[reversedIndex].isImportant ? "star" : "star_border"}
 function TasksContainer(props) {
-  console.log("tasksContainer:" + props.task)
+  console.log("tasksContainer:" + props.tasks);
   const elements = [];
   let reversedIndex = props.tasks.length - 1;
 
   for (let index = 0; reversedIndex >= 0; index++, reversedIndex--) {
-   let taskBox = <div className="task" onClick={props.showRightContainer}>
-      <div className="radio-container">
-        <span className="material-icons add-icon radio-icon blue-icon">
-          radio_button_unchecked_outlined
-        </span>
+    console.log("for task:" + JSON.stringify(props.tasks[reversedIndex]._id));
+    console.log("taskId:" + props.tasks[reversedIndex]._id);
+    console.log("taskimp:" + props.tasks[reversedIndex].isImportant);
+    const taskId = props.tasks[reversedIndex]._id;
+    const isImportant = props.tasks[reversedIndex].isImportant;
+    let taskBox = (
+      <div className="task" onClick={props.showRightContainer}>
+        <div className="radio-container">
+          <span className="material-icons add-icon radio-icon blue-icon">
+            radio_button_unchecked_outlined
+          </span>
+        </div>
+        <div className="tasks-text">{props.tasks[reversedIndex].task} </div>
+        <div className="star-container">
+          <span
+            className={"material-icons list-icons" + (props.tasks[reversedIndex].isImportant
+            ? " blue-icon"
+            : "")}
+            onClick={() => props.markAsImportant(taskId, isImportant)}
+            title={
+              props.tasks[reversedIndex].isImportant
+                ? "remove from important"
+                : "mark as important"
+            }
+          >
+            {props.tasks[reversedIndex].isImportant ? "star" : "star_border"}
+          </span>
+        </div>
       </div>
-      <div className="tasks-text">{props.tasks[reversedIndex].task} </div>
-      <div className="star-container">
-        <span className="material-icons list-icons">
-        star_border
-        </span>
-      </div>
-    </div>;
+    );
     elements.push(taskBox);
     //selectIcon(addedTasks[reversedIndex], taskBox.childNodes[2].childNodes[0]);
   }
@@ -67,10 +84,9 @@ function TasksContainer(props) {
 }
 
 class TaskDisplayer extends React.Component {
-
   render() {
     console.log("tasksDisplayer comp " + this.props.categoryTitle);
-    console.log("tdis:" + this.props.tasks)
+    console.log("tdis:" + this.props.tasks);
 
     return (
       <div className="middle-container-full">
@@ -111,7 +127,10 @@ class TaskDisplayer extends React.Component {
             />
           </div>
         </div>
-        <TasksContainer tasks={this.props.tasks} />
+        <TasksContainer
+          tasks={this.props.tasks}
+          markAsImportant={this.props.markAsImportant}
+        />
       </div>
     );
   }

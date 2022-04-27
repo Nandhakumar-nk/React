@@ -15,11 +15,13 @@ class App extends React.Component {
       display: "hide",
       categoryTitle: "My Day",
       selectedCategoryId: 0,
+      importantTasks: [],
     };
     this.toggleDisplay = this.toggleDisplay.bind(this);
     this.addCategory = this.addCategory.bind(this);
     this.addTask = this.addTask.bind(this);
     this.changeCategory = this.changeCategory.bind(this);
+    this.markAsImportant = this.markAsImportant.bind(this);
     console.log("parent cons executed");
   }
 
@@ -29,21 +31,24 @@ class App extends React.Component {
     console.log("app " + this.state.display);
   }
 
-  refreshCategories(category) {
-    axios
-      .get("http://localhost:3030/categories")
-      .then((response) => {
-        console.log(response.data);
-        this.setState({
-          categories: response.data.data,
-          categoryTitle: category.title,
-          selectedCategoryId: category._id,
-          tasks: category.tasks,
-        });
-      })
-      .catch((error) => {
-        console.log("error ocurred during categories fetching");
+  async refreshCategories(category) {
+    try {
+      const categories = await axios.get("http://localhost:3030/categories");
+
+      console.log(categories.data);
+      const importantTasks = await axios.get("http://localhost:3030/importantTasks");
+
+      console.log(importantTasks.data);
+      this.setState({
+        categories: categories.data.data,
+        categoryTitle: category.title,
+        selectedCategoryId: category._id,
+        tasks: category.tasks,
+        importantTasks: importantTasks.data.data
       });
+    } catch (error) {
+      console.log("error ocurred during categories fetching");
+    }
   }
 
   async refreshTasks(categoryId) {
@@ -52,15 +57,7 @@ class App extends React.Component {
         "http://localhost:3030/categories/" + categoryId
       );
 
-      console.log(category.data);
-      const categories = await axios.get("http://localhost:3030/categories");
-
-      console.log(categories.data);
-      this.setState({
-        categories: categories.data.data,
-        tasks: category.data.tasks,
-        selectedCategoryId: categoryId,
-      });
+      this.refreshCategories(category.data);
     } catch (error) {
       console.log("error ocurred during categories fetching");
     }
@@ -123,7 +120,25 @@ class App extends React.Component {
       });
   }
 
+  async markAsImportant(taskId, isImportant) {
+    console.log("isimp:" + isImportant);
+    console.log("isimp opp:" + !isImportant);
+    try {
+      await axios({
+        method: "patch",
+        url: "http://localhost:3030/tasks/" + taskId,
+        data: {
+          isImportant: !isImportant,
+        },
+      });
+      this.refreshTasks(this.state.selectedCategoryId);
+    } catch (error) {
+      console.log("error ocurred during important posting");
+    }
+  }
+
   render() {
+    console.log("imporatnt tasks:"+this.state.importantTasks.length);
     console.log("\napp render");
     console.log("ct " + this.state.categoryTitle);
     return (
@@ -134,6 +149,7 @@ class App extends React.Component {
           categories={this.state.categories}
           addCategory={this.addCategory}
           changeCategory={this.changeCategory}
+          importantTasks={this.state.importantTasks}
         />
         <TaskDisplayer
           display={this.state.display}
@@ -141,6 +157,7 @@ class App extends React.Component {
           categoryTitle={this.state.categoryTitle}
           tasks={this.state.tasks}
           addTask={this.addTask}
+          markAsImportant={this.markAsImportant}
         />
       </div>
     );
@@ -157,7 +174,7 @@ class App extends React.Component {
         },
       });
       console.log("result" + result.data._id);
-      //this.refreshCategories(response.data);
+      //this.refreshCategories(result.data);
     } catch (error) {
       console.log("error ocurred during MyDay posting");
     }

@@ -7,7 +7,11 @@ exports.Tasks = class Tasks extends Service {
     }
 
     async create(data, params) {
-        const createdTask = await super.create({ task: data.task }, params);
+        const createdTask = await super.create({
+            task: data.task,
+            isCompleted: false,
+            isImportant: false
+        }, params);
 
         console.log("inside task class, taskResult    ", createdTask);
         const category = await this.app.service("categories").get(data.categoryId);

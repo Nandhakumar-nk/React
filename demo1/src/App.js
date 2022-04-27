@@ -19,7 +19,7 @@ class App extends React.Component {
     this.toggleDisplay = this.toggleDisplay.bind(this);
     this.addCategory = this.addCategory.bind(this);
     this.addTask = this.addTask.bind(this);
-    //this.categoryTitle = "My Day";
+    this.changeCategory = this.changeCategory.bind(this);
     console.log("parent cons executed");
   }
 
@@ -38,6 +38,7 @@ class App extends React.Component {
           categories: response.data.data,
           categoryTitle: category.title,
           selectedCategoryId: category._id,
+          tasks: category.tasks,
         });
       })
       .catch((error) => {
@@ -45,19 +46,24 @@ class App extends React.Component {
       });
   }
 
-  refreshTasks(categoryId) {
-    axios
-      .get("http://localhost:3030/categories/"+categoryId)
-      .then((response) => {
-        console.log(response.data);
-        this.setState({
-          tasks: response.data.tasks,
-          selectedCategoryId: categoryId,
-        });
-      })
-      .catch((error) => {
-        console.log("error ocurred during categories fetching");
+  async refreshTasks(categoryId) {
+    try {
+      const category = await axios.get(
+        "http://localhost:3030/categories/" + categoryId
+      );
+
+      console.log(category.data);
+      const categories = await axios.get("http://localhost:3030/categories");
+
+      console.log(categories.data);
+      this.setState({
+        categories: categories.data.data,
+        tasks: category.data.tasks,
+        selectedCategoryId: categoryId,
       });
+    } catch (error) {
+      console.log("error ocurred during categories fetching");
+    }
   }
 
   async addCategory(event) {
@@ -69,10 +75,9 @@ class App extends React.Component {
           data: {
             title: event.target.value,
             isCompleted: false,
-            isImportant: false
+            isImportant: false,
           },
         });
-        //this.categoryTitle = response.data.title;
         this.refreshCategories(response.data);
       } catch (error) {
         console.log("error ocurred during category posting");
@@ -92,15 +97,30 @@ class App extends React.Component {
           url: "http://localhost:3030/tasks",
           data: {
             categoryId: this.state.selectedCategoryId,
-            task: event.target.value
+            task: event.target.value,
           },
         });
-        //this.categoryTitle = response.data.title;
         this.refreshTasks(this.state.selectedCategoryId);
       } catch (error) {
         console.log("error ocurred during task posting");
       }
     }
+  }
+
+  changeCategory(categoryId) {
+    axios
+      .get("http://localhost:3030/categories/" + categoryId)
+      .then((response) => {
+        console.log(response.data);
+        this.setState({
+          categoryTitle: response.data.title,
+          selectedCategoryId: response.data._id,
+          tasks: response.data.tasks,
+        });
+      })
+      .catch((error) => {
+        console.log("error ocurred during categories fetching");
+      });
   }
 
   render() {
@@ -113,6 +133,7 @@ class App extends React.Component {
           toggleDisplay={this.toggleDisplay}
           categories={this.state.categories}
           addCategory={this.addCategory}
+          changeCategory={this.changeCategory}
         />
         <TaskDisplayer
           display={this.state.display}
@@ -129,11 +150,11 @@ class App extends React.Component {
     console.log("\ncomponentDidMount() lifecycle - parent");
     try {
       const result = await axios({
-        method: 'post',
-        url: 'http://localhost:3030/categories',
+        method: "post",
+        url: "http://localhost:3030/categories",
         data: {
-          title: 'from react1',
-        }
+          title: "from react1",
+        },
       });
       console.log("result" + result.data._id);
       //this.refreshCategories(response.data);

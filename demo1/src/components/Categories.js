@@ -7,12 +7,12 @@ function DefaultCategories() {
     { name: "light_mode_outlined", color: "", text: "My Day" },
     { name: "star_border", color: "", text: "Important" },
     { name: "event_outlined", color: "", text: "Planned" },
-    { name: "person_outline", color: " green-icon", text: "Assigned to me" },
-    { name: "home_outlined", color: " blue-icon", text: "Tasks" },
+    { name: "person_outline", color: "green-icon", text: "Assigned to me" },
+    { name: "home_outlined", color: "blue-icon", text: "Tasks" },
   ];
   const elements = icons.map((icon, index) => {
     return (
-      <li className={"left-top-menu-list" + icon.color} key={index}>
+      <li className={icon.color} key={index}>
         <i className="material-icons list-icons">{icon.name}</i>
         <span>{icon.text}</span>
       </li>
@@ -29,7 +29,7 @@ function DefaultCategories() {
 function DynamicCategories(props) {
   const elements = props.categories.map((category, index) => {
     return (
-      <CategoryListItem categoryName={category.title} key={category._id} />
+      <CategoryListItem category={category} key={category._id}  changeCategory={props.changeCategory}/>
     );
   });
 
@@ -42,15 +42,13 @@ function DynamicCategories(props) {
 
 function CategoryListItem(props) {
   return (
-    //<li onClick={displayListTasks}>
-    <li>
+    <li onClick={() => props.changeCategory(props.category._id)}>
       <span className="material-icons list-icons blue-icon">list_outlined</span>
-      {props.categoryName}
+      {props.category.title}
       <span
         className="task-count"
-        value="0"
         id={props.categoryName + "list"}
-      ></span>
+      >{(props.category.tasks.length > 0) ? props.category.tasks.length : ""}</span>
     </li>
   );
 }
@@ -111,31 +109,6 @@ function BottomIcons(props) {
 }
 
 function Categories(props) {
-  // useEffect(async () => {
-  //   function getCategories() {
-  //     get("categories")
-  //     .then((responseData) => {
-  //       const elements = responseData.data.map((category, index) => {
-  //         return <CategoryListItem categoryName={category.title} key={category._id}/>;
-  //       });
-  //       props.modifyCategories(elements)
-  //     })
-  //     .catch((error) => {
-  //       console.log("get error");
-  //     });
-  //   }
-
-  //   getCategories();
-  // }, []);
-
-  // function addCategory(event) {
-  //   if (event.keyCode === 13 && event.target.value.length > 0) {
-  //     const element = <CategoryListItem categoryName={event.target.value} />;
-
-  //     post("categories", { title: event.target.value });
-  //     setCategories([...categories, element]);
-  //   }
-  // }
 
   return (
     <div className="left-container">
@@ -147,7 +120,7 @@ function Categories(props) {
 
       <div className="menu-added-items-container">
         <DefaultCategories />
-        <DynamicCategories categories={props.categories} />
+        <DynamicCategories categories={props.categories} changeCategory={props.changeCategory} />
       </div>
 
       <NewCategoryAdder

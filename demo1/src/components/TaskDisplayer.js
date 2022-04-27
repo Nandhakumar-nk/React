@@ -49,9 +49,9 @@ function TasksContainer(props) {
       </div>
       <div className="tasks-text">{props.tasks[reversedIndex].task} </div>
       <div className="star-container">
-        <span className="material-icons list-icons star-task">
+        <span className="material-icons list-icons">
         star_border
-        </span>{" "}
+        </span>
       </div>
     </div>;
     elements.push(taskBox);
@@ -126,6 +126,7 @@ class TaskDisplayer extends React.Component {
       document.getElementsByClassName("date-container")[0].style.display =
         "none";
     }
+    document.getElementById("taskInputBox").value = "";
   }
 
   componentWillUnmount() {

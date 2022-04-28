@@ -16,12 +16,15 @@ class App extends React.Component {
       categoryTitle: "My Day",
       selectedCategoryId: 0,
       importantTasks: [],
+      completedTasks: []
     };
     this.toggleDisplay = this.toggleDisplay.bind(this);
     this.addCategory = this.addCategory.bind(this);
     this.addTask = this.addTask.bind(this);
-    this.changeCategory = this.changeCategory.bind(this);
+    this.switchCategory = this.switchCategory.bind(this);
     this.markAsImportant = this.markAsImportant.bind(this);
+    this.switchTab = this.switchTab.bind(this);
+    this.markAsCompleted = this.markAsCompleted.bind(this);
     console.log("parent cons executed");
   }
 
@@ -33,18 +36,28 @@ class App extends React.Component {
 
   async refreshCategories(category) {
     try {
+      const tasks = category.tasks.filter((task) => task.isCompleted === false);
+      const completedTasks = category.tasks.filter((task) => task.isCompleted === true);
       const categories = await axios.get("http://localhost:3030/categories");
 
       console.log(categories.data);
-      const importantTasks = await axios.get("http://localhost:3030/importantTasks");
+      const importantTasks = await axios.get(
+        "http://localhost:3030/importantTasks"
+      );
 
       console.log(importantTasks.data);
       this.setState({
         categories: categories.data.data,
         categoryTitle: category.title,
         selectedCategoryId: category._id,
-        tasks: category.tasks,
-        importantTasks: importantTasks.data.data
+        tasks:
+          category.title === "Important"
+            ? importantTasks.data.data
+            : tasks,
+        importantTasks: importantTasks.data.data,
+        completedTasks: category.title === "Important"
+        ? []
+        : completedTasks
       });
     } catch (error) {
       console.log("error ocurred during categories fetching");
@@ -53,11 +66,15 @@ class App extends React.Component {
 
   async refreshTasks(categoryId) {
     try {
-      const category = await axios.get(
-        "http://localhost:3030/categories/" + categoryId
-      );
+      if (categoryId != "Important") {
+        const category = await axios.get(
+          "http://localhost:3030/categories/" + categoryId
+        );
 
-      this.refreshCategories(category.data);
+        this.refreshCategories(category.data);
+      } else {
+        this.displayImportantTasks();
+      }
     } catch (error) {
       console.log("error ocurred during categories fetching");
     }
@@ -104,16 +121,13 @@ class App extends React.Component {
     }
   }
 
-  changeCategory(categoryId) {
+  switchCategory(categoryId) {
+    console.log(typeof categoryId);
     axios
       .get("http://localhost:3030/categories/" + categoryId)
       .then((response) => {
         console.log(response.data);
-        this.setState({
-          categoryTitle: response.data.title,
-          selectedCategoryId: response.data._id,
-          tasks: response.data.tasks,
-        });
+        this.refreshCategories(response.data);
       })
       .catch((error) => {
         console.log("error ocurred during categories fetching");
@@ -137,8 +151,44 @@ class App extends React.Component {
     }
   }
 
+  switchTab(categoryTitle) {
+    console.log("switch tab called");
+    console.log("switch tab cat title" + categoryTitle);
+    if (categoryTitle != "Important") {
+      console.log("switch tab other tabs");
+      this.setState({
+        categoryTitle: categoryTitle,
+        tasks: [],
+      });
+    } else {
+      console.log("switch tab imp tab");
+      this.refreshCategories({ _id: "Important", title: "Important" });
+    }
+  }
+
+  async markAsCompleted(taskId, isCompleted) {
+    console.log("isCompleted:" + isCompleted);
+    console.log("isCompleted opp:" + !isCompleted);
+    try {
+      await axios({
+        method: "patch",
+        url: "http://localhost:3030/tasks/" + taskId,
+        data: {
+          isCompleted: !isCompleted,
+        },
+      });
+      this.refreshTasks(this.state.selectedCategoryId);
+    } catch (error) {
+      console.log("error ocurred during completed posting");
+    }
+  }
+
+  getCompletedTasks(tasks, isCompleted) {
+    tasks.filter((task) => task.isCompleted === isCompleted);
+  }
+
   render() {
-    console.log("imporatnt tasks:"+this.state.importantTasks.length);
+    console.log("important tasks:" + this.state.importantTasks.length);
     console.log("\napp render");
     console.log("ct " + this.state.categoryTitle);
     return (
@@ -148,16 +198,19 @@ class App extends React.Component {
           toggleDisplay={this.toggleDisplay}
           categories={this.state.categories}
           addCategory={this.addCategory}
-          changeCategory={this.changeCategory}
+          switchCategory={this.switchCategory}
           importantTasks={this.state.importantTasks}
+          switchTab={this.switchTab}
         />
         <TaskDisplayer
           display={this.state.display}
           toggleDisplay={this.toggleDisplay}
           categoryTitle={this.state.categoryTitle}
           tasks={this.state.tasks}
+          completedTasks={this.state.completedTasks}
           addTask={this.addTask}
           markAsImportant={this.markAsImportant}
+          markAsCompleted={this.markAsCompleted}
         />
       </div>
     );
@@ -183,17 +236,21 @@ class App extends React.Component {
 
 export default App;
 
-/*useEffect(async () => {
-        axios.get("http://localhost:3030/categories").then((response) => {
-            console.log(response.data);
+/*
+ switchCategory(categoryId) {
+    console.log(typeof categoryId);
+    axios
+      .get("http://localhost:3030/categories/" + categoryId)
+      .then((response) => {
+        console.log(response.data);
+        this.setState({
+          categoryTitle: response.data.title,
+          selectedCategoryId: response.data._id,
+          tasks: response.data.tasks,
         });
-        
-        const result = await axios({
-            method: 'post',
-            url: 'http://localhost:3030/categories',
-            data: {
-              title: 'from react1',
-            }
-          });
-          console.log("result" + result.data._id);
-    }, []);*/
+      })
+      .catch((error) => {
+        console.log("error ocurred during categories fetching");
+      });
+  }
+*/

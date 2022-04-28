@@ -32,50 +32,85 @@ function ShedulingIcons(props) {
   );
 }
 
-//onClick={markAsCompletedMiddle}
-//onClick={markAsImportantTask}
-//{props.tasks[reversedIndex].isImportant ? "star" : "star_border"}
+//onClick={props.showRightContainer}
+function TaskElement(props) {
+  console.log("for task:" + JSON.stringify(props.task._id));
+  console.log(typeof props.task._id);
+  console.log("taskimp:" + props.task.isImportant);
+  const taskId = props.task._id;
+  const isImportant = props.task.isImportant;
+  const isCompleted = props.task.isCompleted;
+
+  return (
+    <div className="task">
+      <div className="radio-container">
+        <span
+          className="material-icons add-icon radio-icon blue-icon"
+          onClick={() => props.markAsCompleted(taskId, isCompleted)}
+          title={isCompleted ? "undo completed" : "mark as completed"}
+        >
+          {isCompleted ? "check_circle" : "radio_button_unchecked_outlined"}
+        </span>
+      </div>
+      <div className="tasks-text">{props.task.task} </div>
+      <div className="star-container">
+        <span
+          className={
+            "material-icons list-icons" + (isImportant ? " blue-icon" : "")
+          }
+          onClick={() => props.markAsImportant(taskId, isImportant)}
+          title={isImportant ? "remove from important" : "mark as important"}
+        >
+          {isImportant ? "star" : "star_border"}
+        </span>
+      </div>
+    </div>
+  );
+}
+
 function TasksContainer(props) {
   console.log("tasksContainer:" + props.tasks);
   const elements = [];
   let reversedIndex = props.tasks.length - 1;
 
-  for (let index = 0; reversedIndex >= 0; index++, reversedIndex--) {
-    console.log("for task:" + JSON.stringify(props.tasks[reversedIndex]._id));
-    console.log("taskId:" + props.tasks[reversedIndex]._id);
-    console.log("taskimp:" + props.tasks[reversedIndex].isImportant);
-    const taskId = props.tasks[reversedIndex]._id;
-    const isImportant = props.tasks[reversedIndex].isImportant;
-    let taskBox = (
-      <div className="task" onClick={props.showRightContainer}>
-        <div className="radio-container">
-          <span className="material-icons add-icon radio-icon blue-icon">
-            radio_button_unchecked_outlined
-          </span>
-        </div>
-        <div className="tasks-text">{props.tasks[reversedIndex].task} </div>
-        <div className="star-container">
-          <span
-            className={"material-icons list-icons" + (props.tasks[reversedIndex].isImportant
-            ? " blue-icon"
-            : "")}
-            onClick={() => props.markAsImportant(taskId, isImportant)}
-            title={
-              props.tasks[reversedIndex].isImportant
-                ? "remove from important"
-                : "mark as important"
-            }
-          >
-            {props.tasks[reversedIndex].isImportant ? "star" : "star_border"}
-          </span>
-        </div>
-      </div>
+  for (; reversedIndex >= 0; reversedIndex--) {
+    elements.push(
+      <TaskElement
+        task={props.tasks[reversedIndex]}
+        markAsImportant={props.markAsImportant}
+        markAsCompleted={props.markAsCompleted}
+      />
     );
-    elements.push(taskBox);
-    //selectIcon(addedTasks[reversedIndex], taskBox.childNodes[2].childNodes[0]);
   }
 
-  for (let tasksLength = props.tasks.length; tasksLength < 8; tasksLength++) {
+  if (props.completedTasks.length > 0) {
+    reversedIndex = props.completedTasks.length - 1;
+    elements.push(
+      <div className="task">
+        <span className="completed-heading">Completed</span>
+        <span className="completed-count">
+          {props.completedTasks.length}
+        </span>
+      </div>
+    );
+    for (; reversedIndex >= 0; reversedIndex--) {
+      elements.push(
+        <TaskElement
+          task={props.completedTasks[reversedIndex]}
+          markAsImportant={props.markAsImportant}
+          markAsCompleted={props.markAsCompleted}
+        />
+      );
+    }
+  }
+
+  const completedTasksCount =
+    props.completedTasks.length > 0 ? props.completedTasks.length + 1 : 0;
+  for (
+    let tasksLength = props.tasks.length + completedTasksCount;
+    tasksLength < 9;
+    tasksLength++
+  ) {
     elements.push(<div className="task" key={tasksLength}></div>);
     console.log("for" + tasksLength);
   }
@@ -129,7 +164,9 @@ class TaskDisplayer extends React.Component {
         </div>
         <TasksContainer
           tasks={this.props.tasks}
+          completedTasks={this.props.completedTasks}
           markAsImportant={this.props.markAsImportant}
+          markAsCompleted={this.props.markAsCompleted}
         />
       </div>
     );

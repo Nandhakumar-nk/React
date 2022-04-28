@@ -1,22 +1,56 @@
-import React, { useEffect, useState } from "react";
-
-import { post, get } from "../api-functions/api-functions";
+import React from "react";
 
 function DefaultCategories(props) {
-  const icons = [
-    { name: "light_mode_outlined", color: "", text: "My Day", tasks:[]},
-    { name: "star_border", color: "", text: "Important", tasks: props.importantTasks},
-    { name: "event_outlined", color: "", text: "Planned", tasks:[]},
-    { name: "person_outline", color: "green-icon", text: "Assigned to me", tasks:[] },
-    { name: "home_outlined", color: "blue-icon", text: "Tasks", tasks:[] },
+  const categories = [
+    {
+      icon: "light_mode_outlined",
+      color: "",
+      text: "My Day",
+      tasks: [],
+    },
+    {
+      icon: "star_border",
+      color: "",
+      text: "Important",
+      tasks: props.importantTasks,
+    },
+    {
+      icon: "event_outlined",
+      color: "",
+      text: "Planned",
+      tasks: [],
+    },
+    {
+      icon: "person_outline",
+      color: "green-icon",
+      text: "Assigned to me",
+      tasks: [],
+    },
+    {
+      icon: "home_outlined",
+      color: "blue-icon",
+      text: "Tasks",
+      tasks: [],
+    },
   ];
-  const elements = icons.map((icon, index) => {
-    console.log("icon tasks length:" + icon.text +icon.tasks.length);
+  const elements = categories.map((category, index) => {
+    console.log("icon tasks length:" + category.text + category.tasks.length);
+    const text = category.text;
+    console.log("icon tasks text:" + text);
     return (
-      <li className={icon.color} key={index}>
-        <i className="material-icons list-icons">{icon.name}</i>
-        <span>{icon.text}</span>
-        <span className="task-count">{(icon.tasks.length > 0) ? icon.tasks.length : ""}</span>
+      <li
+        className={category.color}
+        key={index}
+        onClick={()=> {
+          console.log("text:" + text);
+          props.switchTab(text);
+        }}
+      >
+        <i className="material-icons list-icons">{category.icon}</i>
+        <span>{category.text}</span>
+        <span className="task-count">
+          {category.tasks.length > 0 ? category.tasks.length : ""}
+        </span>
       </li>
     );
   });
@@ -31,7 +65,11 @@ function DefaultCategories(props) {
 function DynamicCategories(props) {
   const elements = props.categories.map((category, index) => {
     return (
-      <CategoryListItem category={category} key={category._id}  changeCategory={props.changeCategory}/>
+      <CategoryListItem
+        category={category}
+        key={category._id}
+        switchCategory={props.switchCategory}
+      />
     );
   });
 
@@ -43,14 +81,14 @@ function DynamicCategories(props) {
 }
 
 function CategoryListItem(props) {
+  const uncompletedTasks = props.category.tasks.filter((task) => task.isCompleted === false);
   return (
-    <li onClick={() => props.changeCategory(props.category._id)}>
+    <li onClick={() => props.switchCategory(props.category._id)}>
       <span className="material-icons list-icons blue-icon">list_outlined</span>
       {props.category.title}
-      <span
-        className="task-count"
-        id={props.categoryName + "list"}
-      >{(props.category.tasks.length > 0) ? props.category.tasks.length : ""}</span>
+      <span className="task-count" id={props.categoryName + "list"}>
+        {uncompletedTasks.length > 0 ? uncompletedTasks.length : ""}
+      </span>
     </li>
   );
 }
@@ -63,17 +101,17 @@ class NewCategoryAdder extends React.Component {
           <div className="add-icon-container">
             <i className="material-icons add-icon blue-icon">add</i>
           </div>
-  
+
           <input
             className="new-list-input-box new-list"
-            id = "newCategoryInputBox"
+            id="newCategoryInputBox"
             type="text"
             placeholder="New List"
             onKeyUp={this.props.addCategory}
             onClick={this.props.toggleDisplay}
           />
         </div>
-  
+
         <div className="note-icon-container">
           <i className="material-icons add-icon blue-icon note-add-icon">
             note_add_outlined
@@ -82,7 +120,7 @@ class NewCategoryAdder extends React.Component {
       </div>
     );
   }
-  
+
   componentDidUpdate() {
     document.getElementById("newCategoryInputBox").value = "";
   }
@@ -111,7 +149,7 @@ function BottomIcons(props) {
 }
 
 function Categories(props) {
-  console.log("categories --- imporatnt tasks:"+props.importantTasks.length);
+  console.log("categories --- imporatnt tasks:" + props.importantTasks.length);
   return (
     <div className="left-container">
       <div className="menu-button-container">
@@ -121,8 +159,14 @@ function Categories(props) {
       </div>
 
       <div className="menu-added-items-container">
-        <DefaultCategories importantTasks={props.importantTasks} />
-        <DynamicCategories categories={props.categories} changeCategory={props.changeCategory} />
+        <DefaultCategories
+          importantTasks={props.importantTasks}
+          switchTab={props.switchTab}
+        />
+        <DynamicCategories
+          categories={props.categories}
+          switchCategory={props.switchCategory}
+        />
       </div>
 
       <NewCategoryAdder

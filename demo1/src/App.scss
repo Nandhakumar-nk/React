@@ -417,7 +417,7 @@ li:hover {
     margin-left: 10px !important;
     width: 0px !important;
     margin-right: 23px !important;
-    font-size: 26px !important;
+    font-size: 23px !important;
 }
 
 .grey-bg:hover {
@@ -526,4 +526,19 @@ li:hover {
     margin-top: 16px;
     margin-right: 8px;
     cursor: pointer;
+}
+
+.completed-heading {
+    display: inline-block;
+    color: #2a2a2b;
+    font-size: 18px;
+    margin-top: 15px;
+    margin-left: 30px;
+}
+
+.completed-count {
+    margin-top: 10px;
+    margin-left: 10px;
+    font-size: 14px;
+    color: rgb(97, 97, 97);
 }

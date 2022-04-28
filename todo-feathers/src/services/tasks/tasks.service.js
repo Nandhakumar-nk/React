@@ -16,7 +16,8 @@ module.exports = function(app) {
         async find(params) {
             const importantTasks = await app.service('tasks').find({
                 query: {
-                    isImportant: true
+                    isImportant: true,
+                    isCompleted: false
                 }
             });
 

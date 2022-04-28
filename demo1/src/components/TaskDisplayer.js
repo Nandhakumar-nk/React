@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 function ShedulingIcons(props) {
   console.log("sh " + props.display);
@@ -69,6 +69,9 @@ function TaskElement(props) {
 }
 
 function TasksContainer(props) {
+  const [shouldDisplay, toggleDisplay] = useState(true);
+  let completedTasksCount = 0;
+
   console.log("tasksContainer:" + props.tasks);
   const elements = [];
   let reversedIndex = props.tasks.length - 1;
@@ -87,25 +90,34 @@ function TasksContainer(props) {
     reversedIndex = props.completedTasks.length - 1;
     elements.push(
       <div className="task">
+        <i
+          class={
+            (shouldDisplay
+              ? "fa fa-angle-down"
+              : "fa fa-angle-right") + " dropdown-icon"
+          }
+          onClick={() => toggleDisplay(!shouldDisplay)}
+        ></i>
         <span className="completed-heading">Completed</span>
-        <span className="completed-count">
-          {props.completedTasks.length}
-        </span>
+        <span className="completed-count">{props.completedTasks.length}</span>
       </div>
     );
-    for (; reversedIndex >= 0; reversedIndex--) {
-      elements.push(
-        <TaskElement
-          task={props.completedTasks[reversedIndex]}
-          markAsImportant={props.markAsImportant}
-          markAsCompleted={props.markAsCompleted}
-        />
-      );
+    completedTasksCount = 1;
+
+    if(shouldDisplay) {
+      for (; reversedIndex >= 0; reversedIndex--) {
+        elements.push(
+          <TaskElement
+            task={props.completedTasks[reversedIndex]}
+            markAsImportant={props.markAsImportant}
+            markAsCompleted={props.markAsCompleted}
+          />
+        );
+      }
+      completedTasksCount += props.completedTasks.length;
     }
   }
 
-  const completedTasksCount =
-    props.completedTasks.length > 0 ? props.completedTasks.length + 1 : 0;
   for (
     let tasksLength = props.tasks.length + completedTasksCount;
     tasksLength < 9;

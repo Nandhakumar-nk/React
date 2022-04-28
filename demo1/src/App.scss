@@ -531,9 +531,9 @@ li:hover {
 .completed-heading {
     display: inline-block;
     color: #2a2a2b;
-    font-size: 18px;
+    font-size: 17px;
     margin-top: 15px;
-    margin-left: 30px;
+    margin-left: 20px;
 }
 
 .completed-count {
@@ -541,4 +541,11 @@ li:hover {
     margin-left: 10px;
     font-size: 14px;
     color: rgb(97, 97, 97);
+}
+
+.dropdown-icon {
+    margin-left: 15px;
+    font-size: 20px;
+    margin-top: 10px;
+    cursor: pointer;
 }

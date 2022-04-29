@@ -1,86 +1,89 @@
-import React from 'react';
+import React from "react";
 
-class StepTasks extends React.Component {
-  render() {
+function RightMenuBox(props) {
+  const listItems = props.items.map((item) => {
     return (
-      <div class="right-container">
-        <div class="right-top-container">
-
-          <div class="right-inner-containers">
-            <div class="remind-containers">
-              <i class="material-icons add-icon radio-icon blue-icon completed-icon">
-                radio_button_unchecked_outlined
-              </i>
-              <span class="add-text task-right">task</span>
-              <div class="star-container-right">
-                <i class="material-icons list-icons">star_border</i>
-              </div>
-            </div>
-
-            <div>
-              <ul class="dynamic-list" id="dynamicListRight"></ul>
-            </div>
-
-            <p class="remind-containers">
-              <i class="material-icons add-icon blue-icon">add</i>
-              <input
-                class="step-task-input-box new-list"
-                id="stepTaskInput"
-                type="text"
-                placeholder="Add Step"
-              />
-            </p>
-          </div>
-          <div class="right-inner-containers grey-bg">
-            <p class="remind-containers">
-              <i class="material-icons icons-align">light_mode_outlined</i>
-              <span>Add to My Day</span>
-            </p>
-          </div>
-          <div class="right-inner-containers">
-            <div class="remind-containers grey-bg">
-              <i class="material-icons right-icons">notifications_outlined</i>
-              <span class="border-bottom"> Remind me</span>
-            </div>
-
-            <div class="remind-containers grey-bg">
-              <i class="material-icons right-icons">date_range_outlined</i>
-              <span class="border-bottom"> Add due date</span>
-            </div>
-
-            <div class="remind-containers grey-bg">
-              <i class="material-icons repeat-icon">event_repeat_outlined</i>
-              <span class="repeat-text">Repeat</span>
-            </div>
-          </div>
-          <div class="right-inner-containers">
-            <p class="remind-containers">
-              <i class="material-icons icons-align tag-icon">
-                local_offer_outlined
-              </i>
-              <span>Pick a category</span>
-            </p>
-          </div>
-          <div class="right-inner-containers grey-bg">
-            <p class="remind-containers">
-              <i class="material-icons icons-align tag-icon">
-                attach_file_outlined
-              </i>
-              <span>Add file</span>
-            </p>
-          </div>
-          <div class="right-inner-containers empty-container">
-            <span class="updated-text">Updated a few seconds ago</span>
-          </div>
-        </div>
-        <div class="right-bottom-container">
-            <i class="material-icons hide-icon">drive_file_move_outlined</i>
-            <span class="created-text">Created Today</span>
-            <i class="material-icons delete-icon">delete_outlined</i>
-          </div>
-      </div>
+      <li
+        className={
+          "right-menu-list grey-bg" + (item.borderBottom ? " list-bottom" : "")
+        }
+      >
+        <i className="material-icons right-icons">{item.icon}</i>
+        <span>{item.text}</span>
+      </li>
     );
-  }
+  });
+
+  return <ul className="right-menu-container">{listItems}</ul>;
+}
+
+function StepTasks(props) {
+  return (
+    <div className="right-container">
+      <div className="right-top-container">
+        <ul className="right-menu-container">
+          <li className="right-menu-list grey-bg">
+            <i className="material-icons right-icons blue-icon completed-icon">
+              {" "}
+              radio_button_unchecked_outlined
+            </i>
+            <span className="task-right">task</span>
+            <i className="material-icons list-icons star-right">star_border</i>
+          </li>
+          <li className="right-menu-list">
+            <i className="material-icons right-icons add-icon blue-icon">
+              {" "}
+              add
+            </i>
+            <input
+              className="step-task-input-box new-list"
+              id="stepTaskInput"
+              type="text"
+              placeholder="Add Step"
+            />
+          </li>
+        </ul>
+
+        <RightMenuBox
+          items={[{ icon: "light_mode_outlined", text: "Add to My Day" }]}
+        />
+
+        <RightMenuBox
+          items={[
+            {
+              icon: "notifications_outlined",
+              text: "Remind me",
+              borderBottom: true,
+            },
+            {
+              icon: "date_range_outlined",
+              text: "Add due date",
+              borderBottom: true,
+            },
+            { icon: "event_repeat_outlined", text: "Repeat" },
+          ]}
+        />
+
+        <RightMenuBox
+          items={[{ icon: "local_offer_outlined", text: "Pick a category" }]}
+        />
+
+        <RightMenuBox
+          items={[{ icon: "attach_file_outlined", text: "Add file" }]}
+        />
+
+        <div className="right-menu-container empty-container">
+          <span className="updated-text">Updated a few seconds ago</span>
+        </div>
+      </div>
+
+      <div className="right-bottom-container">
+        <i className="material-icons hide-icon">drive_file_move_outlined</i>
+        <span className="created-text">Created Today</span>
+        <i className="material-icons delete-icon">delete_outlined</i>
+      </div>
+    </div>
+  );
 }
 
 export default StepTasks;

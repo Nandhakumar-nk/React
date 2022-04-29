@@ -476,17 +476,22 @@ li:hover {
 .right-container {
     background-color: #f8f9fa;
     border-left: #dadde2 solid 1px;
+    color: #7b7b81 !important;
     .right-top-container {
-        max-height: 550px;
+        max-height: 600px;
         overflow: auto;
-        .right-inner-containers {
+        .right-menu-container {
             margin: 9px 12px;
             background: #ffffff;
             border: #e8e8ee solid 1px;
-            font-size: 14px;
-            color: #7b7b81;
-            .remind-containers {
+            .right-menu-list {
                 display: flex;
+                list-style-type: none;
+                color: #7b7b81;
+                cursor: pointer;
+                height: 40px;
+                align-items: center;
+                font-size: 14px;
             }
         }
     }
@@ -497,22 +502,16 @@ li:hover {
 }
 
 .task-right {
-    align-self: center;
+    font-size: 15px;
     font-weight: 600;
     color: black;
-    width: 0px;
-    margin-left: 10px;
 }
 
-.star-container-right {
-    margin-left: 240px;
-    margin-top: 8px;
+.star-right {
+    padding-left: 200px;
 }
 
 .step-task-input-box {
-    position: absolute;
-    margin-top: 2px;
-    margin-left: 40px;
     height: 26px;
     border: none;
     outline: none;
@@ -523,17 +522,8 @@ li:hover {
     color: #006fd7;
 }
 
-.icons-align {
-    margin-top: 0px !important;
-    font-size: 20px !important;
-    width: 0px !important;
-    margin-left: 12px !important;
-    margin-right: 30px !important;
-}
-
 .right-icons {
-    margin-top: 12px !important;
-    font-size: 20px !important;
+    font-size: 18px !important;
     width: 0px !important;
     margin-left: 12px !important;
     margin-right: 30px !important;
@@ -544,26 +534,11 @@ li:hover {
     border-bottom: 1px solid #e8e8ee;
     padding-bottom: 14px;
     margin-top: 14px;
-    width: 269.5px;
+    width: 90%;
 }
 
-.repeat-icon {
-    margin-top: 12px !important;
-    font-size: 20px !important;
-    width: 0px !important;
-    margin-left: 12px !important;
-    margin-right: 30px !important;
-    padding-bottom: 12px !important;
-}
-
-.repeat-text {
-    display: inline-block;
-    margin-top: 13px;
-    width: 0px;
-}
-
-.tag-icon {
-    font-size: 17px;
+.list-bottom {
+    border-bottom: 1px solid #e8e8ee;
 }
 
 .empty-container {
@@ -587,28 +562,21 @@ li:hover {
     bottom: 0px;
     border-top: 1px solid #e8e8ee;
     height: 40px;
-    color: #767678;
-}
-
-.hide-icon {
-    color: #8e8e91 !important;
-    margin-top: 12px !important;
-    margin-left: 15px !important;
-    font-size: 20px !important;
-    cursor: pointer;
-}
-
-.created-text {
-    margin-left: 60px;
-    font-size: 11px;
-    margin-top: 15px;
-}
-
-.delete-icon {
-    color: #8e8e91 !important;
-    margin-top: 8px !important;
-    margin-left: 130px !important;
-    font-size: 23px !important;
+    .hide-icon {
+        margin-top: 12px !important;
+        margin-left: 15px !important;
+        font-size: 20px !important;
+    }
+    .created-text {
+        margin-left: 60px;
+        font-size: 11px;
+        margin-top: 15px;
+    }
+    .delete-icon {
+        margin-top: 8px !important;
+        margin-left: 130px !important;
+        font-size: 23px !important;
+    }
 }
 
 .radio-icon {
@@ -637,8 +605,7 @@ li:hover {
     color: #006fd7 !important;
 }
 
-.menu-list,
-.dynamic-list {
+ul {
     padding: 0px;
 }
 

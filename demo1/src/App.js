@@ -5,6 +5,7 @@ import axios from "axios";
 import Header from "./components/Header";
 import Categories from "./components/Categories";
 import TaskDisplayer from "./components/TaskDisplayer";
+import StepTasks from "./components/StepTasks";
 
 class App extends React.Component {
   constructor(props) {
@@ -36,15 +37,17 @@ class App extends React.Component {
 
   async refreshCategories(category) {
     try {
-      const tasks = category.tasks.filter((task) => task.isCompleted === false);
-      const completedTasks = category.tasks.filter((task) => task.isCompleted === true);
+      console.log("refresh cat inside");
+      // const tasks = category.tasks.filter((task) => task.isCompleted === false);
+      // const completedTasks = category.tasks.filter((task) => task.isCompleted === true);
       const categories = await axios.get("http://localhost:3030/categories");
+      console.log("after cat fetched");
 
       console.log(categories.data);
       const importantTasks = await axios.get(
         "http://localhost:3030/importantTasks"
       );
-
+      console.log("after imp fetched")
       console.log(importantTasks.data);
       this.setState({
         categories: categories.data.data,
@@ -53,12 +56,13 @@ class App extends React.Component {
         tasks:
           category.title === "Important"
             ? importantTasks.data.data
-            : tasks,
+            : category.tasks.filter((task) => task.isCompleted === false),
         importantTasks: importantTasks.data.data,
         completedTasks: category.title === "Important"
         ? []
-        : completedTasks
+        : category.tasks.filter((task) => task.isCompleted === true)
       });
+      console.log("after setState()");
     } catch (error) {
       console.log("error ocurred during categories fetching");
     }
@@ -159,6 +163,7 @@ class App extends React.Component {
       this.setState({
         categoryTitle: categoryTitle,
         tasks: [],
+        completedTasks: []
       });
     } else {
       console.log("switch tab imp tab");
@@ -212,6 +217,7 @@ class App extends React.Component {
           markAsImportant={this.markAsImportant}
           markAsCompleted={this.markAsCompleted}
         />
+        <StepTasks/>
       </div>
     );
   }

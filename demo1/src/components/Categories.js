@@ -75,7 +75,7 @@ function DynamicCategories(props) {
 
   return (
     <div>
-      <ul className="dynamic-list-left">{elements}</ul>
+      <ul className="dynamic-list">{elements}</ul>
     </div>
   );
 }

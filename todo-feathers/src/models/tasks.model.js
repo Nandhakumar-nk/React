@@ -10,7 +10,7 @@ module.exports = function(app) {
         task: { type: String, required: true },
         isImportant: { type: Boolean },
         isCompleted: { type: Boolean },
-        step_tasks: [{
+        stepTasks: [{
             type: mongooseClient.Schema.Types.ObjectId,
             ref: "StepTask"
         }]

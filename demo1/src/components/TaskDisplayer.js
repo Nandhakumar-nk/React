@@ -42,7 +42,7 @@ function TaskElement(props) {
   const isCompleted = props.task.isCompleted;
 
   return (
-    <div className="task">
+    <div className="task" onClick={()=>props.switchTask(taskId)}>
       <div className="radio-container">
         <span
           className="material-icons add-icon radio-icon blue-icon"
@@ -82,6 +82,7 @@ function TasksContainer(props) {
         task={props.tasks[reversedIndex]}
         markAsImportant={props.markAsImportant}
         markAsCompleted={props.markAsCompleted}
+        switchTask={props.switchTask}
       />
     );
   }
@@ -111,6 +112,7 @@ function TasksContainer(props) {
             task={props.completedTasks[reversedIndex]}
             markAsImportant={props.markAsImportant}
             markAsCompleted={props.markAsCompleted}
+            switchTask={props.switchTask}
           />
         );
       }
@@ -179,6 +181,7 @@ class TaskDisplayer extends React.Component {
           completedTasks={this.props.completedTasks}
           markAsImportant={this.props.markAsImportant}
           markAsCompleted={this.props.markAsCompleted}
+          switchTask={this.props.switchTask}
         />
       </div>
     );

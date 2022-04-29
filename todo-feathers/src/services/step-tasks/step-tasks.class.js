@@ -7,13 +7,16 @@ exports.StepTasks = class StepTasks extends Service {
     }
 
     async create(data, params) {
+        const createdStepTask = await super.create({
+            task: data.stepTask,
+            isCompleted: false
+        }, params);
 
-        const createdTask = await super.create({ step_task: data.step_task }, params);;
-
-        console.log("inside task class, taskResult    ", createdTask);
-        await this.app.service("tasks").patch(data.id, {
-            step_tasks: createdTask
-        }, params)
-        return createdTask;
+        console.log("inside stepTask class, taskResult    ", createdTask);
+        const task = await this.app.service("tasks").get(data.taskId);
+        console.log("inside stepTask class, catResult    ", task);
+        task.tasks.push(createdStepTask);
+        await this.app.service("tasks").patch(data.taskId, task, params)
+        return createdStepTask;
     }
 };

@@ -1,35 +1,73 @@
 import React from "react";
+function MenuListItem(props) {
+  return (
+    <li
+      className={
+        "right-menu-list grey-bg" +
+        (props.item.borderBottom ? " list-bottom" : "")
+      }
+    >
+      <i
+        className={
+          "material-icons right-icons" +
+          (props.item.iconClass ? props.item.iconClass : "")
+        }
+      >
+        {props.item.icon}
+      </i>
+      <span className={props.item.textClass ? props.item.textClass : ""}>
+        {props.item.text}
+      </span>
+      {props.item.secondIcon ? (
+        <i className="material-icons list-icons star-right">
+          {props.item.secondIcon}
+        </i>
+      ) : (
+        ""
+      )}
+    </li>
+  );
+}
 
 function RightMenuBox(props) {
   const listItems = props.items.map((item) => {
-    return (
-      <li
-        className={
-          "right-menu-list grey-bg" + (item.borderBottom ? " list-bottom" : "")
-        }
-      >
-        <i className="material-icons right-icons">{item.icon}</i>
-        <span>{item.text}</span>
-      </li>
-    );
+    return <MenuListItem item={item} />;
   });
 
   return <ul className="right-menu-container">{listItems}</ul>;
 }
 
 function StepTasks(props) {
+  console.log("stepTasks length:" + props.stepTasks.length);
+
   return (
     <div className="right-container">
       <div className="right-top-container">
         <ul className="right-menu-container">
-          <li className="right-menu-list grey-bg">
-            <i className="material-icons right-icons blue-icon completed-icon">
-              {" "}
-              radio_button_unchecked_outlined
-            </i>
-            <span className="task-right">task</span>
-            <i className="material-icons list-icons star-right">star_border</i>
-          </li>
+          <MenuListItem
+            item={{
+              icon: "radio_button_unchecked_outlined",
+              iconClass: " blue-icon completed-icon",
+              text: "task",
+              textClass: "task-right",
+              secondIcon: "star_border",
+            }}
+          />
+          {props.stepTasks.map((stepTask) => {
+            return (
+              <MenuListItem
+                item={{
+                  icon: stepTask.isCompleted
+                    ? "check_circle"
+                    : "radio_button_unchecked_outlined",
+                  iconClass: " blue-icon completed-icon",
+                  text: stepTask.stepTask,
+                  textClass: "task-right",
+                  secondIcon: "close_outlined",
+                }}
+              />
+            );
+          })}
           <li className="right-menu-list">
             <i className="material-icons right-icons add-icon blue-icon">
               {" "}

@@ -2,19 +2,29 @@ const { Service } = require('feathers-mongoose');
 
 exports.Categories = class Categories extends Service {
     async find(params) {
-        const categories = await super.find({
-            query: { $populate: 'tasks' }
-        });
+        let categories;
+        try {
+            categories = await super.find({
+                query: { $populate: 'tasks' }
+            });
+        } catch (error) {
+            console.log("error:" + error);
+        }
 
         return categories;
     }
 
     async get(id, params) {
-        const category = await super.get(id, {
-            query: { $populate: 'tasks' }
-        });
+        let category;
+
+        try {
+            category = await super.get(id, {
+                query: { $populate: 'tasks' }
+            });
+        } catch (error) {
+            console.log("error:" + error);
+        }
 
         return category;
     }
 };
-

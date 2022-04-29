@@ -11,7 +11,6 @@ function Header(props) {
       <div className="top-middle-container white-bg">
         <i className="material-icons search-icon blue-icon">search_outlined</i>
         <input className="search-box" type="text" />
-        <i className="material-icons close-icon blue-icon">close_outlined</i>
       </div>
 
       <div className="top-right-distance top-right-container blue-bg">

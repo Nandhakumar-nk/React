@@ -7,7 +7,7 @@ module.exports = function(app) {
     const mongooseClient = app.get('mongooseClient');
     const { Schema } = mongooseClient;
     const schema = new Schema({
-        step_task: { type: String, required: true },
+        stepTask: { type: String, required: true },
         isCompleted: { type: Boolean }
     }, {
         timestamps: true

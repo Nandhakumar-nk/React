@@ -81,12 +81,6 @@ body {
         .search-box :focus {
             background: rgb(252, 252, 252);
         }
-        .close-icon {
-            font-size: 16px !important;
-            margin-top: 7px !important;
-            background: #bddcf7;
-            width: 0%;
-        }
     }
     .top-right-distance {
         margin-left: 22.2%;
@@ -478,7 +472,7 @@ li:hover {
     border-left: #dadde2 solid 1px;
     color: #7b7b81 !important;
     .right-top-container {
-        max-height: 600px;
+        max-height: 675px;
         overflow: auto;
         .right-menu-container {
             margin: 9px 12px;
@@ -509,6 +503,11 @@ li:hover {
 
 .star-right {
     padding-left: 200px;
+}
+
+.close-icon {
+    padding-left: 190px;
+    font-size: 10px !important;
 }
 
 .step-task-input-box {
@@ -601,10 +600,6 @@ li:hover {
     margin-left: 8px !important;
 }
 
-.blue-icon {
-    color: #006fd7 !important;
-}
-
 ul {
     padding: 0px;
 }
@@ -615,4 +610,13 @@ ul {
 
 .grey-bg:hover {
     background: #f4f4f4;
+}
+
+.text-strike {
+    text-decoration: line-through;
+    color: #616161;
+}
+
+.blue-icon {
+    color: #006fd7 !important;
 }

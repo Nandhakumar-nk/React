@@ -7,33 +7,50 @@ exports.Tasks = class Tasks extends Service {
     }
 
     async create(data, params) {
-        const createdTask = await super.create({
-            task: data.task,
-            isCompleted: false,
-            isImportant: false
-        }, params);
-
-        console.log("inside task class, taskResult    ", createdTask);
-        const category = await this.app.service("categories").get(data.categoryId);
-        console.log("inside task class, catResult    ", category);
-        category.tasks.push(createdTask);
-        await this.app.service("categories").patch(data.categoryId, category, params)
+        let createdTask;
+        try {
+            createdTask = await super.create({
+                task: data.task,
+                isCompleted: false,
+                isImportant: false
+            }, params);
+            console.log("inside task class, taskResult    ", createdTask);
+            const category = await this.app.service("categories").get(data.categoryId);
+            console.log("inside task class, catResult    ", category);
+            category.tasks.push(createdTask);
+            await this.app.service("categories").patch(data.categoryId, category, params);
+        } catch (error) {
+            console.log("error:" + error);
+        }
         return createdTask;
     }
 
     async find(params) {
-        const categories = await super.find({
-            query: { $populate: 'stepTasks' }
-        });
+        let tasks;
 
-        return categories;
+        try {
+            tasks = await super.find({
+                query: { $populate: 'stepTasks' }
+            });
+        } catch (error) {
+            console.log("error:" + error);
+        }
+
+        return tasks;
     }
 
     async get(id, params) {
-        const category = await super.get(id, {
-            query: { $populate: 'stepTasks' }
-        });
+        let task;
 
-        return category;
+        try {
+            task = await super.get(id, {
+                query: { $populate: 'stepTasks' }
+            });
+
+        } catch (error) {
+            console.log("error:" + error);
+        }
+
+        return task;
     }
 };

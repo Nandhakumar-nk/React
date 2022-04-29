@@ -1,4 +1,5 @@
 import React from "react";
+
 function MenuListItem(props) {
   return (
     <li
@@ -19,7 +20,7 @@ function MenuListItem(props) {
         {props.item.text}
       </span>
       {props.item.secondIcon ? (
-        <i className="material-icons list-icons star-right">
+        <i className={"material-icons list-icons " + props.item.secondIconClass}>
           {props.item.secondIcon}
         </i>
       ) : (
@@ -30,30 +31,36 @@ function MenuListItem(props) {
 }
 
 function RightMenuBox(props) {
-  const listItems = props.items.map((item) => {
-    return <MenuListItem item={item} />;
+  const listItems = props.items.map((item, index) => {
+    return <MenuListItem item={item} key={index} />;
   });
 
   return <ul className="right-menu-container">{listItems}</ul>;
 }
 
-function StepTasks(props) {
-  console.log("stepTasks length:" + props.stepTasks.length);
-
+class StepTasks extends React.Component {
+  
+render() {
+  console.log("stepTasks length:" + this.props.currentTask.stepTasks.length);
+  console.log("stepTasks length:" + this.props.currentTask.isCompleted);
   return (
     <div className="right-container">
       <div className="right-top-container">
         <ul className="right-menu-container">
           <MenuListItem
             item={{
-              icon: "radio_button_unchecked_outlined",
+              icon: this.props.currentTask.isCompleted
+                ? "check_circle"
+                : "radio_button_unchecked_outlined",
               iconClass: " blue-icon completed-icon",
-              text: "task",
-              textClass: "task-right",
-              secondIcon: "star_border",
+              text: this.props.currentTask.task,
+              textClass:
+                "task-right" + (this.props.currentTask.isCompleted ? " text-strike" : ""),
+              secondIcon:this.props.currentTask.isImportant ? "star blue-icon" : "star_border",
+              secondIconClass:"star-right",
             }}
           />
-          {props.stepTasks.map((stepTask) => {
+          {this.props.currentTask.stepTasks.map((stepTask) => {
             return (
               <MenuListItem
                 item={{
@@ -64,6 +71,7 @@ function StepTasks(props) {
                   text: stepTask.stepTask,
                   textClass: "task-right",
                   secondIcon: "close_outlined",
+                  secondIconClass: "close-icon",
                 }}
               />
             );
@@ -78,6 +86,7 @@ function StepTasks(props) {
               id="stepTaskInput"
               type="text"
               placeholder="Add Step"
+              onKeyUp={this.props.addStepTask}
             />
           </li>
         </ul>
@@ -122,6 +131,8 @@ function StepTasks(props) {
       </div>
     </div>
   );
+}
+  
 }
 
 export default StepTasks;

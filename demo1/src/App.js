@@ -16,11 +16,11 @@ class App extends React.Component {
       display: "hide",
       categoryTitle: "My Day",
       selectedCategoryId: 0,
-      selectedTaskId: 0,
       importantTasks: [],
       completedTasks: [],
-      stepTasks:[]
+      currentTask: {_id:0, task:"", stepTasks:[]},
     };
+    this.currentTask = {_id:0, task:"", stepTasks:[]};
     this.toggleDisplay = this.toggleDisplay.bind(this);
     this.addCategory = this.addCategory.bind(this);
     this.addTask = this.addTask.bind(this);
@@ -28,8 +28,8 @@ class App extends React.Component {
     this.markAsImportant = this.markAsImportant.bind(this);
     this.switchTab = this.switchTab.bind(this);
     this.markAsCompleted = this.markAsCompleted.bind(this);
-    this.selectedTaskId = 0;
-    this.selectedTaskId = [];
+    this.switchTask = this.switchTask.bind(this);
+    this.addStepTask = this.addStepTask.bind(this);
     console.log("parent cons executed");
   }
 
@@ -49,7 +49,14 @@ class App extends React.Component {
       const importantTasks = await axios.get(
         "http://localhost:3030/importantTasks"
       );
-      console.log("after imp fetched")
+      
+
+      if (category === "start") {
+        category = categories.data.data[0]
+          ? categories.data.data[0]
+          : { _id: 1, title: "My Day", tasks: [] };
+      }
+      console.log("after imp fetched");
       console.log(importantTasks.data);
       this.setState({
         categories: categories.data.data,
@@ -60,11 +67,11 @@ class App extends React.Component {
             ? importantTasks.data.data
             : category.tasks.filter((task) => task.isCompleted === false),
         importantTasks: importantTasks.data.data,
-        completedTasks: category.title === "Important"
-        ? []
-        : category.tasks.filter((task) => task.isCompleted === true),
-        selectedTaskId: this.selectedTaskId,
-        stepTasks: this.stepTasks
+        completedTasks:
+          category.title === "Important"
+            ? []
+            : category.tasks.filter((task) => task.isCompleted === true),
+        currentTask: this.currentTask
       });
       console.log("after setState()");
     } catch (error) {
@@ -114,7 +121,7 @@ class App extends React.Component {
 
     if (event.keyCode === 13 && event.target.value.length > 0) {
       try {
-        await axios({
+        const response = await axios({
           method: "post",
           url: "http://localhost:3030/tasks",
           data: {
@@ -122,6 +129,8 @@ class App extends React.Component {
             task: event.target.value,
           },
         });
+        this.currentTask = response.data;
+        console.log("taskAdded:" + response.data._id);
         this.refreshTasks(this.state.selectedCategoryId);
       } catch (error) {
         console.log("error ocurred during task posting");
@@ -153,7 +162,7 @@ class App extends React.Component {
           isImportant: !isImportant,
         },
       });
-      this.refreshTasks(this.state.selectedCategoryId);
+      this.switchTask(taskId);
     } catch (error) {
       console.log("error ocurred during important posting");
     }
@@ -167,7 +176,7 @@ class App extends React.Component {
       this.setState({
         categoryTitle: categoryTitle,
         tasks: [],
-        completedTasks: []
+        completedTasks: [],
       });
     } else {
       console.log("switch tab imp tab");
@@ -186,7 +195,7 @@ class App extends React.Component {
           isCompleted: !isCompleted,
         },
       });
-      this.refreshTasks(this.state.selectedCategoryId);
+      this.switchTask(taskId);
     } catch (error) {
       console.log("error ocurred during completed posting");
     }
@@ -199,11 +208,36 @@ class App extends React.Component {
     try {
       const response = await axios.get("http://localhost:3030/tasks/" + taskId);
       console.log(response.data);
-        this.selectedTaskId = taskId;
-        this.stepTasks = response.data.stepTasks;
+      console.log("currentTask value before set:" + this.currentTask);
+      this.currentTask = response.data;
+      console.log("currentTask set:" + this.currentTask);
       this.refreshTasks(this.state.selectedCategoryId);
     } catch (error) {
       console.log("error ocurred during task fetching");
+    }
+  }
+
+  async addStepTask(event) {
+    console.log("\naddStepTask() method triggered");
+    console.log("tid:" + this.state.currentTask._id);
+    console.log("stepTask:" + event.target.value);
+
+    if (event.keyCode === 13 && event.target.value.length > 0) {
+      console.log("inside if");
+      try {
+        const response = await axios({
+          method: "post",
+          url: "http://localhost:3030/stepTasks",
+          data: {
+            taskId: this.state.currentTask._id,
+            stepTask: event.target.value,
+          },
+        });
+        console.log("after post:" + response.data);
+        this.switchTask(this.state.currentTask._id);
+      } catch (error) {
+        console.log("error ocurred during stepTask posting");
+      }
     }
   }
 
@@ -233,7 +267,7 @@ class App extends React.Component {
           markAsCompleted={this.markAsCompleted}
           switchTask={this.switchTask}
         />
-        <StepTasks stepTasks={this.state.stepTasks}/>
+        <StepTasks currentTask={this.state.currentTask} addStepTask={this.addStepTask}/>
       </div>
     );
   }
@@ -241,15 +275,7 @@ class App extends React.Component {
   async componentDidMount() {
     console.log("\ncomponentDidMount() lifecycle - parent");
     try {
-      const result = await axios({
-        method: "post",
-        url: "http://localhost:3030/categories",
-        data: {
-          title: "from react1",
-        },
-      });
-      console.log("result" + result.data._id);
-      //this.refreshCategories(result.data);
+      this.refreshCategories("start");
     } catch (error) {
       console.log("error ocurred during MyDay posting");
     }
@@ -274,5 +300,22 @@ export default App;
       .catch((error) => {
         console.log("error ocurred during categories fetching");
       });
+  }
+
+  async componentDidMount() {
+    console.log("\ncomponentDidMount() lifecycle - parent");
+    try {
+      const result = await axios({
+        method: "post",
+        url: "http://localhost:3030/categories",
+        data: {
+          title: "from react1",
+        },
+      });
+      console.log("result" + result.data._id);
+      //this.refreshCategories(result.data);
+    } catch (error) {
+      console.log("error ocurred during MyDay posting");
+    }
   }
 */

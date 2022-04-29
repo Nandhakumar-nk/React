@@ -52,7 +52,7 @@ function TaskElement(props) {
           {isCompleted ? "check_circle" : "radio_button_unchecked_outlined"}
         </span>
       </div>
-      <div className="tasks-text">{props.task.task} </div>
+      <div className={"tasks-text" + (isCompleted ? " text-strike" : "")}>{props.task.task} </div>
       <div className="star-container">
         <span
           className={
@@ -83,6 +83,7 @@ function TasksContainer(props) {
         markAsImportant={props.markAsImportant}
         markAsCompleted={props.markAsCompleted}
         switchTask={props.switchTask}
+        key={props.tasks[reversedIndex]._id}
       />
     );
   }
@@ -90,9 +91,9 @@ function TasksContainer(props) {
   if (props.completedTasks.length > 0) {
     reversedIndex = props.completedTasks.length - 1;
     elements.push(
-      <div className="task">
+      <div className="task" key="completedTitle">
         <i
-          class={
+          className={
             (shouldDisplay
               ? "fa fa-angle-down"
               : "fa fa-angle-right") + " dropdown-icon"
@@ -113,6 +114,7 @@ function TasksContainer(props) {
             markAsImportant={props.markAsImportant}
             markAsCompleted={props.markAsCompleted}
             switchTask={props.switchTask}
+            key={props.completedTasks[reversedIndex]._id}
           />
         );
       }
@@ -125,7 +127,7 @@ function TasksContainer(props) {
     tasksLength < 9;
     tasksLength++
   ) {
-    elements.push(<div className="task" key={tasksLength}></div>);
+    elements.push(<div className="task" key={tasksLength.toString()}></div>);
     console.log("for" + tasksLength);
   }
 

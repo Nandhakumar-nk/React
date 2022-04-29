@@ -17,3 +17,4 @@ exports.Categories = class Categories extends Service {
         return category;
     }
 };
+

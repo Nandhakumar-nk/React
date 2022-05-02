@@ -19,8 +19,14 @@ class App extends React.Component {
       importantTasks: [],
       completedTasks: [],
       currentTask: { _id: 0, task: "", stepTasks: [] },
+      displayRightContainer: false,
+      displayLeftContainer: true,
+      rootClass: "",
     };
     this.currentTask = { _id: 0, task: "", stepTasks: [] };
+    this.displayRightContainer = false;
+    this.displayLeftContainer = true;
+    this.rootClass = "";
     this.toggleDisplay = this.toggleDisplay.bind(this);
     this.addCategory = this.addCategory.bind(this);
     this.addTask = this.addTask.bind(this);
@@ -31,6 +37,7 @@ class App extends React.Component {
     this.switchTask = this.switchTask.bind(this);
     this.addStepTask = this.addStepTask.bind(this);
     this.markAsCompletedStepTask = this.markAsCompletedStepTask.bind(this);
+    this.hideFromRightContainer = this.hideFromRightContainer.bind(this);
     console.log("parent cons executed");
   }
 
@@ -77,6 +84,9 @@ class App extends React.Component {
             ? []
             : category.tasks.filter((task) => task.isCompleted === true),
         currentTask: this.currentTask,
+        displayRightContainer: this.displayRightContainer,
+        displayLeftContainer: this.displayLeftContainer,
+        rootClass: this.rootClass,
       });
       console.log("after setState()");
     } catch (error) {
@@ -112,6 +122,7 @@ class App extends React.Component {
             isImportant: false,
           },
         });
+        this.hideRightContainer();
         this.refreshCategories(response.data);
       } catch (error) {
         console.log("error ocurred during category posting");
@@ -149,7 +160,8 @@ class App extends React.Component {
       .get("http://localhost:3030/categories/" + categoryId)
       .then((response) => {
         console.log(response.data);
-        this.currentTask={ _id: 0, task: "", stepTasks: [] };
+        this.currentTask = { _id: 0, task: "", stepTasks: [] };
+        this.hideRightContainer();
         this.refreshCategories(response.data);
       })
       .catch((error) => {
@@ -183,7 +195,10 @@ class App extends React.Component {
         categoryTitle: categoryTitle,
         tasks: [],
         completedTasks: [],
-        currentTask: { _id: 0, task: "", stepTasks: [] }
+        currentTask: { _id: 0, task: "", stepTasks: [] },
+        displayRightContainer: false,
+        displayLeftContainer: true,
+        rootClass: "",
       });
     } else {
       console.log("switch tab imp tab");
@@ -211,6 +226,7 @@ class App extends React.Component {
   async switchTask(taskId) {
     console.log("switch Task triggered...");
     console.log("taskId:" + taskId);
+    this.showRightContainer();
 
     try {
       const response = await axios.get("http://localhost:3030/tasks/" + taskId);
@@ -265,21 +281,58 @@ class App extends React.Component {
     }
   }
 
+  showRightContainer() {
+    this.displayRightContainer = true;
+    this.switchRootClass();
+  }
+
+  hideRightContainer() {
+    this.displayRightContainer = false;
+    this.switchRootClass();
+  }
+
+  hideFromRightContainer() {
+    this.hideRightContainer();
+    this.setState({
+      displayRightContainer: this.displayRightContainer,
+        displayLeftContainer: this.displayLeftContainer,
+        rootClass:this.rootClass
+    })
+  }
+    
+
+  switchRootClass() {
+    if(this.displayLeftContainer && this.displayRightContainer) {
+      this.rootClass="show-both-containers";
+    } else if(this.displayLeftContainer && !this.displayRightContainer) {
+      this.rootClass="";
+    } else if(!this.displayLeftContainer && this.displayRightContainer) {
+      this.rootClass="hide-left-container";
+    } else if(!this.displayLeftContainer && !this.displayRightContainer) {
+      this.rootClass="hide-both-containers";
+    }
+  }
+
   render() {
     console.log("important tasks:" + this.state.importantTasks.length);
     console.log("\napp render");
     console.log("ct " + this.state.categoryTitle);
     return (
-      <div className="root-container">
+      <div className={"root-container " + this.state.rootClass} >
         <Header />
-        <Categories
-          toggleDisplay={this.toggleDisplay}
-          categories={this.state.categories}
-          addCategory={this.addCategory}
-          switchCategory={this.switchCategory}
-          importantTasks={this.state.importantTasks}
-          switchTab={this.switchTab}
-        />
+        {this.state.displayLeftContainer ? (
+          <Categories
+            toggleDisplay={this.toggleDisplay}
+            categories={this.state.categories}
+            addCategory={this.addCategory}
+            switchCategory={this.switchCategory}
+            importantTasks={this.state.importantTasks}
+            switchTab={this.switchTab}
+          />
+        ) : (
+          ""
+        )}
+
         <TaskDisplayer
           display={this.state.display}
           toggleDisplay={this.toggleDisplay}
@@ -291,13 +344,18 @@ class App extends React.Component {
           markAsCompleted={this.markAsCompleted}
           switchTask={this.switchTask}
         />
-        <StepTasks
-          currentTask={this.state.currentTask}
-          addStepTask={this.addStepTask}
-          markAsImportant={this.markAsImportant}
-          markAsCompleted={this.markAsCompleted}
-          markAsCompletedStepTask={this.markAsCompletedStepTask}
-        />
+        {this.state.displayRightContainer ? (
+          <StepTasks
+            currentTask={this.state.currentTask}
+            addStepTask={this.addStepTask}
+            markAsImportant={this.markAsImportant}
+            markAsCompleted={this.markAsCompleted}
+            markAsCompletedStepTask={this.markAsCompletedStepTask}
+            hideFromRightContainer={this.hideFromRightContainer}
+          />
+        ) : (
+          ""
+        )}
       </div>
     );
   }

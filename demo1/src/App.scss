@@ -10,9 +10,9 @@ body {
 .root-container {
     display: grid;
     height: 100vh;
-    grid-template-columns: 0.2fr 0.55fr 0.25fr;
+    grid-template-columns: 0.2fr 0.80fr;
     grid-template-rows: 1fr 15fr;
-    grid-template-areas: "top-container top-container top-container" "left-container middle-container right-container";
+    grid-template-areas: "top-container top-container" "left-container middle-container";
     .header-container {
         display: flex;
         align-items: center;
@@ -135,6 +135,7 @@ li {
     color: #262627;
     cursor: pointer;
     align-items: center;
+    position: relative;
 }
 
 li:hover {
@@ -411,7 +412,7 @@ li:hover {
 
 .task-count {
     position: absolute;
-    margin-left: 250px;
+    right: 12px;
     color: rgb(97, 97, 97);
 }
 
@@ -619,4 +620,19 @@ ul {
 
 .blue-icon {
     color: #006fd7 !important;
+}
+
+.hide-left-container {
+    grid-template-columns: 0.75fr 0.25fr;
+    grid-template-areas: "top-container top-container" "middle-container right-container";
+}
+
+.hide-both-containers {
+    grid-template-columns: 1fr;
+    grid-template-areas: "top-container" "middle-container";
+}
+
+.show-both-containers {
+    grid-template-columns: 0.20fr 0.55fr 0.25fr;
+    grid-template-areas: "top-container top-container top-container" "left-container middle-container right-container";
 }

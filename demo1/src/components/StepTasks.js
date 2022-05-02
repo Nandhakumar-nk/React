@@ -5,7 +5,7 @@ function MenuListItem(props) {
     console.log("hello");
   }
 
-  console.log("iconEvent" + props.i)
+  console.log("iconEvent" + props.i);
   return (
     <li
       className={
@@ -18,7 +18,7 @@ function MenuListItem(props) {
           "material-icons right-icons" +
           (props.item.iconClass ? props.item.iconClass : "")
         }
-        onClick={props.item.iconEvent? props.item.iconEvent : hello}
+        onClick={props.item.iconEvent ? props.item.iconEvent : hello}
       >
         {props.item.icon}
       </i>
@@ -26,8 +26,13 @@ function MenuListItem(props) {
         {props.item.text}
       </span>
       {props.item.secondIcon ? (
-        <i className={"material-icons list-icons second-list-icon " + props.item.secondIconClass}
-        onClick={props.item.secondIconEvent ? props.item.secondIconEvent : ""}>
+        <i
+          className={
+            "material-icons list-icons second-list-icon " +
+            props.item.secondIconClass
+          }
+          onClick={props.item.secondIconEvent ? props.item.secondIconEvent : ""}
+        >
           {props.item.secondIcon}
         </i>
       ) : (
@@ -46,7 +51,6 @@ function RightMenuBox(props) {
 }
 
 function StepTasks(props) {
-
   return (
     <div className="right-container">
       <div className="right-top-container">
@@ -57,13 +61,26 @@ function StepTasks(props) {
                 ? "check_circle"
                 : "radio_button_unchecked_outlined",
               iconClass: " blue-icon completed-icon",
-              iconEvent: () => {props.markAsCompleted(props.currentTask._id, props.currentTask.isCompleted)},
+              iconEvent: () => {
+                props.markAsCompleted(
+                  props.currentTask._id,
+                  props.currentTask.isCompleted
+                );
+              },
               text: props.currentTask.task,
               textClass:
-                "task-right" + (props.currentTask.isCompleted ? " text-strike" : ""),
-              secondIcon:props.currentTask.isImportant ? "star" : "star_border",
-              secondIconClass:(props.currentTask.isImportant ? "blue-icon" : ""),
-              secondIconEvent: () => {props.markAsImportant(props.currentTask._id, props.currentTask.isImportant)},
+                "task-right" +
+                (props.currentTask.isCompleted ? " text-strike" : ""),
+              secondIcon: props.currentTask.isImportant
+                ? "star"
+                : "star_border",
+              secondIconClass: props.currentTask.isImportant ? "blue-icon" : "",
+              secondIconEvent: () => {
+                props.markAsImportant(
+                  props.currentTask._id,
+                  props.currentTask.isImportant
+                );
+              },
             }}
           />
           {props.currentTask.stepTasks.map((stepTask) => {
@@ -74,9 +91,14 @@ function StepTasks(props) {
                     ? "check_circle"
                     : "radio_button_unchecked_outlined",
                   iconClass: " blue-icon completed-icon",
-                  iconEvent: () => { props.markAsCompletedStepTask(stepTask._id, stepTask.isCompleted)} ,
+                  iconEvent: () => {
+                    props.markAsCompletedStepTask(
+                      stepTask._id,
+                      stepTask.isCompleted
+                    );
+                  },
                   text: stepTask.stepTask,
-                  textClass:(stepTask.isCompleted ? " text-strike" : ""),
+                  textClass: stepTask.isCompleted ? " text-strike" : "",
                   secondIcon: "close_outlined",
                   secondIconClass: "close-icon",
                   borderBottom: true,
@@ -133,13 +155,17 @@ function StepTasks(props) {
       </div>
 
       <div className="right-bottom-container">
-        <i className="material-icons hide-icon">drive_file_move_outlined</i>
+        <i
+          className="material-icons hide-icon"
+          onClick={props.hideFromRightContainer}
+        >
+          drive_file_move_outlined
+        </i>
         <span className="created-text">Created Today</span>
         <i className="material-icons delete-icon">delete_outlined</i>
       </div>
     </div>
   );
-  
 }
 
 export default StepTasks;

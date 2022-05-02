@@ -18,9 +18,9 @@ class App extends React.Component {
       selectedCategoryId: 0,
       importantTasks: [],
       completedTasks: [],
-      currentTask: {_id:0, task:"", stepTasks:[]},
+      currentTask: { _id: 0, task: "", stepTasks: [] },
     };
-    this.currentTask = {_id:0, task:"", stepTasks:[]};
+    this.currentTask = { _id: 0, task: "", stepTasks: [] };
     this.toggleDisplay = this.toggleDisplay.bind(this);
     this.addCategory = this.addCategory.bind(this);
     this.addTask = this.addTask.bind(this);
@@ -49,12 +49,16 @@ class App extends React.Component {
       const importantTasks = await axios.get(
         "http://localhost:3030/importantTasks"
       );
-      
+      console.log("imp length");
+      console.log(importantTasks.data.data);
 
       if (category === "start") {
         category = categories.data.data[0]
           ? categories.data.data[0]
           : { _id: 1, title: "My Day", tasks: [] };
+        this.currentTask = categories.data.data[0].tasks[0]
+          ? categories.data.data[0].tasks[0]
+          : this.currentTask;
       }
       console.log("after imp fetched");
       console.log(importantTasks.data);
@@ -64,14 +68,14 @@ class App extends React.Component {
         selectedCategoryId: category._id,
         tasks:
           category.title === "Important"
-            ? importantTasks.data.data
+            ? importantTasks.data
             : category.tasks.filter((task) => task.isCompleted === false),
-        importantTasks: importantTasks.data.data,
+        importantTasks: importantTasks.data,
         completedTasks:
           category.title === "Important"
             ? []
             : category.tasks.filter((task) => task.isCompleted === true),
-        currentTask: this.currentTask
+        currentTask: this.currentTask,
       });
       console.log("after setState()");
     } catch (error) {
@@ -88,7 +92,7 @@ class App extends React.Component {
 
         this.refreshCategories(category.data);
       } else {
-        this.displayImportantTasks();
+        this.refreshCategories({ _id: "Important", title: "Important" });
       }
     } catch (error) {
       console.log("error ocurred during categories fetching");
@@ -267,7 +271,12 @@ class App extends React.Component {
           markAsCompleted={this.markAsCompleted}
           switchTask={this.switchTask}
         />
-        <StepTasks currentTask={this.state.currentTask} addStepTask={this.addStepTask}/>
+        <StepTasks
+          currentTask={this.state.currentTask}
+          addStepTask={this.addStepTask}
+          markAsImportant={this.markAsImportant}
+          markAsCompleted={this.markAsCompleted}
+        />
       </div>
     );
   }

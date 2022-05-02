@@ -1,6 +1,9 @@
 import React from "react";
 
 function MenuListItem(props) {
+  function hello() {
+    console.log("hello");
+  }
   return (
     <li
       className={
@@ -13,6 +16,7 @@ function MenuListItem(props) {
           "material-icons right-icons" +
           (props.item.iconClass ? props.item.iconClass : "")
         }
+        onClick={props.iconEvent? props.iconEvent : hello}
       >
         {props.item.icon}
       </i>
@@ -20,7 +24,8 @@ function MenuListItem(props) {
         {props.item.text}
       </span>
       {props.item.secondIcon ? (
-        <i className={"material-icons list-icons " + props.item.secondIconClass}>
+        <i className={"material-icons list-icons " + props.item.secondIconClass}
+        onClick={props.secondIconEvent ? props.secondIconEvent : ""}>
           {props.item.secondIcon}
         </i>
       ) : (
@@ -39,7 +44,20 @@ function RightMenuBox(props) {
 }
 
 class StepTasks extends React.Component {
-  
+  constructor(props) {
+    super(props)
+    this.markAsImportant = this.markAsImportant.bind(this);
+    this.markAsCompleted = this.markAsCompleted.bind(this);
+  }
+
+  markAsImportant() {
+    this.props.markAsImportant(this.props.currentTask._id);
+  }
+
+  markAsCompleted() {
+    this.props.markAsCompleted(this.props.currentTask._id);
+  }
+
 render() {
   console.log("stepTasks length:" + this.props.currentTask.stepTasks.length);
   console.log("stepTasks length:" + this.props.currentTask.isCompleted);
@@ -53,11 +71,13 @@ render() {
                 ? "check_circle"
                 : "radio_button_unchecked_outlined",
               iconClass: " blue-icon completed-icon",
+              iconEvent: this.markAsCompleted,
               text: this.props.currentTask.task,
               textClass:
                 "task-right" + (this.props.currentTask.isCompleted ? " text-strike" : ""),
               secondIcon:this.props.currentTask.isImportant ? "star blue-icon" : "star_border",
               secondIconClass:"star-right",
+              secondIconEvent: this.markAsImportant,
             }}
           />
           {this.props.currentTask.stepTasks.map((stepTask) => {

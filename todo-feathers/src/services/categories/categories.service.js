@@ -6,9 +6,10 @@ const hooks = require('./categories.hooks');
 module.exports = function(app) {
     const options = {
         Model: createModel(app),
-        paginate: app.get('paginate'),
+        paginate: false,
         whitelist: '$populate',
     };
+    //app.get('paginate')
 
     // Initialize our service with any options it requires
     app.use('/categories', new Categories(options, app));

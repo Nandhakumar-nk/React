@@ -30,7 +30,7 @@ exports.Tasks = class Tasks extends Service {
 
         try {
             tasks = await super.find({
-                query: { $populate: 'stepTasks' }
+                query: { $populate: 'stepTasks', ...params.query }
             });
         } catch (error) {
             console.log("error:" + error);

@@ -26,7 +26,7 @@ function MenuListItem(props) {
         {props.item.text}
       </span>
       {props.item.secondIcon ? (
-        <i className={"material-icons list-icons " + props.item.secondIconClass}
+        <i className={"material-icons list-icons second-list-icon " + props.item.secondIconClass}
         onClick={props.item.secondIconEvent ? props.item.secondIconEvent : ""}>
           {props.item.secondIcon}
         </i>
@@ -62,7 +62,7 @@ function StepTasks(props) {
               textClass:
                 "task-right" + (props.currentTask.isCompleted ? " text-strike" : ""),
               secondIcon:props.currentTask.isImportant ? "star" : "star_border",
-              secondIconClass:"star-right " + (props.currentTask.isImportant ? "blue-icon" : ""),
+              secondIconClass:(props.currentTask.isImportant ? "blue-icon" : ""),
               secondIconEvent: () => {props.markAsImportant(props.currentTask._id, props.currentTask.isImportant)},
             }}
           />
@@ -76,9 +76,9 @@ function StepTasks(props) {
                   iconClass: " blue-icon completed-icon",
                   iconEvent: () => { props.markAsCompletedStepTask(stepTask._id, stepTask.isCompleted)} ,
                   text: stepTask.stepTask,
-                  textClass: "task-right",
                   secondIcon: "close_outlined",
                   secondIconClass: "close-icon",
+                  borderBottom: true,
                 }}
               />
             );

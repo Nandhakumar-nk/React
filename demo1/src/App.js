@@ -149,6 +149,7 @@ class App extends React.Component {
       .get("http://localhost:3030/categories/" + categoryId)
       .then((response) => {
         console.log(response.data);
+        this.currentTask={ _id: 0, task: "", stepTasks: [] };
         this.refreshCategories(response.data);
       })
       .catch((error) => {
@@ -182,6 +183,7 @@ class App extends React.Component {
         categoryTitle: categoryTitle,
         tasks: [],
         completedTasks: [],
+        currentTask: { _id: 0, task: "", stepTasks: [] }
       });
     } else {
       console.log("switch tab imp tab");

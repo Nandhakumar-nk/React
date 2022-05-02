@@ -4,6 +4,8 @@ function MenuListItem(props) {
   function hello() {
     console.log("hello");
   }
+
+  console.log("iconEvent" + props.i)
   return (
     <li
       className={
@@ -16,7 +18,7 @@ function MenuListItem(props) {
           "material-icons right-icons" +
           (props.item.iconClass ? props.item.iconClass : "")
         }
-        onClick={props.iconEvent? props.iconEvent : hello}
+        onClick={props.item.iconEvent? props.item.iconEvent : hello}
       >
         {props.item.icon}
       </i>
@@ -25,7 +27,7 @@ function MenuListItem(props) {
       </span>
       {props.item.secondIcon ? (
         <i className={"material-icons list-icons " + props.item.secondIconClass}
-        onClick={props.secondIconEvent ? props.secondIconEvent : ""}>
+        onClick={props.item.secondIconEvent ? props.item.secondIconEvent : ""}>
           {props.item.secondIcon}
         </i>
       ) : (
@@ -43,44 +45,28 @@ function RightMenuBox(props) {
   return <ul className="right-menu-container">{listItems}</ul>;
 }
 
-class StepTasks extends React.Component {
-  constructor(props) {
-    super(props)
-    this.markAsImportant = this.markAsImportant.bind(this);
-    this.markAsCompleted = this.markAsCompleted.bind(this);
-  }
+function StepTasks(props) {
 
-  markAsImportant() {
-    this.props.markAsImportant(this.props.currentTask._id);
-  }
-
-  markAsCompleted() {
-    this.props.markAsCompleted(this.props.currentTask._id);
-  }
-
-render() {
-  console.log("stepTasks length:" + this.props.currentTask.stepTasks.length);
-  console.log("stepTasks length:" + this.props.currentTask.isCompleted);
   return (
     <div className="right-container">
       <div className="right-top-container">
         <ul className="right-menu-container">
           <MenuListItem
             item={{
-              icon: this.props.currentTask.isCompleted
+              icon: props.currentTask.isCompleted
                 ? "check_circle"
                 : "radio_button_unchecked_outlined",
               iconClass: " blue-icon completed-icon",
-              iconEvent: this.markAsCompleted,
-              text: this.props.currentTask.task,
+              iconEvent: () => {props.markAsCompleted(props.currentTask._id, props.currentTask.isCompleted)},
+              text: props.currentTask.task,
               textClass:
-                "task-right" + (this.props.currentTask.isCompleted ? " text-strike" : ""),
-              secondIcon:this.props.currentTask.isImportant ? "star blue-icon" : "star_border",
-              secondIconClass:"star-right",
-              secondIconEvent: this.markAsImportant,
+                "task-right" + (props.currentTask.isCompleted ? " text-strike" : ""),
+              secondIcon:props.currentTask.isImportant ? "star" : "star_border",
+              secondIconClass:"star-right " + (props.currentTask.isImportant ? "blue-icon" : ""),
+              secondIconEvent: () => {props.markAsImportant(props.currentTask._id, props.currentTask.isImportant)},
             }}
           />
-          {this.props.currentTask.stepTasks.map((stepTask) => {
+          {props.currentTask.stepTasks.map((stepTask) => {
             return (
               <MenuListItem
                 item={{
@@ -88,6 +74,7 @@ render() {
                     ? "check_circle"
                     : "radio_button_unchecked_outlined",
                   iconClass: " blue-icon completed-icon",
+                  iconEvent: () => { props.markAsCompletedStepTask(stepTask._id, stepTask.isCompleted)} ,
                   text: stepTask.stepTask,
                   textClass: "task-right",
                   secondIcon: "close_outlined",
@@ -106,7 +93,7 @@ render() {
               id="stepTaskInput"
               type="text"
               placeholder="Add Step"
-              onKeyUp={this.props.addStepTask}
+              onKeyUp={props.addStepTask}
             />
           </li>
         </ul>
@@ -151,7 +138,6 @@ render() {
       </div>
     </div>
   );
-}
   
 }
 

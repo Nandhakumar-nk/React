@@ -30,6 +30,7 @@ class App extends React.Component {
     this.markAsCompleted = this.markAsCompleted.bind(this);
     this.switchTask = this.switchTask.bind(this);
     this.addStepTask = this.addStepTask.bind(this);
+    this.markAsCompletedStepTask = this.markAsCompletedStepTask.bind(this);
     console.log("parent cons executed");
   }
 
@@ -63,7 +64,7 @@ class App extends React.Component {
       console.log("after imp fetched");
       console.log(importantTasks.data);
       this.setState({
-        categories: categories.data.data,
+        categories: categories.data,
         categoryTitle: category.title,
         selectedCategoryId: category._id,
         tasks:
@@ -245,6 +246,23 @@ class App extends React.Component {
     }
   }
 
+  async markAsCompletedStepTask(stepTaskId, isCompleted) {
+    console.log("isCompleted:" + isCompleted);
+    console.log("isCompleted opp:" + !isCompleted);
+    try {
+      await axios({
+        method: "patch",
+        url: "http://localhost:3030/stepTasks/" + stepTaskId,
+        data: {
+          isCompleted: !isCompleted,
+        },
+      });
+      this.switchTask(this.state.currentTask._id);
+    } catch (error) {
+      console.log("error ocurred during completed stepTask posting");
+    }
+  }
+
   render() {
     console.log("important tasks:" + this.state.importantTasks.length);
     console.log("\napp render");
@@ -276,6 +294,7 @@ class App extends React.Component {
           addStepTask={this.addStepTask}
           markAsImportant={this.markAsImportant}
           markAsCompleted={this.markAsCompleted}
+          markAsCompletedStepTask={this.markAsCompletedStepTask}
         />
       </div>
     );

@@ -76,6 +76,7 @@ function StepTasks(props) {
                   iconClass: " blue-icon completed-icon",
                   iconEvent: () => { props.markAsCompletedStepTask(stepTask._id, stepTask.isCompleted)} ,
                   text: stepTask.stepTask,
+                  textClass:(stepTask.isCompleted ? " text-strike" : ""),
                   secondIcon: "close_outlined",
                   secondIconClass: "close-icon",
                   borderBottom: true,

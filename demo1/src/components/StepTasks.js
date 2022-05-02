@@ -157,7 +157,7 @@ function StepTasks(props) {
       <div className="right-bottom-container">
         <i
           className="material-icons hide-icon"
-          onClick={props.hideFromRightContainer}
+          onClick={props.hideRightContainer}
         >
           drive_file_move_outlined
         </i>

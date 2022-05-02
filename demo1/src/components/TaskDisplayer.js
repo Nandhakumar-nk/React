@@ -42,7 +42,7 @@ function TaskElement(props) {
   const isCompleted = props.task.isCompleted;
 
   return (
-    <div className="task" onClick={()=>props.switchTask(taskId)}>
+    <div className="task" onClick={() => props.switchTask(taskId)}>
       <div className="radio-container">
         <span
           className="material-icons add-icon radio-icon blue-icon"
@@ -52,7 +52,9 @@ function TaskElement(props) {
           {isCompleted ? "check_circle" : "radio_button_unchecked_outlined"}
         </span>
       </div>
-      <div className={"tasks-text" + (isCompleted ? " text-strike" : "")}>{props.task.task} </div>
+      <div className={"tasks-text" + (isCompleted ? " text-strike" : "")}>
+        {props.task.task}{" "}
+      </div>
       <div className="star-container">
         <span
           className={
@@ -94,9 +96,8 @@ function TasksContainer(props) {
       <div className="task" key="completedTitle">
         <i
           className={
-            (shouldDisplay
-              ? "fa fa-angle-down"
-              : "fa fa-angle-right") + " dropdown-icon"
+            (shouldDisplay ? "fa fa-angle-down" : "fa fa-angle-right") +
+            " dropdown-icon"
           }
           onClick={() => toggleDisplay(!shouldDisplay)}
         ></i>
@@ -106,7 +107,7 @@ function TasksContainer(props) {
     );
     completedTasksCount = 1;
 
-    if(shouldDisplay) {
+    if (shouldDisplay) {
       for (; reversedIndex >= 0; reversedIndex--) {
         elements.push(
           <TaskElement
@@ -142,6 +143,17 @@ class TaskDisplayer extends React.Component {
     return (
       <div className="middle-container-full">
         <div className="my-day-container">
+          {(!this.props.displayLeftContainer) ? (
+            <div
+              class="menu-icon-middle white-bg"
+              onClick={this.props.toggleLeftContainer}
+            >
+              <i class="material-icons menu-icon">menu_outlined</i>
+            </div>
+          ) : (
+            ""
+          )}
+
           <div className="my-day-left-container">
             <span className="my-day"> {this.props.categoryTitle}</span>
             <i className="material-icons more-icon">more_horiz_outlined</i>

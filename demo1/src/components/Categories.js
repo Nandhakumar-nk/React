@@ -153,7 +153,7 @@ function Categories(props) {
   return (
     <div className="left-container">
       <div className="menu-button-container">
-        <div className="menu-inner-container white-bg">
+        <div className="menu-inner-container white-bg" onClick={props.toggleLeftContainer}>
           <i className="material-icons menu-icon">menu_outlined</i>
         </div>
       </div>

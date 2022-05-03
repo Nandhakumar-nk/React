@@ -134,7 +134,7 @@ class NewCategoryAdder extends React.Component {
             type="text"
             value={this.state.category}
             placeholder="New List"
-            onClick={this.props.toggleDisplay}
+            onClick={() => this.props.showShedulingIcons(false)}
             onChange={(event) =>
               this.setState({ category: event.target.value })
             }
@@ -163,7 +163,7 @@ function BottomIcons(props) {
   const elements = icons.map((icon, index) => {
     return (
       <div
-        className={"left-bottom-icons-container " + "grey-red-bg"}
+        className="left-bottom-icons-container grey-red-bg"
         key={index}
       >
         <i className="material-icons left-bottom-icons">{icon}</i>
@@ -200,7 +200,7 @@ function Categories(props) {
 
       <NewCategoryAdder
         addCategory={props.addCategory}
-        toggleDisplay={props.toggleDisplay}
+        showShedulingIcons={props.showShedulingIcons}
       />
 
       <BottomIcons />

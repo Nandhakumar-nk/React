@@ -13,7 +13,6 @@ class App extends React.Component {
     this.state = {
       categories: [],
       tasks: [],
-      display: "hide",
       categoryTitle: "My Day",
       selectedCategoryId: 0,
       importantTasks: [],
@@ -22,12 +21,12 @@ class App extends React.Component {
       displayRightContainer: false,
       displayLeftContainer: true,
       rootClass: "",
+      displayShedulingIcons: false
     };
     this.currentTask = { _id: 0, task: "", stepTasks: [] };
     this.displayRightContainer = false;
     this.displayLeftContainer = true;
     this.rootClass = "";
-    this.toggleDisplay = this.toggleDisplay.bind(this);
     this.addCategory = this.addCategory.bind(this);
     this.addTask = this.addTask.bind(this);
     this.switchCategory = this.switchCategory.bind(this);
@@ -39,6 +38,8 @@ class App extends React.Component {
     this.markAsCompletedStepTask = this.markAsCompletedStepTask.bind(this);
     this.hideRightContainer = this.hideRightContainer.bind(this);
     this.toggleLeftContainer = this.toggleLeftContainer.bind(this);
+    this.toggleLeftContainer = this.toggleLeftContainer.bind(this);
+    this.showShedulingIcons = this.showShedulingIcons.bind(this);
     console.log("parent cons executed");
   }
 
@@ -223,6 +224,7 @@ class App extends React.Component {
     console.log("switch Task triggered...");
     console.log("taskId:" + taskId);
     this.applyShowRightProperties();
+    this.showShedulingIcons(false);
 
     try {
       const response = await axios.get("http://localhost:3030/tasks/" + taskId);
@@ -311,6 +313,11 @@ class App extends React.Component {
     }
   }
 
+  showShedulingIcons(displayShedulingIcons) {
+    console.log("showShedulingIcons() triggered...")
+    this.setState({displayShedulingIcons});
+  }
+
   render() {
     console.log("important tasks:" + this.state.importantTasks.length);
     console.log("\napp render");
@@ -327,14 +334,13 @@ class App extends React.Component {
             importantTasks={this.state.importantTasks}
             switchTab={this.switchTab}
             toggleLeftContainer={this.toggleLeftContainer}
+            showShedulingIcons={this.showShedulingIcons}
           />
         ) : (
           ""
         )}
 
         <TaskDisplayer
-          display={this.state.display}
-          toggleDisplay={this.toggleDisplay}
           categoryTitle={this.state.categoryTitle}
           tasks={this.state.tasks}
           completedTasks={this.state.completedTasks}
@@ -344,6 +350,8 @@ class App extends React.Component {
           switchTask={this.switchTask}
           displayLeftContainer={this.state.displayLeftContainer}
           toggleLeftContainer={this.toggleLeftContainer}
+          showShedulingIcons={this.showShedulingIcons}
+          displayShedulingIcons={this.state.displayShedulingIcons}
         />
         {this.state.displayRightContainer ? (
           <StepTasks

@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 
 function ShedulingIcons(props) {
-  console.log("sh " + props.display);
+  console.log("sh");
   return (
-    <div
-      className={"add-task-bottom-container " + "props.display"}
-      id="taskBottomContainer"
-    >
+    <div className="add-task-bottom-container " id="taskBottomContainer">
       <div className="task-bottom-icons-container grey-red-bg">
         <i className="material-icons middle-bottom-icons">
           date_range_outlined
@@ -24,15 +21,10 @@ function ShedulingIcons(props) {
           event_repeat_outlined
         </i>
       </div>
-
-      <a href="#" className="add-button" id="addButton">
-        Add
-      </a>
     </div>
   );
 }
 
-//onClick={props.showRightContainer}
 function TaskElement(props) {
   console.log("for task:" + JSON.stringify(props.task._id));
   console.log(typeof props.task._id);
@@ -103,7 +95,7 @@ function TasksContainer(props) {
   if (props.completedTasks.length > 0) {
     reversedIndex = props.completedTasks.length - 1;
     elements.push(
-      <div className="task" key="completedTitle">
+      <div className="empty-task" key="completedTitle">
         <i
           className={
             (shouldDisplay ? "fa fa-angle-down" : "fa fa-angle-right") +
@@ -138,7 +130,7 @@ function TasksContainer(props) {
     tasksLength < 9;
     tasksLength++
   ) {
-    elements.push(<div className="task" key={tasksLength.toString()}></div>);
+    elements.push(<div className="empty-task" key={tasksLength.toString()}></div>);
     console.log("for" + tasksLength);
   }
 
@@ -206,26 +198,24 @@ class TaskDisplayer extends React.Component {
           </div>
         </div>
 
-        <div className="add-task-full-container">
-          <div className="add-task-container" id="addTaskContainer">
-            <div className="add-icon-container-middle">
-              <i className="material-icons add-icon-middle" id="addIconMiddle">
-                add
-              </i>
-            </div>
-
-            <input
-              className="add-task-input-box"
-              id="taskInputBox"
-              type="text"
-              value={this.state.task}
-              placeholder="Add a task"
-              onClick={this.props.toggleDisplay}
-              onChange={(event) => this.setState({ task: event.target.value })}
-              onKeyUp={this.addTask}
-            />
+        <div className="add-task-container">
+          <div className="add-icon-container-middle">
+            <i className="material-icons add-icon-middle">add</i>
           </div>
+
+          <input
+            className="add-task-input-box"
+            type="text"
+            value={this.state.task}
+            placeholder="Add a task"
+            onClick={() => this.props.showShedulingIcons(true)}
+            onChange={(event) => this.setState({ task: event.target.value })}
+            onKeyUp={this.addTask}
+          />
+
+          {this.props.displayShedulingIcons ? <ShedulingIcons /> : ""}
         </div>
+
         <TasksContainer
           tasks={this.props.tasks}
           completedTasks={this.props.completedTasks}

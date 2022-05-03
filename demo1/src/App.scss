@@ -180,10 +180,6 @@ li:hover {
     border-radius: 4px 4px 0px 0px;
 }
 
-.add-task-full-container {
-    margin-left: 5px;
-}
-
 .add-task-input-box:focus {
     background: #fafafa;
     border-bottom: 1px solid blue;
@@ -213,7 +209,7 @@ li:hover {
     margin-top: 30px;
     margin-left: 8px;
     margin-right: 8px;
-    height: 60px;
+    min-height: 60px;
     background: #f4f4f4;
     border-radius: 5px;
     border: 1px solid #e8e8ee;
@@ -253,7 +249,7 @@ li:hover {
 }
 
 .left-bottom-icons-container {
-    width: 59px;
+    width: 58px;
     height: 44px;
     float: left;
 }
@@ -330,7 +326,8 @@ li:hover {
     height: 20px;
 }
 
-.task {
+.task,
+.empty-task {
     border-bottom: 1px solid #e8e8ee;
     height: 55px;
     margin-left: 14px;
@@ -403,16 +400,7 @@ li:hover {
 .add-task-bottom-container {
     margin-top: 14px;
     margin-left: 30px;
-}
-
-.add-button {
-    text-decoration: none;
-    float: right;
-    margin-right: 20px;
-    margin-top: 7px;
-    font-size: 12px;
-    color: #babbbb;
-    font-weight: 550;
+    position: relative;
 }
 
 .task-count {

@@ -60,7 +60,7 @@ function StepTasks(props) {
               icon: props.currentTask.isCompleted
                 ? "check_circle"
                 : "radio_button_unchecked_outlined",
-              iconClass: " blue-icon completed-icon",
+              iconClass: " blue-icon radio-icon",
               iconEvent: () => {
                 props.markAsCompleted(
                   props.currentTask._id,

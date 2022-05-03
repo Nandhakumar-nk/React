@@ -5,7 +5,14 @@ exports.Categories = class Categories extends Service {
         let categories;
         try {
             categories = await super.find({
-                query: { $populate: 'tasks' }
+                query: {
+                    '$populate': {
+                        path: 'tasks',
+                        'populate': {
+                            path: 'stepTasks',
+                        }
+                    }
+                }
             });
         } catch (error) {
             console.log("error:" + error);
@@ -19,7 +26,14 @@ exports.Categories = class Categories extends Service {
 
         try {
             category = await super.get(id, {
-                query: { $populate: 'tasks' }
+                query: {
+                    '$populate': {
+                        path: 'tasks',
+                        'populate': {
+                            path: 'stepTasks',
+                        }
+                    }
+                }
             });
         } catch (error) {
             console.log("error:" + error);

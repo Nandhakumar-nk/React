@@ -40,6 +40,9 @@ function TaskElement(props) {
   const taskId = props.task._id;
   const isImportant = props.task.isImportant;
   const isCompleted = props.task.isCompleted;
+  const completedStepTasks = props.task.stepTasks.filter(
+    (stepTask) => stepTask.isCompleted === true
+  );
 
   return (
     <div className="task" onClick={() => props.switchTask(taskId)}>
@@ -54,6 +57,13 @@ function TaskElement(props) {
       </div>
       <div className={"tasks-text" + (isCompleted ? " text-strike" : "")}>
         {props.task.task}{" "}
+        {props.task.stepTasks.length > 0 ? (
+          <span className="step-task-count">
+            {completedStepTasks.length + " of " + props.task.stepTasks.length}{" "}
+          </span>
+        ) : (
+          ""
+        )}
       </div>
       <div className="star-container">
         <span
@@ -143,7 +153,7 @@ class TaskDisplayer extends React.Component {
     return (
       <div className="middle-container-full">
         <div className="my-day-container">
-          {(!this.props.displayLeftContainer) ? (
+          {!this.props.displayLeftContainer ? (
             <div
               class="menu-icon-middle white-bg"
               onClick={this.props.toggleLeftContainer}

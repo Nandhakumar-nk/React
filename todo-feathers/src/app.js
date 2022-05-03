@@ -15,6 +15,7 @@ const middleware = require('./middleware');
 const services = require('./services');
 const appHooks = require('./app.hooks');
 const channels = require('./channels');
+const graphql = require('./graphql');
 
 const authentication = require('./authentication');
 
@@ -54,6 +55,7 @@ app.configure(authentication);
 app.configure(services);
 // Set up event channels (see channels.js)
 app.configure(channels);
+app.configure(graphql);
 
 // Configure a middleware for 404s and the error handler
 app.use(express.notFound());

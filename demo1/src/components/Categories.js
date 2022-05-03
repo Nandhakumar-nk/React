@@ -41,7 +41,7 @@ function DefaultCategories(props) {
       <li
         className={category.color}
         key={index}
-        onClick={()=> {
+        onClick={() => {
           console.log("text:" + text);
           props.switchTab(text);
         }}
@@ -81,7 +81,9 @@ function DynamicCategories(props) {
 }
 
 function CategoryListItem(props) {
-  const uncompletedTasks = props.category.tasks.filter((task) => task.isCompleted === false);
+  const uncompletedTasks = props.category.tasks.filter(
+    (task) => task.isCompleted === false
+  );
   return (
     <li onClick={() => props.switchCategory(props.category._id)}>
       <span className="material-icons list-icons blue-icon">list_outlined</span>
@@ -94,6 +96,30 @@ function CategoryListItem(props) {
 }
 
 class NewCategoryAdder extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      category: "",
+    };
+    this.addCategory = this.addCategory.bind(this);
+  }
+
+  addCategory(event) {
+    console.log("category:" + event.target.value);
+
+    if (event.keyCode === 13 && event.target.value.length > 0) {
+      console.log(
+        "inside addCategory 1-Category-------------------------------"
+      );
+      this.props.addCategory(event.target.value);
+      console.log("inside addCategory 2-Category-----------------------------");
+      this.setState({ category: "" });
+      console.log(
+        "inside addCategory 3-Category---------------------------------"
+      );
+    }
+  }
+
   render() {
     return (
       <div className="new-list-container">
@@ -106,9 +132,13 @@ class NewCategoryAdder extends React.Component {
             className="new-list-input-box new-list"
             id="newCategoryInputBox"
             type="text"
+            value={this.state.category}
             placeholder="New List"
-            onKeyUp={this.props.addCategory}
             onClick={this.props.toggleDisplay}
+            onChange={(event) =>
+              this.setState({ category: event.target.value })
+            }
+            onKeyUp={this.addCategory}
           />
         </div>
 
@@ -119,10 +149,6 @@ class NewCategoryAdder extends React.Component {
         </div>
       </div>
     );
-  }
-
-  componentDidUpdate() {
-    document.getElementById("newCategoryInputBox").value = "";
   }
 }
 
@@ -153,7 +179,10 @@ function Categories(props) {
   return (
     <div className="left-container">
       <div className="menu-button-container">
-        <div className="menu-inner-container white-bg" onClick={props.toggleLeftContainer}>
+        <div
+          className="menu-inner-container white-bg"
+          onClick={props.toggleLeftContainer}
+        >
           <i className="material-icons menu-icon">menu_outlined</i>
         </div>
       </div>

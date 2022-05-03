@@ -1,11 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 
 function MenuListItem(props) {
   function hello() {
     console.log("hello");
   }
 
-  console.log("iconEvent" + props.i);
   return (
     <li
       className={
@@ -51,6 +50,29 @@ function RightMenuBox(props) {
 }
 
 function StepTasks(props) {
+  console.log("inside step Task component-------------------------------");
+  const [stepTask, setStepTask] = useState("");
+
+  function addStepTask(event) {
+    console.log("stepTask:" + event.target.value);
+
+    if (event.keyCode === 13 && event.target.value.length > 0) {
+      console.log(
+        "inside addStepTask 1-stepTask-------------------------------"
+      );
+      props.addStepTask(event.target.value);
+      console.log("inside addStepTask 2-stepTask-----------------------------");
+      setStepTask("");
+      console.log(
+        "inside addStepTask 3-stepTask---------------------------------"
+      );
+    }
+  }
+
+  function handleOnChange(event) {
+    setStepTask(event.target.value);
+  }
+
   return (
     <div className="right-container">
       <div className="right-top-container">
@@ -113,10 +135,11 @@ function StepTasks(props) {
             </i>
             <input
               className="step-task-input-box new-list"
-              id="stepTaskInput"
               type="text"
+              value={stepTask}
               placeholder="Add Step"
-              onKeyUp={props.addStepTask}
+              onChange={handleOnChange}
+              onKeyUp={addStepTask}
             />
           </li>
         </ul>

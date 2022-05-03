@@ -146,6 +146,26 @@ function TasksContainer(props) {
 }
 
 class TaskDisplayer extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      task: "",
+    };
+    this.addTask = this.addTask.bind(this);
+  }
+
+  addTask(event) {
+    console.log("task:" + event.target.value);
+
+    if (event.keyCode === 13 && event.target.value.length > 0) {
+      console.log("inside addTask 1-Task-------------------------------");
+      this.props.addTask(event.target.value);
+      console.log("inside addTask 2-Task-----------------------------");
+      this.setState({ task: "" });
+      console.log("inside addTask 3-Task---------------------------------");
+    }
+  }
+
   render() {
     console.log("tasksDisplayer comp " + this.props.categoryTitle);
     console.log("tdis:" + this.props.tasks);
@@ -167,11 +187,15 @@ class TaskDisplayer extends React.Component {
           <div className="my-day-left-container">
             <span className="my-day"> {this.props.categoryTitle}</span>
             <i className="material-icons more-icon">more_horiz_outlined</i>
-            <div className="date-container">
-              <p className="today-date" id="todayDate">
-                Wednesday, April 13
-              </p>
-            </div>
+            {this.props.categoryTitle === "My Day" ? (
+              <div className="date-container">
+                <p className="today-date" id="todayDate">
+                  Wednesday, April 13
+                </p>
+              </div>
+            ) : (
+              ""
+            )}
           </div>
 
           <div className="my-day-right-container">
@@ -194,9 +218,11 @@ class TaskDisplayer extends React.Component {
               className="add-task-input-box"
               id="taskInputBox"
               type="text"
+              value={this.state.task}
               placeholder="Add a task"
               onClick={this.props.toggleDisplay}
-              onKeyUp={this.props.addTask}
+              onChange={(event) => this.setState({ task: event.target.value })}
+              onKeyUp={this.addTask}
             />
           </div>
         </div>
@@ -217,11 +243,6 @@ class TaskDisplayer extends React.Component {
 
   componentDidUpdate() {
     console.log("\ncdu- tasksdisplayer");
-    if (!(this.props.categoryTitle === "My Day")) {
-      document.getElementsByClassName("date-container")[0].style.display =
-        "none";
-    }
-    document.getElementById("taskInputBox").value = "";
   }
 
   componentWillUnmount() {

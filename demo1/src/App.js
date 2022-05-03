@@ -111,47 +111,41 @@ class App extends React.Component {
     }
   }
 
-  async addCategory(event) {
-    if (event.keyCode === 13 && event.target.value.length > 0) {
-      try {
-        const response = await axios({
-          method: "post",
-          url: "http://localhost:3030/categories",
-          data: {
-            title: event.target.value,
-            isCompleted: false,
-            isImportant: false,
-          },
-        });
-        this.applyHideRightProperties();
-        this.refreshCategories(response.data);
-      } catch (error) {
-        console.log("error ocurred during category posting");
-      }
+  async addCategory(categoryName) {
+    try {
+      const response = await axios({
+        method: "post",
+        url: "http://localhost:3030/categories",
+        data: {
+          title: categoryName,
+          isCompleted: false,
+          isImportant: false,
+        },
+      });
+      this.applyHideRightProperties();
+      this.refreshCategories(response.data);
+    } catch (error) {
+      console.log("error ocurred during category posting");
     }
   }
 
-  async addTask(event) {
+  async addTask(task) {
     console.log("\naddTask() method triggered");
-    console.log("cid:" + this.state.selectedCategoryId);
-    console.log("task:" + event.target.value);
 
-    if (event.keyCode === 13 && event.target.value.length > 0) {
-      try {
-        const response = await axios({
-          method: "post",
-          url: "http://localhost:3030/tasks",
-          data: {
-            categoryId: this.state.selectedCategoryId,
-            task: event.target.value,
-          },
-        });
-        this.currentTask = response.data;
-        console.log("taskAdded:" + response.data._id);
-        this.refreshTasks(this.state.selectedCategoryId);
-      } catch (error) {
-        console.log("error ocurred during task posting");
-      }
+    try {
+      const response = await axios({
+        method: "post",
+        url: "http://localhost:3030/tasks",
+        data: {
+          categoryId: this.state.selectedCategoryId,
+          task,
+        },
+      });
+      this.currentTask = response.data;
+      console.log("taskAdded:" + response.data._id);
+      this.refreshTasks(this.state.selectedCategoryId);
+    } catch (error) {
+      console.log("error ocurred during task posting");
     }
   }
 
@@ -242,27 +236,22 @@ class App extends React.Component {
     }
   }
 
-  async addStepTask(event) {
+  async addStepTask(stepTask) {
     console.log("\naddStepTask() method triggered");
-    console.log("tid:" + this.state.currentTask._id);
-    console.log("stepTask:" + event.target.value);
 
-    if (event.keyCode === 13 && event.target.value.length > 0) {
-      console.log("inside if");
-      try {
-        const response = await axios({
-          method: "post",
-          url: "http://localhost:3030/stepTasks",
-          data: {
-            taskId: this.state.currentTask._id,
-            stepTask: event.target.value,
-          },
-        });
-        console.log("after post:" + response.data);
-        this.switchTask(this.state.currentTask._id);
-      } catch (error) {
-        console.log("error ocurred during stepTask posting");
-      }
+    try {
+      const response = await axios({
+        method: "post",
+        url: "http://localhost:3030/stepTasks",
+        data: {
+          taskId: this.state.currentTask._id,
+          stepTask,
+        },
+      });
+      console.log("after post:" + response.data);
+      this.switchTask(this.state.currentTask._id);
+    } catch (error) {
+      console.log("error ocurred during stepTask posting");
     }
   }
 
@@ -297,8 +286,8 @@ class App extends React.Component {
     this.applyHideRightProperties();
     this.setState({
       displayRightContainer: this.displayRightContainer,
-        rootClass:this.rootClass
-    })
+      rootClass: this.rootClass,
+    });
   }
 
   toggleLeftContainer() {
@@ -306,20 +295,19 @@ class App extends React.Component {
     this.switchRootClass();
     this.setState({
       displayLeftContainer: this.displayLeftContainer,
-        rootClass:this.rootClass
-    })
+      rootClass: this.rootClass,
+    });
   }
-    
 
   switchRootClass() {
-    if(this.displayLeftContainer && this.displayRightContainer) {
-      this.rootClass="show-both-containers";
-    } else if(this.displayLeftContainer && !this.displayRightContainer) {
-      this.rootClass="";
-    } else if(!this.displayLeftContainer && this.displayRightContainer) {
-      this.rootClass="hide-left-container";
-    } else if(!this.displayLeftContainer && !this.displayRightContainer) {
-      this.rootClass="hide-both-containers";
+    if (this.displayLeftContainer && this.displayRightContainer) {
+      this.rootClass = "show-both-containers";
+    } else if (this.displayLeftContainer && !this.displayRightContainer) {
+      this.rootClass = "";
+    } else if (!this.displayLeftContainer && this.displayRightContainer) {
+      this.rootClass = "hide-left-container";
+    } else if (!this.displayLeftContainer && !this.displayRightContainer) {
+      this.rootClass = "hide-both-containers";
     }
   }
 
@@ -328,7 +316,7 @@ class App extends React.Component {
     console.log("\napp render");
     console.log("ct " + this.state.categoryTitle);
     return (
-      <div className={"root-container " + this.state.rootClass} >
+      <div className={"root-container " + this.state.rootClass}>
         <Header />
         {this.state.displayLeftContainer ? (
           <Categories

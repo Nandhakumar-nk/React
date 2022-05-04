@@ -62,7 +62,6 @@ class App extends React.Component<IAppProps, IAppState> {
     this.markAsCompletedStepTask = this.markAsCompletedStepTask.bind(this);
     this.hideRightContainer = this.hideRightContainer.bind(this);
     this.toggleLeftContainer = this.toggleLeftContainer.bind(this);
-    this.toggleLeftContainer = this.toggleLeftContainer.bind(this);
     this.showShedulingIcons = this.showShedulingIcons.bind(this);
   }
 
@@ -248,7 +247,7 @@ class App extends React.Component<IAppProps, IAppState> {
     }
   }
 
-  async addStepTask(stepTask: string) {
+  async addStepTask(stepTask: string):Promise<void> {
     try {
       const response = await axios({
         method: "post",

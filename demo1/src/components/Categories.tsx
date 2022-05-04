@@ -29,14 +29,8 @@ interface INewCategoryAdderProps {
   showShedulingIcons: (displayShedulingIcons: boolean) => void;
 }
 
-interface ICategoriesProps {
-  categories: ICategory[];
-  switchCategory: (categoryId: string) => void;
-  importantTasks: ITask[];
-  switchTab: (text: string) => void;
+interface ICategoriesProps extends IDynamicCategoriesProps, INewCategoryAdderProps, IDefaultCategoriesProps {
   toggleLeftContainer: () => void;
-  addCategory: (categoryName: string) => void;
-  showShedulingIcons: (displayShedulingIcons: boolean) => void;
 }
 
 function DefaultCategories(props: IDefaultCategoriesProps) {

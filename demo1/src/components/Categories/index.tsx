@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { ITask } from "./StepTasks";
+import { ITask } from "../StepTasks";
 
 interface IDefaultCategoriesProps {
   importantTasks: ITask[];

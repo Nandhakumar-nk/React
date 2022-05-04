@@ -2,10 +2,10 @@ import React from "react";
 
 import axios from "axios";
 
-import Header from "./components/Header";
-import Categories, { ICategory } from "./components/Categories";
-import TaskDisplayer from "./components/TaskDisplayer";
-import StepTasks, { ITask } from "./components/StepTasks";
+import Header from './components/Header';
+import Categories, { ICategory } from './components/Categories';
+import TaskDisplayer from './components/TaskDisplayer';
+import StepTasks, { ITask } from './components/StepTasks';
 
 interface IAppProps {}
 

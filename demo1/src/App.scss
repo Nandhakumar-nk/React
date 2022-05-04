@@ -157,6 +157,7 @@ li:hover {
 
 .new-list-container {
     display: flex;
+    position: relative;
     height: 33px;
 }
 
@@ -232,8 +233,9 @@ li:hover {
 
 .note-icon-container {
     display: inline-block;
-    width: 30px;
-    margin-left: 205px;
+    position: absolute;
+    width: 20px;
+    right: 5px;
 }
 
 .note-add-icon {
@@ -405,7 +407,7 @@ li:hover {
 
 .task-count {
     position: absolute;
-    right: 15px;
+    margin-left: 100px;
     color: rgb(97, 97, 97);
 }
 

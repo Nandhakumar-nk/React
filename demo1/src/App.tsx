@@ -1,32 +1,54 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import axios from "axios";
 
 import Header from "./components/Header";
-import Categories from "./components/Categories";
+import Categories, { ICategory } from "./components/Categories";
 import TaskDisplayer from "./components/TaskDisplayer";
-import StepTasks from "./components/StepTasks";
+import StepTasks, { ITask } from "./components/StepTasks";
 
-class App extends React.Component {
-  constructor(props) {
+interface IAppState {
+  categories: ICategory[];
+  tasks: ITask[];
+  categoryTitle: string;
+  selectedCategoryId: string;
+  importantTasks: ITask[];
+  completedTasks: ITask[];
+  currentTask: ITask;
+  displayRightContainer: boolean;
+  displayLeftContainer: boolean;
+  rootClass: string;
+  displayShedulingIcons: boolean;
+}
+
+class App extends React.Component<any, IAppState> {
+  currentTask: ITask = {
+    _id: "0",
+    task: "",
+    stepTasks: [],
+    isCompleted: false,
+    isImportant: false,
+  };
+  displayRightContainer: boolean = false;
+  displayLeftContainer: boolean = true;
+  rootClass: string = "";
+
+  constructor(props: any) {
     super(props);
     this.state = {
       categories: [],
       tasks: [],
       categoryTitle: "My Day",
-      selectedCategoryId: 0,
+      selectedCategoryId: "0",
       importantTasks: [],
       completedTasks: [],
-      currentTask: { _id: 0, task: "", stepTasks: [] },
+      currentTask: this.currentTask,
       displayRightContainer: false,
       displayLeftContainer: true,
       rootClass: "",
-      displayShedulingIcons: false
+      displayShedulingIcons: false,
     };
-    this.currentTask = { _id: 0, task: "", stepTasks: [] };
-    this.displayRightContainer = false;
-    this.displayLeftContainer = true;
-    this.rootClass = "";
+
     this.addCategory = this.addCategory.bind(this);
     this.addTask = this.addTask.bind(this);
     this.switchCategory = this.switchCategory.bind(this);
@@ -40,38 +62,22 @@ class App extends React.Component {
     this.toggleLeftContainer = this.toggleLeftContainer.bind(this);
     this.toggleLeftContainer = this.toggleLeftContainer.bind(this);
     this.showShedulingIcons = this.showShedulingIcons.bind(this);
-    console.log("parent cons executed");
   }
 
-  toggleDisplay() {
-    const value = this.state.display === "show" ? "hide" : "show";
-    this.setState({ display: value });
-    console.log("app " + this.state.display);
-  }
-
-  async refreshCategories(category) {
+  async refreshCategories(category: ICategory) {
     try {
-      console.log("refresh cat inside");
       const categories = await axios.get("http://localhost:3030/categories");
-      console.log("after cat fetched");
-
-      console.log(categories.data);
       const importantTasks = await axios.get(
         "http://localhost:3030/importantTasks"
       );
-      console.log("imp length");
-      console.log(importantTasks.data.data);
 
-      if (category === "start") {
-        category = categories.data.data[0]
-          ? categories.data.data[0]
-          : { _id: 1, title: "My Day", tasks: [] };
+      if (category.title === "My Day") {
+        category = categories.data.data[0] ? categories.data.data[0] : category;
         this.currentTask = categories.data.data[0].tasks[0]
           ? categories.data.data[0].tasks[0]
           : this.currentTask;
       }
-      console.log("after imp fetched");
-      console.log(importantTasks.data);
+
       this.setState({
         categories: categories.data,
         categoryTitle: category.title,
@@ -90,13 +96,12 @@ class App extends React.Component {
         displayLeftContainer: this.displayLeftContainer,
         rootClass: this.rootClass,
       });
-      console.log("after setState()");
     } catch (error) {
       console.log("error ocurred during categories fetching");
     }
   }
 
-  async refreshTasks(categoryId) {
+  async refreshTasks(categoryId: string) {
     try {
       if (categoryId != "Important") {
         const category = await axios.get(
@@ -105,14 +110,18 @@ class App extends React.Component {
 
         this.refreshCategories(category.data);
       } else {
-        this.refreshCategories({ _id: "Important", title: "Important" });
+        this.refreshCategories({
+          _id: "Important",
+          title: "Important",
+          tasks: [],
+        });
       }
     } catch (error) {
       console.log("error ocurred during categories fetching");
     }
   }
 
-  async addCategory(categoryName) {
+  async addCategory(categoryName: string) {
     try {
       const response = await axios({
         method: "post",
@@ -130,9 +139,7 @@ class App extends React.Component {
     }
   }
 
-  async addTask(task) {
-    console.log("\naddTask() method triggered");
-
+  async addTask(task: string) {
     try {
       const response = await axios({
         method: "post",
@@ -143,20 +150,23 @@ class App extends React.Component {
         },
       });
       this.currentTask = response.data;
-      console.log("taskAdded:" + response.data._id);
       this.refreshTasks(this.state.selectedCategoryId);
     } catch (error) {
       console.log("error ocurred during task posting");
     }
   }
 
-  switchCategory(categoryId) {
-    console.log(typeof categoryId);
+  switchCategory(categoryId: string) {
     axios
       .get("http://localhost:3030/categories/" + categoryId)
       .then((response) => {
-        console.log(response.data);
-        this.currentTask = { _id: 0, task: "", stepTasks: [] };
+        this.currentTask = {
+          _id: "0",
+          task: "",
+          stepTasks: [],
+          isCompleted: false,
+          isImportant: false,
+        };
         this.applyHideRightProperties();
         this.refreshCategories(response.data);
       })
@@ -165,9 +175,7 @@ class App extends React.Component {
       });
   }
 
-  async markAsImportant(taskId, isImportant) {
-    console.log("isimp:" + isImportant);
-    console.log("isimp opp:" + !isImportant);
+  async markAsImportant(taskId: string, isImportant: boolean) {
     try {
       await axios({
         method: "patch",
@@ -182,30 +190,34 @@ class App extends React.Component {
     }
   }
 
-  switchTab(categoryTitle) {
-    console.log("switch tab called");
-    console.log("switch tab cat title" + categoryTitle);
+  switchTab(categoryTitle: string) {
     if (categoryTitle != "Important") {
-      console.log("switch tab other tabs");
       this.setState({
         categoryTitle: categoryTitle,
         tasks: [],
         completedTasks: [],
-        currentTask: { _id: 0, task: "", stepTasks: [] },
+        currentTask: {
+          _id: "0",
+          task: "",
+          stepTasks: [],
+          isCompleted: false,
+          isImportant: false,
+        },
         displayRightContainer: false,
         displayLeftContainer: true,
         rootClass: "",
       });
     } else {
-      console.log("switch tab imp tab");
       this.applyHideRightProperties();
-      this.refreshCategories({ _id: "Important", title: "Important" });
+      this.refreshCategories({
+        _id: "Important",
+        title: "Important",
+        tasks: [],
+      });
     }
   }
 
-  async markAsCompleted(taskId, isCompleted) {
-    console.log("isCompleted:" + isCompleted);
-    console.log("isCompleted opp:" + !isCompleted);
+  async markAsCompleted(taskId: string, isCompleted: boolean) {
     try {
       await axios({
         method: "patch",
@@ -220,27 +232,21 @@ class App extends React.Component {
     }
   }
 
-  async switchTask(taskId) {
-    console.log("switch Task triggered...");
-    console.log("taskId:" + taskId);
+  async switchTask(taskId: string) {
     this.applyShowRightProperties();
     this.showShedulingIcons(false);
 
     try {
       const response = await axios.get("http://localhost:3030/tasks/" + taskId);
-      console.log(response.data);
-      console.log("currentTask value before set:" + this.currentTask);
+
       this.currentTask = response.data;
-      console.log("currentTask set:" + this.currentTask);
       this.refreshTasks(this.state.selectedCategoryId);
     } catch (error) {
       console.log("error ocurred during task fetching");
     }
   }
 
-  async addStepTask(stepTask) {
-    console.log("\naddStepTask() method triggered");
-
+  async addStepTask(stepTask: string) {
     try {
       const response = await axios({
         method: "post",
@@ -250,16 +256,14 @@ class App extends React.Component {
           stepTask,
         },
       });
-      console.log("after post:" + response.data);
+
       this.switchTask(this.state.currentTask._id);
     } catch (error) {
       console.log("error ocurred during stepTask posting");
     }
   }
 
-  async markAsCompletedStepTask(stepTaskId, isCompleted) {
-    console.log("isCompleted:" + isCompleted);
-    console.log("isCompleted opp:" + !isCompleted);
+  async markAsCompletedStepTask(stepTaskId: string, isCompleted: boolean) {
     try {
       await axios({
         method: "patch",
@@ -313,21 +317,16 @@ class App extends React.Component {
     }
   }
 
-  showShedulingIcons(displayShedulingIcons) {
-    console.log("showShedulingIcons() triggered...")
-    this.setState({displayShedulingIcons});
+  showShedulingIcons(displayShedulingIcons: boolean) {
+    this.setState({ displayShedulingIcons });
   }
 
   render() {
-    console.log("important tasks:" + this.state.importantTasks.length);
-    console.log("\napp render");
-    console.log("ct " + this.state.categoryTitle);
     return (
       <div className={"root-container " + this.state.rootClass}>
         <Header />
         {this.state.displayLeftContainer ? (
           <Categories
-            toggleDisplay={this.toggleDisplay}
             categories={this.state.categories}
             addCategory={this.addCategory}
             switchCategory={this.switchCategory}
@@ -372,7 +371,7 @@ class App extends React.Component {
   async componentDidMount() {
     console.log("\ncomponentDidMount() lifecycle - parent");
     try {
-      this.refreshCategories("start");
+      this.refreshCategories({ _id: "0", title: "My Day", tasks: [] });
     } catch (error) {
       console.log("error ocurred during MyDay posting");
     }
@@ -380,39 +379,3 @@ class App extends React.Component {
 }
 
 export default App;
-
-/*
- switchCategory(categoryId) {
-    console.log(typeof categoryId);
-    axios
-      .get("http://localhost:3030/categories/" + categoryId)
-      .then((response) => {
-        console.log(response.data);
-        this.setState({
-          categoryTitle: response.data.title,
-          selectedCategoryId: response.data._id,
-          tasks: response.data.tasks,
-        });
-      })
-      .catch((error) => {
-        console.log("error ocurred during categories fetching");
-      });
-  }
-
-  async componentDidMount() {
-    console.log("\ncomponentDidMount() lifecycle - parent");
-    try {
-      const result = await axios({
-        method: "post",
-        url: "http://localhost:3030/categories",
-        data: {
-          title: "from react1",
-        },
-      });
-      console.log("result" + result.data._id);
-      //this.refreshCategories(result.data);
-    } catch (error) {
-      console.log("error ocurred during MyDay posting");
-    }
-  }
-*/

@@ -1,7 +1,37 @@
 import React, { useState } from "react";
 
-function ShedulingIcons(props) {
-  console.log("sh");
+import { ITask } from "./StepTasks";
+
+interface ICommonTasksProps {
+  markAsImportant: (_id: string, isImportant: boolean) => void;
+  markAsCompleted: (_id: string, isCompleted: boolean) => void;
+  switchTask: (_id: string) => void;
+}
+
+interface ITaskElementProps extends ICommonTasksProps {
+  task: ITask;
+  key: string;
+}
+
+interface ITasksContainerProps extends ICommonTasksProps {
+  tasks: ITask[];
+  completedTasks: ITask[];
+}
+
+interface ITaskDisplayerProps extends ICommonTasksProps, ITasksContainerProps {
+  categoryTitle: string;
+  addTask: (task: string) => void;
+  displayLeftContainer: boolean;
+  toggleLeftContainer: () => void;
+  showShedulingIcons: (displayShedulingIcons: boolean) => void;
+  displayShedulingIcons: boolean;
+}
+
+interface ITaskDisplayerState {
+  task: string;
+}
+
+function ShedulingIcons() {
   return (
     <div className="add-task-bottom-container " id="taskBottomContainer">
       <div className="task-bottom-icons-container grey-red-bg">
@@ -25,10 +55,7 @@ function ShedulingIcons(props) {
   );
 }
 
-function TaskElement(props) {
-  console.log("for task:" + JSON.stringify(props.task._id));
-  console.log(typeof props.task._id);
-  console.log("taskimp:" + props.task.isImportant);
+function TaskElement(props: ITaskElementProps) {
   const taskId = props.task._id;
   const isImportant = props.task.isImportant;
   const isCompleted = props.task.isCompleted;
@@ -72,11 +99,9 @@ function TaskElement(props) {
   );
 }
 
-function TasksContainer(props) {
+function TasksContainer(props: ITasksContainerProps) {
   const [shouldDisplay, toggleDisplay] = useState(true);
   let completedTasksCount = 0;
-
-  console.log("tasksContainer:" + props.tasks);
   const elements = [];
   let reversedIndex = props.tasks.length - 1;
 
@@ -130,15 +155,19 @@ function TasksContainer(props) {
     tasksLength < 9;
     tasksLength++
   ) {
-    elements.push(<div className="empty-task" key={tasksLength.toString()}></div>);
-    console.log("for" + tasksLength);
+    elements.push(
+      <div className="empty-task" key={tasksLength.toString()}></div>
+    );
   }
 
   return <div className="tasks-container">{elements}</div>;
 }
 
-class TaskDisplayer extends React.Component {
-  constructor(props) {
+class TaskDisplayer extends React.Component<
+  ITaskDisplayerProps,
+  ITaskDisplayerState
+> {
+  constructor(props: ITaskDisplayerProps) {
     super(props);
     this.state = {
       task: "",
@@ -146,31 +175,23 @@ class TaskDisplayer extends React.Component {
     this.addTask = this.addTask.bind(this);
   }
 
-  addTask(event) {
-    console.log("task:" + event.target.value);
-
-    if (event.keyCode === 13 && event.target.value.length > 0) {
-      console.log("inside addTask 1-Task-------------------------------");
-      this.props.addTask(event.target.value);
-      console.log("inside addTask 2-Task-----------------------------");
+  addTask(event: React.KeyboardEvent<HTMLInputElement>) {
+    if (event.keyCode === 13 && this.state.task.length > 0) {
+      this.props.addTask(this.state.task);
       this.setState({ task: "" });
-      console.log("inside addTask 3-Task---------------------------------");
     }
   }
 
   render() {
-    console.log("tasksDisplayer comp " + this.props.categoryTitle);
-    console.log("tdis:" + this.props.tasks);
-
     return (
       <div className="middle-container-full">
         <div className="my-day-container">
           {!this.props.displayLeftContainer ? (
             <div
-              class="menu-icon-middle white-bg"
+              className="menu-icon-middle white-bg"
               onClick={this.props.toggleLeftContainer}
             >
-              <i class="material-icons menu-icon">menu_outlined</i>
+              <i className="material-icons menu-icon">menu_outlined</i>
             </div>
           ) : (
             ""
@@ -225,18 +246,6 @@ class TaskDisplayer extends React.Component {
         />
       </div>
     );
-  }
-
-  componentDidMount() {
-    console.log("\ncdm- tasksdisplayer");
-  }
-
-  componentDidUpdate() {
-    console.log("\ncdu- tasksdisplayer");
-  }
-
-  componentWillUnmount() {
-    console.log("\ncwu- tasksdisplayer");
   }
 }
 

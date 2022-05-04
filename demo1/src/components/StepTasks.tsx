@@ -1,10 +1,53 @@
 import React, { useState } from "react";
 
-function MenuListItem(props) {
-  function hello() {
-    console.log("hello");
-  }
+interface IMenuListItem {
+  borderBottom?: boolean;
+  iconClass?: string;
+  iconEvent?: (event?: Object) => void;
+  icon: string;
+  textClass?: string;
+  text: string;
+  secondIcon?: string;
+  secondIconClass?: string;
+  secondIconEvent?: (event: Object) => void;
+}
 
+interface IMenuListItemProps {
+  item: IMenuListItem;
+}
+
+interface IRightMenuBoxProps {
+  items: IMenuListItem[];
+}
+
+interface IStepTask {
+  _id: string;
+  stepTask: string;
+  isCompleted: boolean;
+}
+
+export interface ITask {
+  _id: string;
+  task: string;
+  stepTasks: IStepTask[];
+  isCompleted: boolean;
+  isImportant: boolean;
+}
+
+interface IStepTasksProps {
+  currentTask: ITask;
+  addStepTask: (stepTask: string) => void;
+  markAsCompleted: (_id: string, isCompleted: boolean) => void;
+  markAsImportant: (_id: string, isImportant: boolean) => void;
+  hideRightContainer: () => void;
+  markAsCompletedStepTask: (_id: string, isCompleted: boolean) => void;
+}
+
+function hello() {
+  console.log("hello");
+}
+
+function MenuListItem(props: IMenuListItemProps) {
   return (
     <li
       className={
@@ -28,9 +71,11 @@ function MenuListItem(props) {
         <i
           className={
             "material-icons list-icons second-list-icon " +
-            props.item.secondIconClass
+            (props.item.secondIconClass ? props.item.secondIconClass : "")
           }
-          onClick={props.item.secondIconEvent ? props.item.secondIconEvent : ""}
+          onClick={
+            props.item.secondIconEvent ? props.item.secondIconEvent : hello
+          }
         >
           {props.item.secondIcon}
         </i>
@@ -41,7 +86,7 @@ function MenuListItem(props) {
   );
 }
 
-function RightMenuBox(props) {
+function RightMenuBox(props: IRightMenuBoxProps) {
   const listItems = props.items.map((item, index) => {
     return <MenuListItem item={item} key={index} />;
   });
@@ -49,27 +94,17 @@ function RightMenuBox(props) {
   return <ul className="right-menu-container">{listItems}</ul>;
 }
 
-function StepTasks(props) {
-  console.log("inside step Task component-------------------------------");
+function StepTasks(props: IStepTasksProps) {
   const [stepTask, setStepTask] = useState("");
 
-  function addStepTask(event) {
-    console.log("stepTask:" + event.target.value);
-
-    if (event.keyCode === 13 && event.target.value.length > 0) {
-      console.log(
-        "inside addStepTask 1-stepTask-------------------------------"
-      );
-      props.addStepTask(event.target.value);
-      console.log("inside addStepTask 2-stepTask-----------------------------");
+  function addStepTask(event: React.KeyboardEvent<HTMLInputElement>) {
+    if (event.keyCode === 13 && stepTask.length > 0) {
+      props.addStepTask(stepTask);
       setStepTask("");
-      console.log(
-        "inside addStepTask 3-stepTask---------------------------------"
-      );
     }
   }
 
-  function handleOnChange(event) {
+  function handleOnChange(event: React.ChangeEvent<HTMLInputElement>) {
     setStepTask(event.target.value);
   }
 
@@ -105,7 +140,7 @@ function StepTasks(props) {
               },
             }}
           />
-          {props.currentTask.stepTasks.map((stepTask) => {
+          {props.currentTask.stepTasks.map((stepTask: IStepTask) => {
             return (
               <MenuListItem
                 item={{
@@ -180,7 +215,7 @@ function StepTasks(props) {
       <div className="right-bottom-container">
         <i
           className="material-icons hide-icon"
-          onClick={props.hideRightContainer}
+          onClick={() => props.hideRightContainer()}
         >
           drive_file_move_outlined
         </i>

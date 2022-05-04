@@ -1,6 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 
-function DefaultCategories(props) {
+import { ITask } from "./StepTasks";
+
+interface IDefaultCategoriesProps {
+  importantTasks: ITask[];
+  switchTab: (text: string) => void;
+}
+
+export interface ICategory {
+  _id: string;
+  title: string;
+  tasks: ITask[];
+}
+
+interface IDynamicCategoriesProps {
+  categories: ICategory[];
+  switchCategory: (categoryId: string) => void;
+}
+
+interface ICategoryListItemProps {
+  category: ICategory;
+  key: string;
+  switchCategory: (categoryId: string) => void;
+}
+
+interface INewCategoryAdderProps {
+  addCategory: (categoryName: string) => void;
+  showShedulingIcons: (displayShedulingIcons: boolean) => void;
+}
+
+interface ICategoriesProps {
+  categories: ICategory[];
+  switchCategory: (categoryId: string) => void;
+  importantTasks: ITask[];
+  switchTab: (text: string) => void;
+  toggleLeftContainer: () => void;
+  addCategory: (categoryName: string) => void;
+  showShedulingIcons: (displayShedulingIcons: boolean) => void;
+}
+
+function DefaultCategories(props: IDefaultCategoriesProps) {
   const categories = [
     {
       icon: "light_mode_outlined",
@@ -34,15 +73,13 @@ function DefaultCategories(props) {
     },
   ];
   const elements = categories.map((category, index) => {
-    console.log("icon tasks length:" + category.text + category.tasks.length);
     const text = category.text;
-    console.log("icon tasks text:" + text);
+
     return (
       <li
         className={category.color}
         key={index}
         onClick={() => {
-          console.log("text:" + text);
           props.switchTab(text);
         }}
       >
@@ -62,7 +99,7 @@ function DefaultCategories(props) {
   );
 }
 
-function DynamicCategories(props) {
+function DynamicCategories(props: IDynamicCategoriesProps) {
   const elements = props.categories.map((category, index) => {
     return (
       <CategoryListItem
@@ -80,7 +117,7 @@ function DynamicCategories(props) {
   );
 }
 
-function CategoryListItem(props) {
+function CategoryListItem(props: ICategoryListItemProps) {
   const uncompletedTasks = props.category.tasks.filter(
     (task) => task.isCompleted === false
   );
@@ -88,71 +125,51 @@ function CategoryListItem(props) {
     <li onClick={() => props.switchCategory(props.category._id)}>
       <span className="material-icons list-icons blue-icon">list_outlined</span>
       {props.category.title}
-      <span className="task-count" id={props.categoryName + "list"}>
+      <span className="task-count">
         {uncompletedTasks.length > 0 ? uncompletedTasks.length : ""}
       </span>
     </li>
   );
 }
 
-class NewCategoryAdder extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      category: "",
-    };
-    this.addCategory = this.addCategory.bind(this);
-  }
+function NewCategoryAdder(props: INewCategoryAdderProps) {
+  const [category, setCategory] = useState("");
 
-  addCategory(event) {
-    console.log("category:" + event.target.value);
-
-    if (event.keyCode === 13 && event.target.value.length > 0) {
-      console.log(
-        "inside addCategory 1-Category-------------------------------"
-      );
-      this.props.addCategory(event.target.value);
-      console.log("inside addCategory 2-Category-----------------------------");
-      this.setState({ category: "" });
-      console.log(
-        "inside addCategory 3-Category---------------------------------"
-      );
+  function addCategory(event: React.KeyboardEvent<HTMLInputElement>) {
+    if (event.keyCode === 13 && category.length > 0) {
+      props.addCategory(category);
+      setCategory("");
     }
   }
-
-  render() {
-    return (
-      <div className="new-list-container">
-        <div className="new-list-left-container">
-          <div className="add-icon-container">
-            <i className="material-icons add-icon blue-icon">add</i>
-          </div>
-
-          <input
-            className="new-list-input-box new-list"
-            id="newCategoryInputBox"
-            type="text"
-            value={this.state.category}
-            placeholder="New List"
-            onClick={() => this.props.showShedulingIcons(false)}
-            onChange={(event) =>
-              this.setState({ category: event.target.value })
-            }
-            onKeyUp={this.addCategory}
-          />
+  return (
+    <div className="new-list-container">
+      <div className="new-list-left-container">
+        <div className="add-icon-container">
+          <i className="material-icons add-icon blue-icon">add</i>
         </div>
 
-        <div className="note-icon-container">
-          <i className="material-icons add-icon blue-icon note-add-icon">
-            note_add_outlined
-          </i>
-        </div>
+        <input
+          className="new-list-input-box new-list"
+          id="newCategoryInputBox"
+          type="text"
+          value={category}
+          placeholder="New List"
+          onClick={() => props.showShedulingIcons(false)}
+          onChange={(event) => setCategory(event.target.value)}
+          onKeyUp={addCategory}
+        />
       </div>
-    );
-  }
+
+      <div className="note-icon-container">
+        <i className="material-icons add-icon blue-icon note-add-icon">
+          note_add_outlined
+        </i>
+      </div>
+    </div>
+  );
 }
 
-function BottomIcons(props) {
+function BottomIcons() {
   const icons = [
     "email_outlined",
     "date_range_outlined",
@@ -162,10 +179,7 @@ function BottomIcons(props) {
   ];
   const elements = icons.map((icon, index) => {
     return (
-      <div
-        className="left-bottom-icons-container grey-red-bg"
-        key={index}
-      >
+      <div className="left-bottom-icons-container grey-red-bg" key={index}>
         <i className="material-icons left-bottom-icons">{icon}</i>
       </div>
     );
@@ -174,8 +188,7 @@ function BottomIcons(props) {
   return <div className="left-bottom-container">{elements}</div>;
 }
 
-function Categories(props) {
-  console.log("categories --- imporatnt tasks:" + props.importantTasks.length);
+function Categories(props: ICategoriesProps) {
   return (
     <div className="left-container">
       <div className="menu-button-container">

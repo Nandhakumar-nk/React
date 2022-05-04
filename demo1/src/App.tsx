@@ -7,6 +7,8 @@ import Categories, { ICategory } from "./components/Categories";
 import TaskDisplayer from "./components/TaskDisplayer";
 import StepTasks, { ITask } from "./components/StepTasks";
 
+interface IAppProps {}
+
 interface IAppState {
   categories: ICategory[];
   tasks: ITask[];
@@ -21,7 +23,7 @@ interface IAppState {
   displayShedulingIcons: boolean;
 }
 
-class App extends React.Component<any, IAppState> {
+class App extends React.Component<IAppProps, IAppState> {
   currentTask: ITask = {
     _id: "0",
     task: "",
@@ -33,7 +35,7 @@ class App extends React.Component<any, IAppState> {
   displayLeftContainer: boolean = true;
   rootClass: string = "";
 
-  constructor(props: any) {
+  constructor(props: IAppProps) {
     super(props);
     this.state = {
       categories: [],
@@ -132,7 +134,7 @@ class App extends React.Component<any, IAppState> {
           isImportant: false,
         },
       });
-      this.applyHideRightProperties();
+      this.setDisplayRightContainer(false);
       this.refreshCategories(response.data);
     } catch (error) {
       console.log("error ocurred during category posting");
@@ -167,7 +169,7 @@ class App extends React.Component<any, IAppState> {
           isCompleted: false,
           isImportant: false,
         };
-        this.applyHideRightProperties();
+        this.setDisplayRightContainer(false);
         this.refreshCategories(response.data);
       })
       .catch((error) => {
@@ -208,7 +210,7 @@ class App extends React.Component<any, IAppState> {
         rootClass: "",
       });
     } else {
-      this.applyHideRightProperties();
+      this.setDisplayRightContainer(false);
       this.refreshCategories({
         _id: "Important",
         title: "Important",
@@ -233,7 +235,7 @@ class App extends React.Component<any, IAppState> {
   }
 
   async switchTask(taskId: string) {
-    this.applyShowRightProperties();
+    this.setDisplayRightContainer(true);
     this.showShedulingIcons(false);
 
     try {
@@ -278,18 +280,13 @@ class App extends React.Component<any, IAppState> {
     }
   }
 
-  applyShowRightProperties() {
-    this.displayRightContainer = true;
-    this.switchRootClass();
-  }
-
-  applyHideRightProperties() {
-    this.displayRightContainer = false;
+  setDisplayRightContainer(displayRightContainer:boolean) {
+    this.displayRightContainer = displayRightContainer;
     this.switchRootClass();
   }
 
   hideRightContainer() {
-    this.applyHideRightProperties();
+    this.setDisplayRightContainer(false);
     this.setState({
       displayRightContainer: this.displayRightContainer,
       rootClass: this.rootClass,

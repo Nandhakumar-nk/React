@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-import { ICommonTasksProps } from "..";
-import { ITask } from "../../StepTasks";
+import { ICommonTasksProps } from "../TaskDisplayer";
+import { ITask } from "../StepTasks";
 import { TaskElement } from "../TaskElement";
+
+
+import "./styles.scss";
+
 
 export interface ITasksContainerProps extends ICommonTasksProps {
   tasks: ITask[];

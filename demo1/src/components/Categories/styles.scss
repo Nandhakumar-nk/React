@@ -1,60 +1,40 @@
-.left-menu-container {
-    height: 185px;
-    margin-top: 10px;
-}
-
 .add-icon {
+    width: 30px;
     font-size: 22px !important;
-    margin-left: 12px !important;
-    margin-top: 5px !important;
+    margin-left: 15px !important;
 }
 
 .new-list-container {
     display: flex;
     position: relative;
     height: 33px;
+    align-items: center;
 }
 
 .new-list-input-box {
-    position: absolute;
-    margin-top: 2px;
-    height: 26px;
+    height: 80%;
+    width: 68%;
     border: none;
     outline: none;
     background: #f4f4f4;
 }
 
-.new-list-input-box :hover {
-    background: #fcfcfc;
+.new-list-container .new-list-input-box:hover {
+    background: #fcfcfc !important;
+}
+
+.new-list-container :focus {
+    background: #fcfcfc !important;
 }
 
 .new-list-input-box::placeholder {
     color: #006fd7;
 }
 
-.new-list-left-container {
-    height: 33px;
-}
-
-.new-list-left-container :hover {
-    background: #fcfcfc;
-}
-
-.add-icon-container {
-    display: inline-block;
-    width: 40px;
-}
-
-.note-icon-container {
-    display: inline-block;
+.note-add-icon {
     position: absolute;
     width: 20px;
     right: 20px;
-}
-
-.note-add-icon {
-    margin-left: 4px !important;
-    width: 0px !important;
 }
 
 .left-bottom-container {
@@ -64,19 +44,13 @@
     bottom: 0px;
 }
 
-.left-bottom-icons-container {
-    width: 58px;
-    height: 44px;
-    float: left;
-}
-
 .left-bottom-icons {
-    display: inline-block !important;
     color: #767678;
     font-size: 17px !important;
-    width: 0px !important;
-    margin: 15px 18px !important;
     cursor: pointer;
+    height: 44px;
+    max-width: 24.5px;
+    padding: 17px;
 }
 
 .task-count {
@@ -85,7 +59,7 @@
     color: rgb(97, 97, 97);
 }
 
-.menu-added-items-container {
+.categories-container {
     max-height: 580px;
     overflow: auto;
 }

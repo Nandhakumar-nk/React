@@ -1,15 +1,15 @@
 import React from "react";
 
 interface IBoxedIconProps {
+  divClass: String;
   iconClass: String;
-  iconName: String;
   materialIcon?: String;
 }
 
 export function BoxedIcon(props: IBoxedIconProps) {
   return (
-    <div className={"blue-bg " + (props.iconClass ? props.iconClass : "")}>
-      <i className={"top-right-icons " + props.iconName}>
+    <div className={props.divClass.toString()}>
+      <i className={props.iconClass.toString()}>
         {props.materialIcon ? props.materialIcon : ""}
       </i>
     </div>

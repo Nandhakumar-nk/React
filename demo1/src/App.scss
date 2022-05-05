@@ -98,13 +98,6 @@ li:hover {
     cursor: pointer;
 }
 
-.radio-icon {
-    margin-left: 10px !important;
-    width: 0px !important;
-    margin-right: 23px !important;
-    font-size: 23px !important;
-}
-
 .list-icons {
     color: #767678 !important; //common
     width: 30px !important;
@@ -127,6 +120,12 @@ ul {
 .text-strike {
     text-decoration: line-through;
     color: #616161;
+}
+
+.radio-icon {
+    width: 0px !important;
+    margin-right: 23px !important;
+    font-size: 23px !important;
 }
 
 .blue-icon {

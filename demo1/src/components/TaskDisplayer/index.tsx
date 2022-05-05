@@ -1,9 +1,9 @@
 import React from "react";
-
-import { ShedulingIcons } from "./ShedulingIcons";
-import { ITasksContainerProps, TasksContainer } from "./TasksContainer";
+import { ITasksContainerProps, TasksContainer } from "../TasksContainer";
+import { BoxedIcon } from "../BoxedIcon";
 
 import './styles.scss';
+
 
 export interface ICommonTasksProps {
   markAsImportant: (_id: string, isImportant: boolean) => void;
@@ -95,7 +95,18 @@ class TaskDisplayer extends React.Component<
             onKeyUp={this.addTask}
           />
 
-          {this.props.displayShedulingIcons ? <ShedulingIcons /> : ""}
+          {this.props.displayShedulingIcons ?
+          <div className="add-task-bottom-container">{
+            ["date_range_outlined","notifications_outlined","event_repeat_outlined"].map((icon)=> {
+                return (<BoxedIcon
+                    divClass="sheduling-icons-container grey-red-bg"
+                    iconClass="material-icons middle-bottom-icons"
+                    materialIcon={icon}
+                  />);
+            })
+          }</div>
+
+           : ""}
         </div>
 
         <TasksContainer

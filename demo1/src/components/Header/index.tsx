@@ -1,14 +1,14 @@
 import React from "react";
-import { BoxedIcon } from "./BoxedIcon";
+import { BoxedIcon } from "../BoxedIcon";
 
-import './styles.scss';
+import "./styles.scss";
 
 function Header() {
   return (
     <div className="header-container">
       <BoxedIcon
-        iconClass="top-left-container"
-        iconName="material-icons apps-icon"
+        divClass="top-left-container blue-bg"
+        iconClass="material-icons apps-icon"
         materialIcon="apps"
       />
 
@@ -20,15 +20,21 @@ function Header() {
       </div>
 
       <BoxedIcon
-        iconClass="top-right-container top-right-distance"
-        iconName="fa fa-cog"
+        divClass="top-right-container top-right-distance blue-bg"
+        iconClass="top-right-icons fa fa-cog"
       />
       <BoxedIcon
-        iconClass="top-right-container"
-        iconName="fa fa-question-circle"
+        divClass="top-right-container blue-bg"
+        iconClass="top-right-icons fa fa-question-circle"
       />
-      <BoxedIcon iconClass="top-right-container" iconName="fa fa-bullhorn" />
-      <BoxedIcon iconClass="top-right-container" iconName="fa fa-user" />
+      <BoxedIcon
+        divClass="top-right-container blue-bg"
+        iconClass="top-right-icons fa fa-bullhorn"
+      />
+      <BoxedIcon
+        divClass="top-right-container blue-bg"
+        iconClass="top-right-icons fa fa-user"
+      />
     </div>
   );
 }

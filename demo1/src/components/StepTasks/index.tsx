@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { MenuListItem } from "./MenuListItem";
-import { RightMenuBox } from "./RightMenuBox";
+import { MenuListItem } from "../MenuListItem";
+import { RightMenuBox } from "../RightMenuBox";
+
+
 
 import './styles.scss';
 

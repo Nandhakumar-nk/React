@@ -58,16 +58,17 @@
         align-items: center;
         float: right;
     }
-    .top-right-icons {
-        color: white !important;
-        font-size: 18px !important;
-        width: 15px !important;
-        outline: none;
-    }
 }
 
 .top-left-container {
     width: 48px;
     height: 48px;
     float: left;
+}
+
+.top-right-icons {
+    color: white !important;
+    font-size: 18px !important;
+    width: 15px !important;
+    outline: none;
 }

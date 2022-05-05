@@ -1,6 +1,8 @@
 import React from "react";
 import { BoxedIcon } from "./BoxedIcon";
 
+import './styles.scss';
+
 function Header() {
   return (
     <div className="header-container">

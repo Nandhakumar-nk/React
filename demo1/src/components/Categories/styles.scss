@@ -1,0 +1,91 @@
+.left-menu-container {
+    height: 185px;
+    margin-top: 10px;
+}
+
+.add-icon {
+    font-size: 22px !important;
+    margin-left: 12px !important;
+    margin-top: 5px !important;
+}
+
+.new-list-container {
+    display: flex;
+    position: relative;
+    height: 33px;
+}
+
+.new-list-input-box {
+    position: absolute;
+    margin-top: 2px;
+    height: 26px;
+    border: none;
+    outline: none;
+    background: #f4f4f4;
+}
+
+.new-list-input-box :hover {
+    background: #fcfcfc;
+}
+
+.new-list-input-box::placeholder {
+    color: #006fd7;
+}
+
+.new-list-left-container {
+    height: 33px;
+}
+
+.new-list-left-container :hover {
+    background: #fcfcfc;
+}
+
+.add-icon-container {
+    display: inline-block;
+    width: 40px;
+}
+
+.note-icon-container {
+    display: inline-block;
+    position: absolute;
+    width: 20px;
+    right: 20px;
+}
+
+.note-add-icon {
+    margin-left: 4px !important;
+    width: 0px !important;
+}
+
+.left-bottom-container {
+    border-top: 1px solid #e8e8ee;
+    height: 45px;
+    position: absolute;
+    bottom: 0px;
+}
+
+.left-bottom-icons-container {
+    width: 58px;
+    height: 44px;
+    float: left;
+}
+
+.left-bottom-icons {
+    display: inline-block !important;
+    color: #767678;
+    font-size: 17px !important;
+    width: 0px !important;
+    margin: 15px 18px !important;
+    cursor: pointer;
+}
+
+.task-count {
+    position: absolute;
+    right: 25px;
+    color: rgb(97, 97, 97);
+}
+
+.menu-added-items-container {
+    max-height: 580px;
+    overflow: auto;
+}

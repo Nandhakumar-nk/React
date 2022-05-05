@@ -1,4 +1,6 @@
-function BottomIcons() {
+import React from "react";
+
+export function BottomIcons() {
     const icons = [
       "email_outlined",
       "date_range_outlined",

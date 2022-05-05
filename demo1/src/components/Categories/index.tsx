@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { ITask } from "../StepTasks";
+import { BottomIcons } from "./BottomIcons";
 import {
   DefaultCategories,
   IDefaultCategoriesProps,
@@ -10,6 +11,8 @@ import {
   IDynamicCategoriesProps,
 } from "./DynamicCategories";
 import { INewCategoryAdderProps, NewCategoryAdder } from "./NewCategoryAdder";
+
+import './styles.scss';
 
 export interface ICategory {
   _id: string;
@@ -29,7 +32,7 @@ function Categories(props: ICategoriesProps) {
     <div className="left-container">
       <div className="menu-button-container">
         <div
-          className="menu-inner-container white-bg"
+          className="menu-icon-container white-bg"
           onClick={props.toggleLeftContainer}
         >
           <i className="material-icons menu-icon">menu_outlined</i>

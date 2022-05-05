@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 
-import { ITask } from "../StepTasks";
 import { ShedulingIcons } from "./ShedulingIcons";
 import { ITasksContainerProps, TasksContainer } from "./TasksContainer";
+
+import './styles.scss';
 
 export interface ICommonTasksProps {
   markAsImportant: (_id: string, isImportant: boolean) => void;
@@ -44,11 +45,11 @@ class TaskDisplayer extends React.Component<
 
   render() {
     return (
-      <div className="middle-container-full">
+      <div>
         <div className="my-day-container">
           {!this.props.displayLeftContainer ? (
             <div
-              className="menu-icon-middle white-bg"
+              className="menu-icon-container menu-icon-middle white-bg"
               onClick={this.props.toggleLeftContainer}
             >
               <i className="material-icons menu-icon">menu_outlined</i>

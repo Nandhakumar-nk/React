@@ -1,0 +1,59 @@
+.add-icon {
+    width: 30px;
+    font-size: 22px !important;
+    margin-left: 15px !important;
+}
+
+.new-list-container {
+    display: flex;
+    position: relative;
+    height: 33px;
+    align-items: center;
+}
+
+.new-list-input-box {
+    height: 80%;
+    width: 68%;
+    border: none;
+    outline: none;
+    background: #f4f4f4;
+}
+
+.new-list-container .new-list-input-box:hover {
+    background: #fcfcfc !important;
+}
+
+.new-list-container :focus {
+    background: #fcfcfc !important;
+}
+
+.new-list-input-box::placeholder {
+    color: #006fd7;
+}
+
+.note-add-icon {
+    position: absolute;
+    width: 20px;
+    right: 20px;
+}
+
+.left-bottom-container {
+    border-top: 1px solid #e8e8ee;
+    height: 45px;
+    position: absolute;
+    bottom: 0px;
+}
+
+.left-bottom-icons {
+    color: #767678;
+    font-size: 17px !important;
+    cursor: pointer;
+    height: 44px;
+    max-width: 24.5px;
+    padding: 17px;
+}
+
+.categories-container {
+    max-height: 580px;
+    overflow: auto;
+}

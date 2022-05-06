@@ -1,0 +1,135 @@
+.menu-icon-middle {
+    margin-top: 15px;
+}
+
+.add-icon-middle {
+    color: #767678 !important;
+    font-size: 25px !important;
+    margin-left: 10px !important;
+    margin-top: 15px !important;
+}
+
+.add-icon-container-middle {
+    display: inline-block;
+    width: 40px;
+}
+
+.middle-bottom-icons {
+    display: inline-block !important;
+    color: #767678 !important;
+    font-size: 17px !important;
+    width: 0px !important;
+    margin: 5px !important;
+}
+
+.my-day {
+    font-weight: 500px;
+    font-size: 20px;
+    margin-left: 25px;
+    margin-top: 5px;
+    display: inline-block;
+}
+
+.more-icon {
+    position: absolute;
+    margin-top: 5px !important;
+    margin-left: 10px !important;
+    color: #767678 !important;
+}
+
+.sort-text {
+    color: #3f3f42;
+    margin-top: 14px;
+    margin-left: 1px;
+    font-size: 14px;
+}
+
+.suggestion-text {
+    margin-left: 50px;
+}
+
+.bulb-icon {
+    width: 25px !important;
+    margin-top: 12px !important;
+    margin-left: 30px !important;
+    color: #767678 !important;
+    font-size: 22px !important;
+}
+
+.sort-icon {
+    width: 25px !important;
+    margin-top: 12px !important;
+    color: #767678 !important;
+    font-size: 22px !important;
+}
+
+.date-container {
+    margin-top: 8px;
+    display: block;
+    height: 20px;
+}
+
+.today-date {
+    font-size: 12px;
+    margin-left: 25px;
+    margin-top: 0px;
+    color: #707074;
+}
+
+.my-day-right-container {
+    display: flex;
+    float: right;
+    padding-right: 30px;
+    margin-top: 8px;
+}
+
+.my-day-left-container {
+    display: inline-block;
+    position: relative;
+    margin-top: 14px;
+}
+
+.add-task-bottom-container {
+    margin-top: 14px;
+    margin-left: 30px;
+    position: relative;
+}
+
+.add-task-container {
+    margin-top: 30px;
+    margin-left: 8px;
+    margin-right: 8px;
+    min-height: 60px;
+    background: #f4f4f4;
+    border-radius: 5px;
+    border: 1px solid #e8e8ee;
+    position: relative;
+}
+
+.add-task-input-box {
+    position: absolute;
+    margin-top: 10px;
+    width: 90%;
+    height: 37px;
+    border: none;
+    outline: none;
+    background: #f4f4f4;
+    border-radius: 4px 4px 0px 0px;
+}
+
+.add-task-input-box:focus {
+    background: #fafafa;
+    border-bottom: 1px solid blue;
+}
+
+.add-task-input-box::placeholder {
+    font-size: 14px;
+}
+
+.sheduling-icons-container {
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+    margin: 3px;
+    border-radius: 5px;
+}

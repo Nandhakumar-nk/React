@@ -1,6 +1,6 @@
 import React from "react";
-import { ICategory } from "../Categories";
 
+import { ICategory } from "../Categories";
 
 import "./styles.scss";
 
@@ -10,9 +10,7 @@ export interface ICategoryListItemProps {
 }
 
 export function CategoryListItem(props: ICategoryListItemProps) {
-  const iconColor = props.category.iconName
-    ? ""
-    : "blue-icon";
+  const iconColor = props.category.iconName ? "" : "blue-icon";
   const uncompletedTasks = props.category.tasks.filter(
     (task) => task.isCompleted === false
   );

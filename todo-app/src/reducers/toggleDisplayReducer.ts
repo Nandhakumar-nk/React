@@ -1,15 +1,12 @@
 import { ACTION_TYPES } from "../constants/actionTypes";
-import { IToggleDisplay } from "../actions/toggleDisplay/toggleLeftContainer";
+import { IAppProps } from "../App";
 
 interface IActionType {
   type: string;
-  payload: IToggleDisplay;
+  payload: boolean;
 }
 
-export interface IToggleDisplayState {
-  displayRightContainer: boolean;
-  displayLeftContainer: boolean;
-  rootClass: string;
+export interface IToggleDisplayState extends IAppProps {
   displayShedulingIcons: boolean;
 }
 
@@ -28,21 +25,44 @@ export function toggleDisplayReducer(
     case ACTION_TYPES.TOGGLE_LEFT_CONTAINER:
       return {
         ...state,
-        displayLeftContainer:action.payload.displayType,
-        rootClass: action.payload.rootClass ? action.payload.rootClass : "",
+        displayLeftContainer:action.payload,
+        rootClass: switchRootClass(action.payload, state.displayRightContainer),
       };
       case ACTION_TYPES.TOGGLE_RIGHT_CONTAINER:
       return {
         ...state,
-        displayRightContainer: action.payload.displayType,
-        rootClass:action.payload.rootClass ? action.payload.rootClass : ""
+        displayRightContainer: action.payload,
+        rootClass: switchRootClass(state.displayLeftContainer,action.payload)
+        //rootClass:action.payload.rootClass ? action.payload.rootClass : ""
+      };
+      case ACTION_TYPES.APPLY_DEFAULT_LAYOUT:
+      return {
+        ...state,
+        displayRightContainer: action.payload,
+        displayLeftContainer:action.payload,
+        rootClass: ""
+        //rootClass:action.payload.rootClass ? action.payload.rootClass : ""
       };
       case ACTION_TYPES.TOGGLE_SHEDULING_ICONS:
       return {
         ...state,
-        displayShedulingIcons:action.payload.displayType
+        displayShedulingIcons:action.payload
       };
     default:
       return state;
   }
+}
+
+function switchRootClass(displayLeftContainer:boolean, displayRightContainer:boolean):string {
+  let rootClass = "";
+  if (displayLeftContainer && displayRightContainer) {
+    rootClass = "show-both-containers";
+  } else if (displayLeftContainer && !displayRightContainer) {
+    rootClass = "";
+  } else if (!displayLeftContainer && displayRightContainer) {
+    rootClass = "hide-left-container";
+  } else if (!displayLeftContainer && !displayRightContainer) {
+    rootClass = "hide-both-containers";
+  }
+  return rootClass;
 }

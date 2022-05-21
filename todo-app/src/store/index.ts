@@ -5,7 +5,7 @@ import { IFetchedDatum as IFetchedDatumState } from "../actions/fetchedDatum/cha
 import { initialToggledisplayState, IToggleDisplayState } from "../reducers/toggleDisplayReducer";
 import { initialFetchedDatumState } from "../reducers/fetchedDatumReducer";
 
-interface IState {
+export interface IState {
     fetchedData:IFetchedDatumState;
     toggleDisplay:IToggleDisplayState;
 }

@@ -1,45 +1,58 @@
 import React from "react";
-import { ITasksContainerProps, TasksContainer } from "../TasksContainer";
+
+import { connect } from "react-redux";
+
+import TasksContainer from "../TasksContainer";
 import { BoxedIcon } from "../BoxedIcon";
 
-import './styles.scss';
+import { IState } from "../../store";
+import { toggleLeftContainer } from "../../actions/toggleDisplay/toggleLeftContainer";
+import { toggleShedulingIcons } from "../../actions/toggleDisplay/toggleShedulingIcons";
 
+import "./styles.scss";
 
-export interface ICommonTasksProps {
-  markAsImportant: (_id: string, isImportant: boolean) => void;
-  markAsCompleted: (_id: string, isCompleted: boolean) => void;
-  switchTask: (_id: string) => void;
-}
+interface ITaskDisplayerState {}
 
-interface ITaskDisplayerProps extends ICommonTasksProps, ITasksContainerProps {
+interface ITaskDisplayerProps {
   categoryTitle: string;
-  addTask: (task: string) => void;
   displayLeftContainer: boolean;
-  toggleLeftContainer: () => void;
-  showShedulingIcons: (displayShedulingIcons: boolean) => void;
   displayShedulingIcons: boolean;
-}
-
-interface ITaskDisplayerState {
-  task: string;
+  toggleLeftContainer: (displayLeftContainer: boolean) => any;
+  toggleShedulingIcons: (displayShedulingIcons: boolean) => void;
 }
 
 class TaskDisplayer extends React.Component<
   ITaskDisplayerProps,
   ITaskDisplayerState
 > {
+  inputBox: React.RefObject<HTMLInputElement>;
+
   constructor(props: ITaskDisplayerProps) {
     super(props);
-    this.state = {
-      task: "",
-    };
-    this.addTask = this.addTask.bind(this);
+    this.inputBox = React.createRef();
   }
 
-  addTask(event: React.KeyboardEvent<HTMLInputElement>) {
-    if (event.keyCode === 13 && this.state.task.length > 0) {
-      this.props.addTask(this.state.task);
-      this.setState({ task: "" });
+  async addTask(task: string) {
+    try {
+      // const response = await axios({
+      //   method: "post",
+      //   url: "http://localhost:3030/tasks",
+      //   data: {
+      //     categoryId: this.state.selectedCategoryId,
+      //     task,
+      //   },
+      // });
+      // this.currentTask = response.data;
+      // this.refreshTasks(this.state.selectedCategoryId);
+    } catch (error) {
+      console.log("error ocurred during task posting");
+    }
+  }
+
+  handleSubmit(this: any, event: React.KeyboardEvent<HTMLInputElement>) {
+    if (event.keyCode === 13 && this.inputBox.current.value.length > 0) {
+      this.addTask(this.inputBox.current.value);
+      this.inputBox.current.value = "";
     }
   }
 
@@ -50,7 +63,9 @@ class TaskDisplayer extends React.Component<
           {!this.props.displayLeftContainer ? (
             <div
               className="menu-icon-container menu-icon-middle white-bg"
-              onClick={this.props.toggleLeftContainer}
+              onClick={this.props.toggleLeftContainer(
+                !this.props.displayLeftContainer
+              )}
             >
               <i className="material-icons menu-icon">menu_outlined</i>
             </div>
@@ -88,37 +103,49 @@ class TaskDisplayer extends React.Component<
           <input
             className="add-task-input-box"
             type="text"
-            value={this.state.task}
             placeholder="Add a task"
-            onClick={() => this.props.showShedulingIcons(true)}
-            onChange={(event) => this.setState({ task: event.target.value })}
-            onKeyUp={this.addTask}
+            onClick={() => this.props.toggleShedulingIcons(true)}
+            onKeyUp={this.handleSubmit}
           />
 
-          {this.props.displayShedulingIcons ?
-          <div className="add-task-bottom-container">{
-            ["date_range_outlined","notifications_outlined","event_repeat_outlined"].map((icon)=> {
-                return (<BoxedIcon
+          {this.props.displayShedulingIcons ? (
+            <div className="add-task-bottom-container">
+              {[
+                "date_range_outlined",
+                "notifications_outlined",
+                "event_repeat_outlined",
+              ].map((icon) => {
+                return (
+                  <BoxedIcon
                     divClass="sheduling-icons-container grey-red-bg"
                     iconClass="material-icons middle-bottom-icons"
                     materialIcon={icon}
-                  />);
-            })
-          }</div>
-
-           : ""}
+                  />
+                );
+              })}
+            </div>
+          ) : (
+            ""
+          )}
         </div>
 
-        <TasksContainer
-          tasks={this.props.tasks}
-          completedTasks={this.props.completedTasks}
-          markAsImportant={this.props.markAsImportant}
-          markAsCompleted={this.props.markAsCompleted}
-          switchTask={this.props.switchTask}
-        />
+        <TasksContainer />
       </div>
     );
   }
 }
 
-export default TaskDisplayer;
+const mapStateToProps = (state: IState) => ({
+  categoryTitle: state.fetchedData.categoryTitle,
+  displayLeftContainer: state.toggleDisplay.displayLeftContainer,
+  displayShedulingIcons: state.toggleDisplay.displayShedulingIcons,
+});
+
+const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
+  toggleLeftContainer: (displayLeftContainer: boolean) =>
+    dispatch(toggleLeftContainer(displayLeftContainer)),
+  toggleShedulingIcons: (displayShedulingIcons: boolean) =>
+    dispatch(toggleShedulingIcons(displayShedulingIcons)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(TaskDisplayer);

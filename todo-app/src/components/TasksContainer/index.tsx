@@ -1,77 +1,101 @@
-import React, { useState } from "react";
-import { ICommonTasksProps } from "../TaskDisplayer";
-import { ITask } from "../StepTasks";
-import { TaskElement } from "../TaskElement";
+import React from "react";
 
+import { connect } from "react-redux";
+
+import { TaskElement } from "../TaskElement";
+import { ITask } from "../StepTasks";
+
+import { IState } from "../../store";
 
 import "./styles.scss";
 
+interface ITasksContainerState {
+  completedTasksDisplay: boolean;
+}
 
-export interface ITasksContainerProps extends ICommonTasksProps {
+interface ITasksContainerProps {
   tasks: ITask[];
   completedTasks: ITask[];
 }
 
-export function TasksContainer(props: ITasksContainerProps) {
-  const [shouldDisplay, toggleDisplay] = useState(true);
-  let completedTasksCount = 0;
-  const elements = [];
-  let reversedIndex = props.tasks.length - 1;
-
-  for (; reversedIndex >= 0; reversedIndex--) {
-    elements.push(
-      <TaskElement
-        task={props.tasks[reversedIndex]}
-        markAsImportant={props.markAsImportant}
-        markAsCompleted={props.markAsCompleted}
-        switchTask={props.switchTask}
-        key={props.tasks[reversedIndex]._id}
-      />
-    );
+class TasksContainer extends React.Component<
+  ITasksContainerProps,
+  ITasksContainerState
+> {
+  constructor(props: ITasksContainerProps) {
+    super(props);
+    this.state = { completedTasksDisplay: true };
+    this.toggleDisplay = this.toggleDisplay.bind(this);
   }
 
-  if (props.completedTasks.length > 0) {
-    reversedIndex = props.completedTasks.length - 1;
-    elements.push(
-      <div className="empty-task" key="completedTitle">
-        <i
-          className={
-            (shouldDisplay ? "fa fa-angle-down" : "fa fa-angle-right") +
-            " dropdown-icon"
-          }
-          onClick={() => toggleDisplay(!shouldDisplay)}
-        ></i>
-        <span className="completed-heading">Completed</span>
-        <span className="completed-count">{props.completedTasks.length}</span>
-      </div>
-    );
-    completedTasksCount = 1;
+  toggleDisplay() {
+    this.setState({ completedTasksDisplay: !this.state.completedTasksDisplay });
+  }
 
-    if (shouldDisplay) {
-      for (; reversedIndex >= 0; reversedIndex--) {
-        elements.push(
-          <TaskElement
-            task={props.completedTasks[reversedIndex]}
-            markAsImportant={props.markAsImportant}
-            markAsCompleted={props.markAsCompleted}
-            switchTask={props.switchTask}
-            key={props.completedTasks[reversedIndex]._id}
-          />
-        );
-      }
-      completedTasksCount += props.completedTasks.length;
+  render() {
+    let completedTasksCount = 0;
+    const elements = [];
+    let reversedIndex = this.props.tasks.length - 1;
+
+    for (; reversedIndex >= 0; reversedIndex--) {
+      elements.push(
+        <TaskElement
+          task={this.props.tasks[reversedIndex]}
+          key={this.props.tasks[reversedIndex]._id}
+        />
+      );
     }
-  }
 
-  for (
-    let tasksLength = props.tasks.length + completedTasksCount;
-    tasksLength < 9;
-    tasksLength++
-  ) {
-    elements.push(
-      <div className="empty-task" key={tasksLength.toString()}></div>
-    );
-  }
+    if (this.props.completedTasks.length > 0) {
+      reversedIndex = this.props.completedTasks.length - 1;
+      elements.push(
+        <div className="empty-task" key="completedTitle">
+          <i
+            className={
+              (this.state.completedTasksDisplay
+                ? "fa fa-angle-down"
+                : "fa fa-angle-right") + " dropdown-icon"
+            }
+            onClick={this.toggleDisplay}
+          ></i>
+          <span className="completed-heading">Completed</span>
+          <span className="completed-count">
+            {this.props.completedTasks.length}
+          </span>
+        </div>
+      );
+      completedTasksCount = 1;
 
-  return <div className="tasks-container">{elements}</div>;
+      if (this.state.completedTasksDisplay) {
+        for (; reversedIndex >= 0; reversedIndex--) {
+          elements.push(
+            <TaskElement
+              task={this.props.completedTasks[reversedIndex]}
+              key={this.props.completedTasks[reversedIndex]._id}
+            />
+          );
+        }
+        completedTasksCount += this.props.completedTasks.length;
+      }
+    }
+
+    for (
+      let tasksLength = this.props.tasks.length + completedTasksCount;
+      tasksLength < 9;
+      tasksLength++
+    ) {
+      elements.push(
+        <div className="empty-task" key={tasksLength.toString()}></div>
+      );
+    }
+
+    return <div className="tasks-container">{elements}</div>;
+  }
 }
+
+const mapStateToProps = (state: IState) => ({
+  tasks: state.fetchedData.tasks,
+  completedTasks: state.fetchedData.completedTasks,
+});
+
+export default connect(mapStateToProps)(TasksContainer);

@@ -12,7 +12,7 @@ export interface IFetchedDatum {
   currentTask: ITask;
 }
 
-export function changeFetchedDatum(fetchedDatum: IFetchedDatum[]) {
+export function changeFetchedDatum(fetchedDatum: IFetchedDatum) {
   return {
     type: ACTION_TYPES.FETCHED_DATA,
     payload: fetchedDatum,

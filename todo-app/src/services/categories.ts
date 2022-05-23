@@ -1,15 +1,11 @@
 import axios from "axios";
 
 export class CategoriesService {
-  static post = (categoryName: string) =>
+  static post = (data:any) =>
     axios({
       method: "post",
       url: `${process.env.API_URL}categories`,
-      data: {
-        title: categoryName,
-        isCompleted: false,
-        isImportant: false,
-      },
+      data,
     });
 
   static get = (id: string = "") =>

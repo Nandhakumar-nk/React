@@ -25,10 +25,10 @@ class TasksContainer extends React.Component<
   constructor(props: ITasksContainerProps) {
     super(props);
     this.state = { completedTasksDisplay: true };
-    this.toggleDisplay = this.toggleDisplay.bind(this);
+    this.toggleCompletedTasks = this.toggleCompletedTasks.bind(this);
   }
 
-  toggleDisplay() {
+  toggleCompletedTasks() {
     this.setState({ completedTasksDisplay: !this.state.completedTasksDisplay });
   }
 
@@ -56,7 +56,7 @@ class TasksContainer extends React.Component<
                 ? "fa fa-angle-down"
                 : "fa fa-angle-right") + " dropdown-icon"
             }
-            onClick={this.toggleDisplay}
+            onClick={this.toggleCompletedTasks}
           ></i>
           <span className="completed-heading">Completed</span>
           <span className="completed-count">

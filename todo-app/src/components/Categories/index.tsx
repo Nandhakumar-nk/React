@@ -7,13 +7,6 @@ import { CategoryListItem } from "../CategoryListItem";
 import { ITask } from "../StepTasks";
 
 import { IState } from "../../store";
-import {
-  changeFetchedDatum,
-  IFetchedDatum,
-} from "../../actions/fetchedDatum/changeFetchedDatum";
-import { toggleLeftContainer } from "../../actions/toggleDisplay/toggleLeftContainer";
-import { toggleRightContainer } from "../../actions/toggleDisplay/toggleRightContainer";
-import { toggleShedulingIcons } from "../../actions/toggleDisplay/toggleShedulingIcons";
 
 import "./styles.scss";
 
@@ -31,7 +24,6 @@ interface ICategoriesProps {
   categories: ICategory[];
   importantTasks: ITask[];
   displayLeftContainer: boolean;
-  changeFetchedDatum: (fetchedDatum: IFetchedDatum) => any;
   toggleRightContainer: (displayRightContainer: boolean) => any;
   toggleLeftContainer: (displayLeftContainer: boolean) => any;
   toggleShedulingIcons: (displayShedulingIcons: boolean) => any;
@@ -259,20 +251,20 @@ class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
 }
 
 const mapStateToProps = (state: IState) => ({
-  categories: state.fetchedData.categories,
-  importantTasks: state.fetchedData.importantTasks,
-  displayLeftContainer: state.toggleDisplay.displayRightContainer,
+  categories: state.categories,
+  importantTasks: state.importantTasks,
+  displayLeftContainer: state.displayRightContainer,
 });
 
 const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
-  changeFetchedDatum: (fetchedDatum: IFetchedDatum) =>
-    dispatch(changeFetchedDatum(fetchedDatum)),
-  toggleRightContainer: (displayRightContainer: boolean) =>
-    dispatch(toggleRightContainer(displayRightContainer)),
-  toggleLeftContainer: (displayLeftContainer: boolean) =>
-    dispatch(toggleLeftContainer(displayLeftContainer)),
-  toggleShedulingIcons: (displayShedulingIcons: boolean) =>
-    dispatch(toggleShedulingIcons(displayShedulingIcons)),
+  // changeFetchedDatum: (fetchedDatum: IFetchedDatum) =>
+  //   dispatch(changeFetchedDatum(fetchedDatum)),
+  // toggleRightContainer: (displayRightContainer: boolean) =>
+  //   dispatch(toggleRightContainer(displayRightContainer)),
+  // toggleLeftContainer: (displayLeftContainer: boolean) =>
+  //   dispatch(toggleLeftContainer(displayLeftContainer)),
+  // toggleShedulingIcons: (displayShedulingIcons: boolean) =>
+  //   dispatch(toggleShedulingIcons(displayShedulingIcons)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Categories);

@@ -2,26 +2,48 @@ import { applyMiddleware, createStore } from "redux";
 
 import createSagaMiddleware from "redux-saga";
 
-import rootReducer from "../reducers";
-import { IFetchedDatum as IFetchedDatumState } from "../actions/fetchedDatum/changeFetchedDatum";
-import { initialToggledisplayState, IToggleDisplayState } from "../reducers/toggleDisplayReducer";
-import { initialFetchedDatumState } from "../reducers/fetchedDatumReducer";
+import { rootReducer } from "../reducers";
 import { rootSaga } from "../sagas";
+import { ICategory } from "../components/Categories";
+import { ITask } from "../components/StepTasks";
 
 export interface IState {
-    fetchedData:IFetchedDatumState;
-    toggleDisplay:IToggleDisplayState;
+  categoryTitle: string;
+  selectedCategoryId: string;
+  tasks: ITask[];
+  completedTasks: ITask[];
+  categories: ICategory[];
+  importantTasks: ITask[];
+  currentTask: ITask;
+  displayRightContainer: boolean;
+  displayLeftContainer: boolean;
+  rootClass: string;
+  displayShedulingIcons: boolean;
 }
 
-const initialState: IState = {
-    fetchedData: initialFetchedDatumState,
-    toggleDisplay: initialToggledisplayState
-}
+export const initialState: IState = {
+  categoryTitle: "My Day",
+  selectedCategoryId: "0",
+  tasks: [],
+  completedTasks: [],
+  categories: [],
+  importantTasks: [],
+  currentTask: {
+    _id: "0",
+    task: "",
+    stepTasks: [],
+    isCompleted: false,
+    isImportant: false,
+  },
+  displayRightContainer: false,
+  displayLeftContainer: true,
+  rootClass: "",
+  displayShedulingIcons: false,
+};
 const sagaMiddleware = createSagaMiddleware();
 
-function configureStore(state:IState = initialState) {
-  return createStore(rootReducer, state, applyMiddleware(sagaMiddleware)
-  );
+function configureStore(state: IState = initialState) {
+  return createStore(rootReducer, state, applyMiddleware(sagaMiddleware));
 }
 
 sagaMiddleware.run(rootSaga);

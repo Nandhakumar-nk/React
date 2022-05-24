@@ -94,8 +94,8 @@ class TasksContainer extends React.Component<
 }
 
 const mapStateToProps = (state: IState) => ({
-  tasks: state.fetchedData.tasks,
-  completedTasks: state.fetchedData.completedTasks,
+  tasks: state.tasks,
+  completedTasks: state.completedTasks,
 });
 
 export default connect(mapStateToProps)(TasksContainer);

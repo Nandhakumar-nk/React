@@ -136,9 +136,9 @@ class TaskDisplayer extends React.Component<
 }
 
 const mapStateToProps = (state: IState) => ({
-  categoryTitle: state.fetchedData.categoryTitle,
-  displayLeftContainer: state.toggleDisplay.displayLeftContainer,
-  displayShedulingIcons: state.toggleDisplay.displayShedulingIcons,
+  categoryTitle: state.categoryTitle,
+  displayLeftContainer: state.displayLeftContainer,
+  displayShedulingIcons: state.displayShedulingIcons,
 });
 
 const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({

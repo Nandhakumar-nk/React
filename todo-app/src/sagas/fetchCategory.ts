@@ -1,16 +1,16 @@
 import { AxiosResponse } from "axios";
-import { call, put } from "redux-saga/effects";
+import { call, put, select } from "redux-saga/effects";
 
 import { ACTION_TYPES } from "../constants/actionTypes";
 import { ITask } from "../components/StepTasks";
 import { CategoriesService } from "../services/categories";
 
-export function* addCategory(action: any) {
-  let payload = {};
+export function* fetchCategory(action: any) {
+  let payload:any;
   try {
     const response: AxiosResponse = yield call(
-      CategoriesService.post,
-      action.payload
+      CategoriesService.get,
+      action.payload.categoryId
     );
 
     payload = {
@@ -23,9 +23,12 @@ export function* addCategory(action: any) {
         (task: ITask) => task.isCompleted === true
       ),
     };
+
+    if(action.payload.data) payload.currentTask = action.payload.data;
     yield put({ type: ACTION_TYPES.GET_RECENT_DATA, payload });
   } catch (error) {
-    console.log("error ocurred inside addCatgeory generator function");
+    console.log("error ocurred inside fetchCategory generator function");
+    payload={};
     yield put({ type: ACTION_TYPES.OPERATION_FAILED, payload });
   }
 }

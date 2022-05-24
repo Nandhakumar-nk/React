@@ -5,7 +5,7 @@ export function stepTaskCompletedClicked(stepTaskId: string, isCompleted: boolea
     type: ACTION_TYPES.STEPTASK_COMPLETED_CLICKED,
     payload: {
       stepTaskId,
-      isCompleted,
+      data:{isCompleted}
     },
   };
 }

@@ -43,9 +43,9 @@ class App extends React.Component<IAppProps, IAppState> {
 }
 
 const mapStateToProps = (state: IState): IAppProps => ({
-  displayRightContainer: state.toggleDisplay.displayRightContainer,
-  displayLeftContainer: state.toggleDisplay.displayRightContainer,
-  rootClass: state.toggleDisplay.rootClass,
+  displayRightContainer: state.displayRightContainer,
+  displayLeftContainer: state.displayRightContainer,
+  rootClass: state.rootClass,
 });
 
 export default connect(mapStateToProps)(App);

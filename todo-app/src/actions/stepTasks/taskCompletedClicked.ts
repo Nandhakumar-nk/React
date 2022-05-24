@@ -5,7 +5,7 @@ export function taskCompletedClicked(taskId:string, isCompleted: boolean) {
     type: ACTION_TYPES.TASK_COMPLETED_CLICKED,
     payload: {
       taskId,
-      isCompleted,
+      data: {isCompleted}
     },
   };
 }

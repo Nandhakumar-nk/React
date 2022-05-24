@@ -239,7 +239,7 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
 }
 
 const mapStateToProps = (state: IState) => ({
-  currentTask: state.fetchedData.currentTask,
+  currentTask: state.currentTask,
 });
 
 const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({

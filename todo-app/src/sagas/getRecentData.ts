@@ -5,6 +5,7 @@ import { CategoriesService } from "../services/categories";
 import { TasksService } from "../services/tasks";
 
 export function* getRecentData(action: any): any {
+  console.log("getRecentData generator function execution");
   try {
     const [categoriesResponse, importantTasksResponse] = yield [
       call(CategoriesService.get),

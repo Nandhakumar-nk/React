@@ -7,12 +7,9 @@ import configureStore from "./store";
 import App from "./App";
 import "./App.scss";
 
-
-
 ReactDOM.render(
-    <Provider store={configureStore()}>
-      <App />
-    </Provider>,
-    document.getElementById("root")
-  );
-  
+  <Provider store={configureStore()}>
+    <App />
+  </Provider>,
+  document.getElementById("root")
+);

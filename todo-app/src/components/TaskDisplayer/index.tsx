@@ -39,12 +39,14 @@ class TaskDisplayer extends React.Component<
 
   handleSubmit(this: any, event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.keyCode === 13 && this.state.task.length > 0) {
-      this.props.taskAdded(this.state.task);
-      this.setState({task:""})
+      console.log("task submitted:"+this.state.task);
+      this.props.taskAdded(this.props.selectedCategoryId, this.state.task);
+      this.setState({task:""});
     }
   }
 
   handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    console.log("task:"+this.state.task);
     this.setState({task:event.target.value});
   }
 
@@ -105,12 +107,13 @@ class TaskDisplayer extends React.Component<
                 "date_range_outlined",
                 "notifications_outlined",
                 "event_repeat_outlined",
-              ].map((icon) => {
+              ].map((icon, index) => {
                 return (
                   <BoxedIcon
                     divClass="sheduling-icons-container grey-red-bg"
                     iconClass="material-icons middle-bottom-icons"
                     materialIcon={icon}
+                    key={index}
                   />
                 );
               })}
@@ -123,6 +126,14 @@ class TaskDisplayer extends React.Component<
         <TasksContainer />
       </div>
     );
+  }
+
+  componentDidMount() {
+    console.log("\ncomponentDidMount() lifecycle - TaskDisplayer");
+    console.log("categoryTitle:" + this.props.categoryTitle);
+    console.log("selectedCategoryId:" + this.props.selectedCategoryId);
+    console.log("displayLeftContainer:" + this.props.displayLeftContainer);
+    console.log("displayShedulingIcons:" + this.props.displayShedulingIcons);
   }
 }
 

@@ -6,12 +6,17 @@ import { ITask } from "../components/StepTasks";
 import { CategoriesService } from "../services/categories";
 
 export function* addCategory(action: any) {
+  console.log("addCategory generator function execution");
   let payload = {};
+
   try {
     const response: AxiosResponse = yield call(
       CategoriesService.post,
       action.payload
     );
+    
+    console.log("response:");
+    console.log(response);
 
     payload = {
       categoryTitle: response.data.title,
@@ -25,7 +30,7 @@ export function* addCategory(action: any) {
     };
     yield put({ type: ACTION_TYPES.GET_RECENT_DATA, payload });
   } catch (error) {
-    console.log("error ocurred inside addCatgeory generator function");
+    console.log("error ocurred inside addCategory generator function");
     yield put({ type: ACTION_TYPES.OPERATION_FAILED, payload });
   }
 }

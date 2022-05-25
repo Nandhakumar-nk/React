@@ -22,7 +22,9 @@ export interface ICategory {
   textColor?: string;
 }
 
-interface ICategoriesState {}
+interface ICategoriesState {
+  category:string;
+}
 
 interface ICategoriesProps {
   categories: ICategory[];
@@ -74,7 +76,6 @@ function getDefaultCategories(importantTasks: ITask[]) {
 }
 
 class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
-  inputBox: React.RefObject<HTMLInputElement>;
   bottomIcons = [
     "email_outlined",
     "date_range_outlined",
@@ -85,14 +86,22 @@ class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
 
   constructor(props: ICategoriesProps) {
     super(props);
-    this.inputBox = React.createRef();
+    this.state = {category:""};
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(this: any, event: React.KeyboardEvent<HTMLInputElement>) {
-    if (event.keyCode === 13 && this.inputBox.current.value.length > 0) {
-      this.props.categoryAdded(this.inputBox.current.value);
-      this.inputBox.current.value = "";
+  handleSubmit(event: React.KeyboardEvent<HTMLInputElement>) {
+    if (event.keyCode === 13 && this.state.category.length > 0) {
+      console.log("category submitted:"+this.state.category);
+      this.props.categoryAdded(this.state.category);
+      this.setState({category:""});
     }
+  }
+
+  handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    console.log("category:"+this.state.category);
+    this.setState({category:event.target.value});
   }
 
   render() {
@@ -139,9 +148,9 @@ class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
             className="new-list-input-box new-list"
             type="text"
             placeholder="New List"
+            onChange={this.handleChange}
             onClick={() => this.props.inputBoxFocused(false)}
             onKeyUp={this.handleSubmit}
-            ref={this.inputBox}
           />
           <i className="material-icons add-icon blue-icon note-add-icon">
             note_add_outlined
@@ -162,6 +171,14 @@ class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
         </div>
       </div>
     );
+  }
+
+  componentDidMount() {
+    console.log("\ncomponentDidMount() lifecycle - Categories");
+    console.log("categories:");
+    console.log(this.props.categories);
+    console.log("importantTasks:" + this.props.importantTasks);
+    console.log(this.props.importantTasks);
   }
 
 }

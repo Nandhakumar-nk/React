@@ -82,6 +82,10 @@ class TaskElement extends React.Component<
       </div>
     );
   }
+
+  componentDidMount() {
+    console.log("\ncomponentDidMount() lifecycle - TaskElement");
+  }
 }
 
 const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({

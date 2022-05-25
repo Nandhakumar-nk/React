@@ -1,19 +1,18 @@
 import React from "react";
 
 import { connect } from "react-redux";
-import axios from "axios";
 
 import { MenuListItem } from "../MenuListItem";
 import { RightMenuBox } from "../RightMenuBox";
 
 import { IState } from "../../store";
+import { ACTION_TYPES } from "../../constants/actionTypes";
 import { stepTaskAdded } from "../../actions/stepTasks/stepTaskAdded";
 import { taskImportantClicked } from "../../actions/stepTasks/taskImportantClicked";
 import { taskCompletedClicked } from "../../actions/stepTasks/taskCompletedClicked";
 import { stepTaskCompletedClicked } from "../../actions/stepTasks/stepTaskCompletedClicked";
 
 import "./styles.scss";
-import { ACTION_TYPES } from "../../constants/actionTypes";
 
 interface IStepTask {
   _id: string;
@@ -29,7 +28,9 @@ export interface ITask {
   isImportant: boolean;
 }
 
-interface IStepTasksState {}
+interface IStepTasksState {
+  stepTask: string;
+}
 
 interface IStepTasksProps {
   currentTask: ITask;
@@ -41,18 +42,24 @@ interface IStepTasksProps {
 }
 
 class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
-  inputBox: React.RefObject<HTMLInputElement>;
-
   constructor(props: IStepTasksProps) {
     super(props);
-    this.inputBox = React.createRef();
+    this.state = { stepTask: "" };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(this: any, event: React.KeyboardEvent<HTMLInputElement>) {
-    if (event.keyCode === 13 && this.inputBox.current.value.length > 0) {
-      this.props.stepTaskAdded(this.inputBox.current.value);
-      this.inputBox.current.value = "";
+  handleSubmit(event: React.KeyboardEvent<HTMLInputElement>) {
+    if (event.keyCode === 13 && this.state.stepTask.length > 0) {
+      console.log("stepTask submitted:" + this.state.stepTask);
+      this.props.stepTaskAdded(this.props.currentTask._id, this.state.stepTask);
+      this.setState({ stepTask: "" });
     }
+  }
+
+  handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    console.log("stepTask:" + this.state.stepTask);
+    this.setState({ stepTask: event.target.value });
   }
 
   render() {
@@ -122,8 +129,8 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
                 className="step-task-input-box new-list"
                 type="text"
                 placeholder="Add Step"
+                onChange={this.handleChange}
                 onKeyUp={this.handleSubmit}
-                ref={this.inputBox}
               />
             </li>
           </ul>
@@ -173,6 +180,12 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
         </div>
       </div>
     );
+  }
+
+  componentDidMount() {
+    console.log("\ncomponentDidMount() lifecycle - StepTasks");
+    console.log("currentTask:");
+    console.log(this.props.currentTask);
   }
 }
 

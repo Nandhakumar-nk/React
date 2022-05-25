@@ -5,7 +5,9 @@ import { ACTION_TYPES } from "../constants/actionTypes";
 import { StepTasksService } from "../services/stepTasks";
 
 export function* patchStepTask(action: any): any {
+  console.log("patchStepTask generator function execution");
   let payload = {};
+
   try {
     const response: AxiosResponse = yield call(
       StepTasksService.patch,

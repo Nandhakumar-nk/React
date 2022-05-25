@@ -5,7 +5,9 @@ import { ACTION_TYPES } from "../constants/actionTypes";
 import { TasksService } from "../services/tasks";
 
 export function* fetchTask(action: any):any {
+  console.log("fetchTask generator function execution");
   let payload = {};
+
   try {
     const response: AxiosResponse = yield call(
       TasksService.get,

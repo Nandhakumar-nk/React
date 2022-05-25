@@ -25,7 +25,7 @@ class App extends React.Component<IAppProps, IAppState> {
       <div className={"root-container " + this.props.rootClass}>
         <Header />
 
-        {this.props.displayLeftContainer ? <Categories /> : ""}
+        {true ? <Categories /> : ""}
 
         <TaskDisplayer />
 
@@ -34,12 +34,12 @@ class App extends React.Component<IAppProps, IAppState> {
     );
   }
 
-  async componentDidMount() {
-    console.log("\ncomponentDidMount() lifecycle - parent");
+  componentDidMount() {
+    console.log("\ncomponentDidMount() lifecycle - App");
     //this.props.defaultCategoryClicked("My Day");
-    console.log("displayLeftContainer" + this.props.displayLeftContainer);
-    console.log("displayRightContainer" + this.props.displayRightContainer);
-    console.log("rootClass" + this.props.rootClass);
+    console.log("displayLeftContainer:" + this.props.displayLeftContainer);
+    console.log("displayRightContainer:" + this.props.displayRightContainer);
+    console.log("rootClass:" + this.props.rootClass);
   }
 }
 

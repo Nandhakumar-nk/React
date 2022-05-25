@@ -91,6 +91,14 @@ class TasksContainer extends React.Component<
 
     return <div className="tasks-container">{elements}</div>;
   }
+
+  componentDidMount() {
+    console.log("\ncomponentDidMount() lifecycle - TasksContainer");
+    console.log("tasks:");
+    console.log(this.props.tasks);
+    console.log("completedTasks:");
+    console.log(this.props.completedTasks);
+  }
 }
 
 const mapStateToProps = (state: IState) => ({

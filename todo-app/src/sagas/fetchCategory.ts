@@ -6,7 +6,9 @@ import { ITask } from "../components/StepTasks";
 import { CategoriesService } from "../services/categories";
 
 export function* fetchCategory(action: any) {
+  console.log("fetchCategory generator function execution");
   let payload:any;
+
   try {
     const response: AxiosResponse = yield call(
       CategoriesService.get,

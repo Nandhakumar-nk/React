@@ -1,6 +1,8 @@
 import { ACTION_TYPES } from "../../constants/actionTypes";
 
 export function defaultCategoryClicked(categoryTitle: String) {
+  console.log("defaultCategoryClicked action creator execution");
+
   return {
     type: ACTION_TYPES.DEFAULT_CATEGORY_CLICKED,
     payload: {

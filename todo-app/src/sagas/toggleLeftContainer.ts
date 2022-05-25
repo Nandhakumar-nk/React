@@ -4,6 +4,7 @@ import { ACTION_TYPES } from "../constants/actionTypes";
 import { switchRootClass } from "../helpers/switchRootClass";
 
 export function* toggleLeftContainer(action: any): any {
+  console.log("toggleLeftContainer generator function execution");
   try {
     const displayRightContainer = yield select(
       (state) => state.displayRightContainer

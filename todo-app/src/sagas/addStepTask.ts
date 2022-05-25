@@ -1,20 +1,17 @@
-import { AxiosResponse } from "axios";
-import { call, put, select } from "redux-saga/effects";
+import { call, put} from "redux-saga/effects";
 
 import { ACTION_TYPES } from "../constants/actionTypes";
-import { ITask } from "../components/StepTasks";
-import { CategoriesService } from "../services/categories";
 import { StepTasksService } from "../services/stepTasks";
 
 export function* addStepTask(action: any) {
   let payload = {};
   try {
-    yield call(
-      StepTasksService.post,
-      action.payload
-    );
+    yield call(StepTasksService.post, action.payload);
 
-    yield put({ type: ACTION_TYPES.FETCH_TASK, payload:{taskId:action.payload.taskId }});
+    yield put({
+      type: ACTION_TYPES.FETCH_TASK,
+      payload: { taskId: action.payload.taskId },
+    });
   } catch (error) {
     console.log("error ocurred inside addCategory generator function");
     yield put({ type: ACTION_TYPES.OPERATION_FAILED, payload });

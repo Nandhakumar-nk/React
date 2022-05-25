@@ -12,8 +12,14 @@ export function rootReducer(state: IState = initialState, action: any): IState {
       case ACTION_TYPES.MENU_BUTTON_CLICKED:
       return {
         ...state,
-        displayLeftContainer: action.payload.displayLeftContainer,
-        rootClass:switchRootClass(action.payload.displayLeftContainer, state.displayRightContainer)
+        displayLeftContainer: !state.displayLeftContainer,
+        rootClass:switchRootClass(!state.displayLeftContainer, state.displayRightContainer)
+      };
+      case ACTION_TYPES.HIDE_ICON_CLICKED:
+      return {
+        ...state,
+        displayRightContainer: false,
+        rootClass:switchRootClass(state.displayLeftContainer, false)
       };
       case ACTION_TYPES.INPUTBOX_FOCUSED:
         return {

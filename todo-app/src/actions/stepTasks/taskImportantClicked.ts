@@ -5,7 +5,7 @@ export function taskImportantClicked(taskId:string, isImportant: boolean) {
     type: ACTION_TYPES.TASK_IMPORTANT_CLICKED,
     payload: {
       taskId,
-      isImportant,
+      data:{isImportant}
     },
   };
 }

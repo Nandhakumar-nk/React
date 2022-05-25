@@ -1,12 +1,16 @@
 import React from "react";
 
 import { connect } from "react-redux";
-import axios from "axios";
 
 import { CategoryListItem } from "../CategoryListItem";
 import { ITask } from "../StepTasks";
 
 import { IState } from "../../store";
+import { ACTION_TYPES } from "../../constants/actionTypes";
+import { categoryAdded } from "../../actions/categories/categoryAdded";
+import { defaultCategoryClicked } from "../../actions/categories/defaultCategoryClicked";
+import { dynamicCategoryClicked } from "../../actions/categories/dynamicCategoryClicked";
+import { inputBoxFocused } from "../../actions/categories/inputBoxFocused";
 
 import "./styles.scss";
 
@@ -23,10 +27,11 @@ interface ICategoriesState {}
 interface ICategoriesProps {
   categories: ICategory[];
   importantTasks: ITask[];
-  displayLeftContainer: boolean;
-  toggleRightContainer: (displayRightContainer: boolean) => any;
-  toggleLeftContainer: (displayLeftContainer: boolean) => any;
-  toggleShedulingIcons: (displayShedulingIcons: boolean) => any;
+  categoryAdded: (categoryName: string) => void;
+  defaultCategoryClicked: (categoryTitle: string) => void;
+  dynamicCategoryClicked: (categoryId: string) => void;
+  inputBoxFocused: (displayShedulingIcons: boolean) => void;
+  menuButtonClicked: () => void;
 }
 
 function getDefaultCategories(importantTasks: ITask[]) {
@@ -83,88 +88,11 @@ class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
     this.inputBox = React.createRef();
   }
 
-  async addCategory(categoryName: string) {
-    try {
-      const response = await axios({
-        method: "post",
-        url: "http://localhost:3030/categories",
-        data: {
-          title: categoryName,
-          isCompleted: false,
-          isImportant: false,
-        },
-      });
-      this.props.toggleRightContainer(false);
-      //this.props.state.currentCategory = response.data; category fetched
-      //refreshCatgeories()
-    } catch (error) {
-      console.log("error ocurred during category posting");
-    }
-  }
-
   handleSubmit(this: any, event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.keyCode === 13 && this.inputBox.current.value.length > 0) {
-      this.props.addCategory(this.inputBox.current.value);
+      this.props.categoryAdded(this.inputBox.current.value);
       this.inputBox.current.value = "";
     }
-  }
-
-  switchTab(categoryTitle: string) {
-    if (categoryTitle != "Important") {
-      // this.props.changeFetchedDatum({
-      //   ...this.props.state,
-      //   tasks: [],
-      //   completedTasks: [],
-      //   currentTask: {
-      //     _id: "0",
-      //     task: "",
-      //     stepTasks: [],
-      //     isCompleted: false,
-      //     isImportant: false,
-      //   },
-      // });                                 //no api call, default category
-      this.props.toggleRightContainer(false);
-    } else {
-      this.props.toggleRightContainer(false);
-      // this.props.state.currentCategory = {
-      //   _id: "Important",
-      //   title: "Important",
-      //   tasks: [],                          _id= ?imporatantTasks=true, title = important
-      // };
-
-      //refesh call(all catgeories + importantTasks)
-      // refreshCategories(this.props.state)
-      //   .then((newState: IFetchedDatum) => {
-      //     this.props.changeFetchedDatum(newState);
-      //   })
-      //   .catch((error) => {
-      //     console.log("Error occured during important tasks fetching");
-      //   });
-    }
-  }
-
-  switchCategory(categoryId: string) {
-    // axios
-    //   .get("http://localhost:3030/categories/" + categoryId)
-    //   .then((response) => {
-    //     this.props.state.currentTask = {
-    //       _id: "0",
-    //       task: "",
-    //       stepTasks: [],
-    //       isCompleted: false,
-    //       isImportant: false,
-    //     }.catch((error) => {
-    //     console.log("error ocurred during categories fetching");
-    //   });;                                                         //fetchCategory
-
-    this.props.toggleRightContainer(false);
-    // //refreshCategories(this.props.state)
-    //   .then((newState: IFetchedDatum) => {
-    //     this.props.changeFetchedDatum(newState);
-    //   })
-    //   .catch((error) => {
-    //     console.log("Error occured during important tasks fetching");
-    //   });
   }
 
   render() {
@@ -173,9 +101,7 @@ class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
         <div className="menu-button-container">
           <div
             className="menu-icon-container white-bg"
-            onClick={this.props.toggleLeftContainer(
-              !this.props.displayLeftContainer
-            )}
+            onClick={this.props.menuButtonClicked}
           >
             <i className="material-icons menu-icon">menu_outlined</i>
           </div>
@@ -189,7 +115,7 @@ class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
                   <CategoryListItem
                     category={category}
                     key={category._id}
-                    switchCategory={this.switchTab}
+                    switchCategory={this.props.defaultCategoryClicked}
                   />
                 );
               }
@@ -200,7 +126,7 @@ class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
                 <CategoryListItem
                   category={category}
                   key={category._id}
-                  switchCategory={this.switchCategory}
+                  switchCategory={this.props.dynamicCategoryClicked}
                 />
               );
             })}
@@ -213,7 +139,7 @@ class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
             className="new-list-input-box new-list"
             type="text"
             placeholder="New List"
-            onClick={() => this.props.toggleShedulingIcons(false)}
+            onClick={() => this.props.inputBoxFocused(false)}
             onKeyUp={this.handleSubmit}
             ref={this.inputBox}
           />
@@ -238,16 +164,6 @@ class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
     );
   }
 
-  // async componentDidMount() {
-  //   try {
-  //     // this.props.state.currentCategory = { _id: "0", title: "My Day", tasks: [] };
-  //     // const newState: IFetchedDatum = await refreshCategories(this.props.state);
-
-  //     // this.props.changeFetchedDatum(newState);
-  //   } catch (error) {
-  //     console.log("error ocurred in componentDidMount");
-  //   }
-  // }
 }
 
 const mapStateToProps = (state: IState) => ({
@@ -257,14 +173,16 @@ const mapStateToProps = (state: IState) => ({
 });
 
 const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
-  // changeFetchedDatum: (fetchedDatum: IFetchedDatum) =>
-  //   dispatch(changeFetchedDatum(fetchedDatum)),
-  // toggleRightContainer: (displayRightContainer: boolean) =>
-  //   dispatch(toggleRightContainer(displayRightContainer)),
-  // toggleLeftContainer: (displayLeftContainer: boolean) =>
-  //   dispatch(toggleLeftContainer(displayLeftContainer)),
-  // toggleShedulingIcons: (displayShedulingIcons: boolean) =>
-  //   dispatch(toggleShedulingIcons(displayShedulingIcons)),
+  categoryAdded: (categoryName: string) =>
+    dispatch(categoryAdded(categoryName)),
+  defaultCategoryClicked: (categoryTitle: string) =>
+    dispatch(defaultCategoryClicked(categoryTitle)),
+  dynamicCategoryClicked: (categoryId: string) =>
+    dispatch(dynamicCategoryClicked(categoryId)),
+  inputBoxFocused: (displayShedulingIcons: boolean) =>
+    dispatch(inputBoxFocused(displayShedulingIcons)),
+  menuButtonClicked: () =>
+    dispatch({type:ACTION_TYPES.MENU_BUTTON_CLICKED}),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Categories);

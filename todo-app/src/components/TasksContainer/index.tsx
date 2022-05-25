@@ -2,9 +2,9 @@ import React from "react";
 
 import { connect } from "react-redux";
 
-import { TaskElement } from "../TaskElement";
 import { ITask } from "../StepTasks";
 
+import TaskElement from "../TaskElement";
 import { IState } from "../../store";
 
 import "./styles.scss";

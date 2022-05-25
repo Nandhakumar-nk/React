@@ -6,54 +6,46 @@ import TasksContainer from "../TasksContainer";
 import { BoxedIcon } from "../BoxedIcon";
 
 import { IState } from "../../store";
-import { toggleLeftContainer } from "../../actions/toggleDisplay/toggleLeftContainer";
-import { toggleShedulingIcons } from "../../actions/toggleDisplay/toggleShedulingIcons";
+import { ACTION_TYPES } from "../../constants/actionTypes";
+import { taskAdded } from "../../actions/taskDisplayer/taskAdded";
+import { inputBoxFocused } from "../../actions/categories/inputBoxFocused";
 
 import "./styles.scss";
 
-interface ITaskDisplayerState {}
+interface ITaskDisplayerState {
+  task:string;
+}
 
 interface ITaskDisplayerProps {
   categoryTitle: string;
+  selectedCategoryId: string;
   displayLeftContainer: boolean;
   displayShedulingIcons: boolean;
-  toggleLeftContainer: (displayLeftContainer: boolean) => any;
-  toggleShedulingIcons: (displayShedulingIcons: boolean) => void;
+  taskAdded: (categoryId: string, task: string) => void;
+  inputBoxFocused: (displayShedulingIcons: boolean) => void;
+  menuButtonClicked: () => void;
 }
 
 class TaskDisplayer extends React.Component<
   ITaskDisplayerProps,
   ITaskDisplayerState
 > {
-  inputBox: React.RefObject<HTMLInputElement>;
-
   constructor(props: ITaskDisplayerProps) {
     super(props);
-    this.inputBox = React.createRef();
-  }
-
-  async addTask(task: string) {
-    try {
-      // const response = await axios({
-      //   method: "post",
-      //   url: "http://localhost:3030/tasks",
-      //   data: {
-      //     categoryId: this.state.selectedCategoryId,
-      //     task,
-      //   },
-      // });
-      // this.currentTask = response.data;
-      // this.refreshTasks(this.state.selectedCategoryId);
-    } catch (error) {
-      console.log("error ocurred during task posting");
-    }
+    this.state = {task:""};
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(this: any, event: React.KeyboardEvent<HTMLInputElement>) {
-    if (event.keyCode === 13 && this.inputBox.current.value.length > 0) {
-      this.addTask(this.inputBox.current.value);
-      this.inputBox.current.value = "";
+    if (event.keyCode === 13 && this.state.task.length > 0) {
+      this.props.taskAdded(this.state.task);
+      this.setState({task:""})
     }
+  }
+
+  handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({task:event.target.value});
   }
 
   render() {
@@ -63,9 +55,7 @@ class TaskDisplayer extends React.Component<
           {!this.props.displayLeftContainer ? (
             <div
               className="menu-icon-container menu-icon-middle white-bg"
-              onClick={this.props.toggleLeftContainer(
-                !this.props.displayLeftContainer
-              )}
+              onClick={this.props.menuButtonClicked}
             >
               <i className="material-icons menu-icon">menu_outlined</i>
             </div>
@@ -104,7 +94,8 @@ class TaskDisplayer extends React.Component<
             className="add-task-input-box"
             type="text"
             placeholder="Add a task"
-            onClick={() => this.props.toggleShedulingIcons(true)}
+            onChange={this.handleChange}
+            onClick={() => this.props.inputBoxFocused(true)}
             onKeyUp={this.handleSubmit}
           />
 
@@ -137,15 +128,17 @@ class TaskDisplayer extends React.Component<
 
 const mapStateToProps = (state: IState) => ({
   categoryTitle: state.categoryTitle,
+  selectedCategoryId: state.selectedCategoryId,
   displayLeftContainer: state.displayLeftContainer,
   displayShedulingIcons: state.displayShedulingIcons,
 });
 
 const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
-  toggleLeftContainer: (displayLeftContainer: boolean) =>
-    dispatch(toggleLeftContainer(displayLeftContainer)),
-  toggleShedulingIcons: (displayShedulingIcons: boolean) =>
-    dispatch(toggleShedulingIcons(displayShedulingIcons)),
+  taskAdded: (categoryId: string, task: string) =>
+    dispatch(taskAdded(categoryId, task)),
+  inputBoxFocused: (displayShedulingIcons: boolean) =>
+    dispatch(inputBoxFocused(displayShedulingIcons)),
+  menuButtonClicked: () => dispatch({ type: ACTION_TYPES.MENU_BUTTON_CLICKED }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TaskDisplayer);

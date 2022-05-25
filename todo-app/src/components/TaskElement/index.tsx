@@ -1,8 +1,13 @@
 import React from "react";
 
+import { connect } from "react-redux";
+
 import axios from "axios";
 
 import { ITask } from "../StepTasks";
+import { taskCompletedClicked } from "../../actions/stepTasks/taskCompletedClicked";
+import { taskImportantClicked } from "../../actions/stepTasks/taskImportantClicked";
+import { taskClicked } from "../../actions/taskElement/taskClicked";
 
 import "./styles.scss";
 
@@ -11,63 +16,24 @@ interface ITaskElementState {}
 interface ITaskElementProps {
   task: ITask;
   key: string;
+  taskClicked: (taskId: string) => void;
+  taskImportantClicked: (taskId: string, isImportant: boolean) => void;
+  taskCompletedClicked: (taskId: string, isCompleted: boolean) => void;
 }
 
-export class TaskElement extends React.Component<
+class TaskElement extends React.Component<
   ITaskElementProps,
   ITaskElementState
 > {
+  taskClicked: (taskId: string) => void;
+  taskCompletedClicked: (taskId: string, isCompleted: boolean) => void;
+  taskImportantClicked: (taskId: string, isImportant: boolean) => void;
+  
   constructor(props: ITaskElementProps) {
     super(props);
-    this.markAsImportant = this.markAsImportant.bind(this);
-    this.markAsCompleted = this.markAsCompleted.bind(this);
-    this.switchTask = this.switchTask.bind(this);
-  }
-
-  async markAsImportant(taskId: string, isImportant: boolean) {
-    try {
-      const response = await axios({
-        method: "patch",
-        url: "http://localhost:3030/tasks/" + taskId,
-        data: {
-          isImportant: !isImportant,
-        },
-      });
-      //state.currentTask = response.data //fetched task
-      //fetch category for selectedCategoryID
-      //refreshCategories(fetch all categories + importantTasks)
-    } catch (error) {
-      console.log("error ocurred during important posting");
-    }
-  }
-
-  async markAsCompleted(taskId: string, isCompleted: boolean) {
-    try {
-      await axios({
-        method: "patch",
-        url: "http://localhost:3030/tasks/" + taskId,
-        data: {
-          isCompleted: !isCompleted,
-        },
-      });
-      //state.currentTask = response.data //fetched task
-      //fetch category for selectedCategoryID
-      //refreshCategories(fetch all categories + importantTasks)
-    } catch (error) {
-      console.log("error ocurred during completed posting");
-    }
-  }
-
-  async switchTask(taskId: string) {
-    // this.setDisplayRightContainer(true);
-    // this.showShedulingIcons(false);
-    // try {
-    //   const response = await axios.get("http://localhost:3030/tasks/" + taskId);
-    //   this.currentTask = response.data;
-    //   this.refreshTasks(this.state.selectedCategoryId);
-    // } catch (error) {
-    //   console.log("error ocurred during task fetching");
-    // }
+    this.taskClicked = this.props.taskClicked.bind(this)
+    this.taskCompletedClicked = this.props.taskCompletedClicked.bind(this);
+    this.taskImportantClicked = this.props.taskImportantClicked.bind(this);
   }
 
   render() {
@@ -79,11 +45,11 @@ export class TaskElement extends React.Component<
     );
 
     return (
-      <div className="task" onClick={() => this.switchTask(taskId)}>
+      <div className="task" onClick={() => this.props.taskClicked(taskId)}>
         <div className="radio-container">
           <i
             className="material-icons add-icon radio-icon blue-icon"
-            onClick={() => this.markAsCompleted(taskId, isCompleted)}
+            onClick={() => this.props.taskCompletedClicked(taskId, isCompleted)}
             title={isCompleted ? "undo completed" : "mark as completed"}
           >
             {isCompleted ? "check_circle" : "radio_button_unchecked_outlined"}
@@ -108,7 +74,7 @@ export class TaskElement extends React.Component<
             "material-icons list-icons star-container" +
             (isImportant ? " blue-icon" : "")
           }
-          onClick={() => this.markAsImportant(taskId, isImportant)}
+          onClick={() => this.props.taskImportantClicked(taskId, isImportant)}
           title={isImportant ? "remove from important" : "mark as important"}
         >
           {isImportant ? "star" : "star_border"}
@@ -117,3 +83,13 @@ export class TaskElement extends React.Component<
     );
   }
 }
+
+const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
+  taskClicked: (taskId: string) => dispatch(taskClicked(taskId)),
+  taskImportantClicked: (taskId: string, isImportant: boolean) =>
+    dispatch(taskImportantClicked(taskId, isImportant)),
+  taskCompletedClicked: (taskId: string, isCompleted: boolean) =>
+    dispatch(taskCompletedClicked(taskId, isCompleted)),
+});
+
+export default connect(mapDispatchToProps)(TaskElement);

@@ -8,6 +8,7 @@ import TaskDisplayer from "./components/TaskDisplayer";
 import StepTasks, { ITask } from "./components/StepTasks";
 
 import { IState } from "./store";
+import { defaultCategoryClicked } from "./actions/categories/defaultCategoryClicked";
 
 interface IAppState {}
 
@@ -15,6 +16,7 @@ export interface IAppProps {
   displayRightContainer: boolean;
   displayLeftContainer: boolean;
   rootClass: string;
+  defaultCategoryClicked: (categoryTitle: string) => void;
 }
 
 class App extends React.Component<IAppProps, IAppState> {
@@ -34,21 +36,25 @@ class App extends React.Component<IAppProps, IAppState> {
 
   async componentDidMount() {
     console.log("\ncomponentDidMount() lifecycle - parent");
-    // try {
-    //   this.refreshCategories({ _id: "0", title: "My Day", tasks: [] });
-    // } catch (error) {
-    //   console.log("error ocurred during MyDay posting");
-    // }
+    //this.props.defaultCategoryClicked("My Day");
+    console.log("displayLeftContainer" + this.props.displayLeftContainer);
+    console.log("displayRightContainer" + this.props.displayRightContainer);
+    console.log("rootClass" + this.props.rootClass);
   }
 }
 
-const mapStateToProps = (state: IState): IAppProps => ({
-  displayRightContainer: state.displayRightContainer,
+const mapStateToProps = (state: IState) => ({
   displayLeftContainer: state.displayRightContainer,
+  displayRightContainer: state.displayRightContainer,
   rootClass: state.rootClass,
 });
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
+  defaultCategoryClicked: (categoryTitle: string) =>
+    dispatch(defaultCategoryClicked(categoryTitle)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
 
 // App.defaultProps = {
 //   displayRightContainer: false,

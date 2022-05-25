@@ -35,17 +35,19 @@ export const initialState: IState = {
     isCompleted: false,
     isImportant: false,
   },
-  displayRightContainer: false,
   displayLeftContainer: true,
+  displayRightContainer: false,
   rootClass: "",
   displayShedulingIcons: false,
 };
 const sagaMiddleware = createSagaMiddleware();
 
 function configureStore(state: IState = initialState) {
-  return createStore(rootReducer, state, applyMiddleware(sagaMiddleware));
+  const store = createStore(rootReducer, state, applyMiddleware(sagaMiddleware));
+  sagaMiddleware.run(rootSaga);
+  return store;
 }
 
-sagaMiddleware.run(rootSaga);
+
 
 export default configureStore;

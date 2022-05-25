@@ -7,9 +7,13 @@ import { MenuListItem } from "../MenuListItem";
 import { RightMenuBox } from "../RightMenuBox";
 
 import { IState } from "../../store";
-import { toggleRightContainer } from "../../actions/toggleDisplay/toggleRightContainer";
+import { stepTaskAdded } from "../../actions/stepTasks/stepTaskAdded";
+import { taskImportantClicked } from "../../actions/stepTasks/taskImportantClicked";
+import { taskCompletedClicked } from "../../actions/stepTasks/taskCompletedClicked";
+import { stepTaskCompletedClicked } from "../../actions/stepTasks/stepTaskCompletedClicked";
 
 import "./styles.scss";
+import { ACTION_TYPES } from "../../constants/actionTypes";
 
 interface IStepTask {
   _id: string;
@@ -29,7 +33,11 @@ interface IStepTasksState {}
 
 interface IStepTasksProps {
   currentTask: ITask;
-  toggleRightContainer: (displayRightContainer: boolean) => void;
+  stepTaskAdded: (taskId: string, stepTask: string) => void;
+  taskImportantClicked: (taskId: string, isImportant: boolean) => void;
+  taskCompletedClicked: (taskId: string, isCompleted: boolean) => void;
+  stepTaskCompletedClicked: (stepTaskId: string, isCompleted: boolean) => void;
+  hideIconClicked: () => void;
 }
 
 class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
@@ -40,80 +48,10 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
     this.inputBox = React.createRef();
   }
 
-  async addStepTask(stepTask: string): Promise<void> {
-    try {
-      const response = await axios({
-        method: "post",
-        url: "http://localhost:3030/stepTasks",
-        data: {
-          taskId: this.props.currentTask._id,
-          stepTask,
-        },
-      });
-
-      //this.switchTask(this.state.currentTask._id); fetch task for current task ID
-      //fetch category for selectedCategoryID
-      //refreshCategories(fetch all categories + importantTasks)
-    } catch (error) {
-      console.log("error ocurred during stepTask posting");
-    }
-  }
-
   handleSubmit(this: any, event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.keyCode === 13 && this.inputBox.current.value.length > 0) {
-      this.addStepTask(this.inputBox.current.value);
+      this.props.stepTaskAdded(this.inputBox.current.value);
       this.inputBox.current.value = "";
-    }
-  }
-
-  async markAsImportant(taskId: string, isImportant: boolean) {
-    try {
-      const response = await axios({
-        method: "patch",
-        url: "http://localhost:3030/tasks/" + taskId,
-        data: {
-          isImportant: !isImportant,
-        },
-      });
-      //state.currentTask = response.data //fetched task
-      //fetch category for selectedCategoryID
-      //refreshCategories(fetch all categories + importantTasks)
-    } catch (error) {
-      console.log("error ocurred during important posting");
-    }
-  }
-
-  async markAsCompleted(taskId: string, isCompleted: boolean) {
-    try {
-      await axios({
-        method: "patch",
-        url: "http://localhost:3030/tasks/" + taskId,
-        data: {
-          isCompleted: !isCompleted,
-        },
-      });
-      //state.currentTask = response.data //fetched task
-      //fetch category for selectedCategoryID
-      //refreshCategories(fetch all categories + importantTasks)
-    } catch (error) {
-      console.log("error ocurred during completed posting");
-    }
-  }
-
-  async markAsCompletedStepTask(stepTaskId: string, isCompleted: boolean) {
-    try {
-      await axios({
-        method: "patch",
-        url: "http://localhost:3030/stepTasks/" + stepTaskId,
-        data: {
-          isCompleted: !isCompleted,
-        },
-      });
-      //fetch task(currentTask._id)
-      //fetch category for selectedCategoryID
-      //refreshCategories(fetch all categories + importantTasks)
-    } catch (error) {
-      console.log("error ocurred during completed stepTask posting");
     }
   }
 
@@ -129,9 +67,9 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
                   : "radio_button_unchecked_outlined",
                 iconClass: " blue-icon radio-icon",
                 iconEvent: () => {
-                  this.markAsCompleted(
+                  this.props.taskCompletedClicked(
                     this.props.currentTask._id,
-                    this.props.currentTask.isCompleted
+                    !this.props.currentTask.isCompleted
                   );
                 },
                 text: this.props.currentTask.task,
@@ -145,9 +83,9 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
                   ? "blue-icon"
                   : "",
                 secondIconEvent: () => {
-                  this.markAsImportant(
+                  this.props.taskImportantClicked(
                     this.props.currentTask._id,
-                    this.props.currentTask.isImportant
+                    !this.props.currentTask.isImportant
                   );
                 },
               }}
@@ -161,9 +99,9 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
                       : "radio_button_unchecked_outlined",
                     iconClass: " blue-icon completed-icon",
                     iconEvent: () => {
-                      this.markAsCompletedStepTask(
+                      this.props.stepTaskCompletedClicked(
                         stepTask._id,
-                        stepTask.isCompleted
+                        !stepTask.isCompleted
                       );
                     },
                     text: stepTask.stepTask,
@@ -226,7 +164,7 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
         <div className="right-bottom-container">
           <i
             className="material-icons hide-icon"
-            onClick={() => this.props.toggleRightContainer(false)}
+            onClick={() => this.props.hideIconClicked}
           >
             drive_file_move_outlined
           </i>
@@ -243,8 +181,15 @@ const mapStateToProps = (state: IState) => ({
 });
 
 const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
-  toggleRightContainer: (displayRightContainer: boolean) =>
-    dispatch(toggleRightContainer(displayRightContainer)),
+  stepTaskAdded: (taskId: string, stepTask: string) =>
+    dispatch(stepTaskAdded(taskId, stepTask)),
+  taskImportantClicked: (taskId: string, isImportant: boolean) =>
+    dispatch(taskImportantClicked(taskId, isImportant)),
+  taskCompletedClicked: (taskId: string, isCompleted: boolean) =>
+    dispatch(taskCompletedClicked(taskId, isCompleted)),
+  stepTaskCompletedClicked: (stepTaskId: string, isCompleted: boolean) =>
+    dispatch(stepTaskCompletedClicked(stepTaskId, isCompleted)),
+  hideIconClicked: () => dispatch({ type: ACTION_TYPES.HIDE_ICON_CLICKED }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StepTasks);

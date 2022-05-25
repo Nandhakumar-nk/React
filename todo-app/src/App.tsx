@@ -39,7 +39,7 @@ class App extends React.Component<IAppProps, IAppState> {
     // } catch (error) {
     //   console.log("error ocurred during MyDay posting");
     // }
-    console.log("This is edited");
+    console.log("This is edited - second time");
   }
 }
 

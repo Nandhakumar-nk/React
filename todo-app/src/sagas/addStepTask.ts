@@ -1,3 +1,4 @@
+import { AxiosResponse } from "axios";
 import { call, put} from "redux-saga/effects";
 
 import { ACTION_TYPES } from "../constants/actionTypes";
@@ -8,7 +9,10 @@ export function* addStepTask(action: any) {
   let payload = {};
 
   try {
-    yield call(StepTasksService.post, action.payload);
+    const response: AxiosResponse = yield call(StepTasksService.post, action.payload);
+
+    console.log("response:");
+    console.log(response);
 
     yield put({
       type: ACTION_TYPES.FETCH_TASK,

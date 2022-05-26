@@ -28,10 +28,10 @@ class TaskElement extends React.Component<
   taskClicked: (taskId: string) => void;
   taskCompletedClicked: (taskId: string, isCompleted: boolean) => void;
   taskImportantClicked: (taskId: string, isImportant: boolean) => void;
-  
+
   constructor(props: ITaskElementProps) {
     super(props);
-    this.taskClicked = this.props.taskClicked.bind(this)
+    this.taskClicked = this.props.taskClicked.bind(this);
     this.taskCompletedClicked = this.props.taskCompletedClicked.bind(this);
     this.taskImportantClicked = this.props.taskImportantClicked.bind(this);
   }
@@ -49,7 +49,10 @@ class TaskElement extends React.Component<
         <div className="radio-container">
           <i
             className="material-icons add-icon radio-icon blue-icon"
-            onClick={() => this.props.taskCompletedClicked(taskId, isCompleted)}
+            onClick={(event) => {
+              event.stopPropagation();
+              this.props.taskCompletedClicked(taskId, !isCompleted);
+            }}
             title={isCompleted ? "undo completed" : "mark as completed"}
           >
             {isCompleted ? "check_circle" : "radio_button_unchecked_outlined"}
@@ -74,7 +77,10 @@ class TaskElement extends React.Component<
             "material-icons list-icons star-container" +
             (isImportant ? " blue-icon" : "")
           }
-          onClick={() => this.props.taskImportantClicked(taskId, isImportant)}
+          onClick={(event) => {
+            event.stopPropagation();
+            this.props.taskImportantClicked(taskId, !isImportant);
+          }}
           title={isImportant ? "remove from important" : "mark as important"}
         >
           {isImportant ? "star" : "star_border"}
@@ -96,4 +102,4 @@ const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
     dispatch(taskCompletedClicked(taskId, isCompleted)),
 });
 
-export default connect(mapDispatchToProps)(TaskElement);
+export default connect(null, mapDispatchToProps)(TaskElement);

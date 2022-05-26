@@ -11,7 +11,7 @@ export function rootReducer(state: IState = initialState, action: any): IState {
       console.log("OPERATION_SUCCESS reducer execution");
       return {
         ...state,
-        ...action.payload,
+        ...action.data,
       };
     case ACTION_TYPES.MENU_BUTTON_CLICKED:
       console.log("MENU_BUTTON_CLICKED reducer execution");
@@ -34,14 +34,13 @@ export function rootReducer(state: IState = initialState, action: any): IState {
       console.log("INPUTBOX_FOCUSED reducer execution");
       return {
         ...state,
-        ...action.payload,
+        ...action.data,
       };
-    case ACTION_TYPES.TASK_ADDED:
+    case ACTION_TYPES.TASK_CLICKED:
+      action.data.displayRightContainer = true;
+      action.data.rootClass = switchRootClass(state.displayLeftContainer, true);
       console.log("TASK_ADDED reducer execution");
-      return {
-        ...state,
-        ...action.payload,
-      };
+      return state;
     default:
       console.log("default reducer execution");
       return state;

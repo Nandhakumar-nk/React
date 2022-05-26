@@ -20,7 +20,7 @@ export function* addCategory(action: any) {
 
     payload = {
       categoryTitle: response.data.title,
-      selectedCategoryId: response.data.title,
+      selectedCategoryId: response.data._id,
       tasks: response.data.tasks.filter(
         (task: ITask) => task.isCompleted === false
       ),

@@ -4,7 +4,7 @@ import { call, put, select } from "redux-saga/effects";
 import { ACTION_TYPES } from "../constants/actionTypes";
 import { StepTasksService } from "../services/stepTasks";
 
-export function* patchStepTask(action: any): any {
+export function* patchStepTask(action: any) {
   console.log("patchStepTask generator function execution");
   let payload = {};
 
@@ -15,11 +15,12 @@ export function* patchStepTask(action: any): any {
       action.payload.data
     );
 
-    const currentTask = yield select((state) =>
-      state.currentTask,
-    );
+    console.log("response:");
+    console.log(response);
 
-    yield put({ type: ACTION_TYPES.FETCH_TASK, payload:{taskId:currentTask._id} });
+    const taskId: string = yield select((state) => state.currentTask._id);
+
+    yield put({ type: ACTION_TYPES.FETCH_TASK, payload: { taskId } });
   } catch (error) {
     console.log("error ocurred inside patchStepTask generator function");
     yield put({ type: ACTION_TYPES.OPERATION_FAILED, payload });

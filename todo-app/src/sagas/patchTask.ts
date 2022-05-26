@@ -4,7 +4,7 @@ import { call, put, select } from "redux-saga/effects";
 import { ACTION_TYPES } from "../constants/actionTypes";
 import { TasksService } from "../services/tasks";
 
-export function* patchTask(action: any): any {
+export function* patchTask(action: any) {
   console.log("patchTask generator function execution");
   let payload = {};
 
@@ -15,7 +15,10 @@ export function* patchTask(action: any): any {
       action.payload.data
     );
 
-    const [categoryId, currentTask] = yield select((state) => [
+    console.log("response-------------------");
+    console.log(response);
+
+    const [categoryId, currentTask]: any[] = yield select((state) => [
       state.selectedCategoryId,
       state.currentTask,
     ]);

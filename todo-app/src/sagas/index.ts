@@ -16,7 +16,6 @@ export function* rootSaga() {
   yield takeEvery(ACTION_TYPES.GET_RECENT_DATA, getRecentData);
   yield takeEvery(ACTION_TYPES.DYNAMIC_CATEGORY_CLICKED, fetchCategory);
   yield takeEvery(ACTION_TYPES.DEFAULT_CATEGORY_CLICKED, getRecentData);
-  //tyield akeEvery(ACTION_TYPES.MENU_BUTTON_CLICKED, toggleLeftContainer);
 
   yield takeEvery(ACTION_TYPES.STEPTASK_ADDED, addStepTask);
   yield takeEvery(ACTION_TYPES.TASK_IMPORTANT_CLICKED, patchTask);

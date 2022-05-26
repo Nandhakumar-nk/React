@@ -1,6 +1,8 @@
+import { AxiosResponse } from "axios";
 import { call, put, select } from "redux-saga/effects";
 
 import { ACTION_TYPES } from "../constants/actionTypes";
+import { CategoriesService } from "../services/categories";
 import { TasksService } from "../services/tasks";
 
 export function* addTask(action: any): any {
@@ -8,7 +10,11 @@ export function* addTask(action: any): any {
   let payload = {};
   
   try {
-    yield call(TasksService.post, action.payload);
+    const response: AxiosResponse =  yield call(TasksService.post, action.payload);
+    
+    console.log("response:");
+    console.log(response);
+
 
     yield put({
       type: ACTION_TYPES.FETCH_CATEGORY,

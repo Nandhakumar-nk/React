@@ -7,6 +7,7 @@ import { CategoriesService } from "../services/categories";
 
 export function* fetchCategory(action: any) {
   console.log("fetchCategory generator function execution");
+  console.log(action);
   let payload:any;
 
   try {
@@ -15,9 +16,12 @@ export function* fetchCategory(action: any) {
       action.payload.categoryId
     );
 
+    console.log("response");
+    console.log(response);
+
     payload = {
       categoryTitle: response.data.title,
-      selectedCategoryId: response.data.title,
+      selectedCategoryId: response.data._id,
       tasks: response.data.tasks.filter(
         (task: ITask) => task.isCompleted === false
       ),

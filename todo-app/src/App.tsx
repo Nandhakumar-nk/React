@@ -36,7 +36,7 @@ class App extends React.Component<IAppProps, IAppState> {
 
   componentDidMount() {
     console.log("\ncomponentDidMount() lifecycle - App");
-    //this.props.defaultCategoryClicked("My Day");
+    this.props.defaultCategoryClicked("My Day");
     console.log("displayLeftContainer:" + this.props.displayLeftContainer);
     console.log("displayRightContainer:" + this.props.displayRightContainer);
     console.log("rootClass:" + this.props.rootClass);

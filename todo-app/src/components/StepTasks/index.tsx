@@ -65,106 +65,110 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
     return (
       <div className="right-container">
         <div className="right-top-container">
-          <ul className="right-menu-container">
-            <MenuListItem
-              item={{
-                icon: this.props.currentTask.isCompleted
-                  ? "check_circle"
-                  : "radio_button_unchecked_outlined",
-                iconClass: " blue-icon radio-icon",
-                iconEvent: () => {
-                  this.props.taskCompletedClicked(
-                    this.props.currentTask._id,
-                    !this.props.currentTask.isCompleted
-                  );
-                },
-                text: this.props.currentTask.task,
-                textClass:
-                  "task-right" +
-                  (this.props.currentTask.isCompleted ? " text-strike" : ""),
-                secondIcon: this.props.currentTask.isImportant
-                  ? "star"
-                  : "star_border",
-                secondIconClass: this.props.currentTask.isImportant
-                  ? "blue-icon"
-                  : "",
-                secondIconEvent: () => {
-                  this.props.taskImportantClicked(
-                    this.props.currentTask._id,
-                    !this.props.currentTask.isImportant
-                  );
-                },
-              }}
-            />
-            {this.props.currentTask.stepTasks.map((stepTask: IStepTask) => {
-              return (
-                <MenuListItem
-                  item={{
-                    icon: stepTask.isCompleted
-                      ? "check_circle"
-                      : "radio_button_unchecked_outlined",
-                    iconClass: " blue-icon completed-icon",
-                    iconEvent: () => {
-                      this.props.stepTaskCompletedClicked(
-                        stepTask._id,
-                        !stepTask.isCompleted
-                      );
-                    },
-                    text: stepTask.stepTask,
-                    textClass: stepTask.isCompleted ? " text-strike" : "",
-                    secondIcon: "close_outlined",
-                    secondIconClass: "close-icon",
-                    borderBottom: true,
-                  }}
-                />
-              );
-            })}
-            <li className="right-menu-list">
-              <i className="material-icons right-icons add-icon blue-icon">
-                {" "}
-                add
-              </i>
-              <input
-                className="step-task-input-box new-list"
-                type="text"
-                placeholder="Add Step"
-                value={this.state.stepTask}
-                onChange={this.handleChange}
-                onKeyUp={this.handleSubmit}
+          <div className="scrollable-container-right">
+            <ul className="right-menu-container">
+              <MenuListItem
+                item={{
+                  icon: this.props.currentTask.isCompleted
+                    ? "check_circle"
+                    : "radio_button_unchecked_outlined",
+                  iconClass: " blue-icon radio-icon",
+                  iconEvent: () => {
+                    this.props.taskCompletedClicked(
+                      this.props.currentTask._id,
+                      !this.props.currentTask.isCompleted
+                    );
+                  },
+                  text: this.props.currentTask.task,
+                  textClass:
+                    "task-right" +
+                    (this.props.currentTask.isCompleted ? " text-strike" : ""),
+                  secondIcon: this.props.currentTask.isImportant
+                    ? "star"
+                    : "star_border",
+                  secondIconClass: this.props.currentTask.isImportant
+                    ? "blue-icon"
+                    : "",
+                  secondIconEvent: () => {
+                    this.props.taskImportantClicked(
+                      this.props.currentTask._id,
+                      !this.props.currentTask.isImportant
+                    );
+                  },
+                }}
               />
-            </li>
-          </ul>
+              {this.props.currentTask.stepTasks.map((stepTask: IStepTask) => {
+                return (
+                  <MenuListItem
+                    item={{
+                      icon: stepTask.isCompleted
+                        ? "check_circle"
+                        : "radio_button_unchecked_outlined",
+                      iconClass: " blue-icon completed-icon",
+                      iconEvent: () => {
+                        this.props.stepTaskCompletedClicked(
+                          stepTask._id,
+                          !stepTask.isCompleted
+                        );
+                      },
+                      text: stepTask.stepTask,
+                      textClass: stepTask.isCompleted ? " text-strike" : "",
+                      secondIcon: "f",
+                      secondIconClass: "fa fa-times-circle-o close-icon",
+                      borderBottom: true,
+                    }}
+                  />
+                );
+              })}
+              <li className="right-menu-list">
+                <i className="material-icons right-icons add-icon blue-icon">
+                  {" "}
+                  add
+                </i>
+                <input
+                  className="step-task-input-box new-list"
+                  type="text"
+                  placeholder="Add Step"
+                  value={this.state.stepTask}
+                  onChange={this.handleChange}
+                  onKeyUp={this.handleSubmit}
+                />
+              </li>
+            </ul>
 
-          <RightMenuBox
-            items={[{ icon: "light_mode_outlined", text: "Add to My Day" }]}
-          />
+            <RightMenuBox
+              items={[{ icon: "light_mode_outlined", text: "Add to My Day" }]}
+            />
 
-          <RightMenuBox
-            items={[
-              {
-                icon: "notifications_outlined",
-                text: "Remind me",
-                borderBottom: true,
-              },
-              {
-                icon: "date_range_outlined",
-                text: "Add due date",
-                borderBottom: true,
-              },
-              { icon: "event_repeat_outlined", text: "Repeat" },
-            ]}
-          />
+            <RightMenuBox
+              items={[
+                {
+                  icon: "notifications_outlined",
+                  text: "Remind me",
+                  borderBottom: true,
+                },
+                {
+                  icon: "date_range_outlined",
+                  text: "Add due date",
+                  borderBottom: true,
+                },
+                { icon: "event_repeat_outlined", text: "Repeat" },
+              ]}
+            />
 
-          <RightMenuBox
-            items={[{ icon: "local_offer_outlined", text: "Pick a category" }]}
-          />
+            <RightMenuBox
+              items={[
+                { icon: "local_offer_outlined", text: "Pick a category" },
+              ]}
+            />
 
-          <RightMenuBox
-            items={[{ icon: "attach_file_outlined", text: "Add file" }]}
-          />
+            <RightMenuBox
+              items={[{ icon: "attach_file_outlined", text: "Add file" }]}
+            />
 
-          <div className="right-menu-container empty-container">
-            <span className="updated-text">Updated a few seconds ago</span>
+            <div className="right-menu-container empty-container">
+              <span className="updated-text">Updated a few seconds ago</span>
+            </div>
           </div>
         </div>
 

@@ -3,14 +3,18 @@
   border-left: #dadde2 solid 1px;
   color: #7b7b81 !important;
   .right-top-container {
-    max-height: 675px;
-    overflow: auto;
+    height: 91.8%;
   }
   .right-menu-container {
     margin: 9px 12px;
     background: #ffffff;
     border: #e8e8ee solid 1px;
   }
+}
+
+.scrollable-container-right {
+  max-height: 540px;
+  overflow: auto;
 }
 
 .completed-icon {
@@ -25,7 +29,8 @@
 }
 
 .close-icon {
-  font-weight: 100 !important;
+  font-weight: 100;
+  width: 0px !important;
 }
 
 .step-task-input-box {
@@ -64,25 +69,23 @@
 
 .right-bottom-container {
   display: flex;
-  position: absolute;
-  bottom: 0px;
   border-top: 1px solid #e8e8ee;
-  height: 40px;
+  height: 8%;
+  background-color: red;
   .hide-icon {
     margin-top: 12px !important;
     margin-left: 15px !important;
     font-size: 20px !important;
   }
   .created-text {
-width: 220px;
+    width: 159px;
     font-size: 11px;
     margin-top: 15px;
-    margin-left: 25%;
+    margin-left: 20%;
   }
   .delete-icon {
     margin-top: 8px !important;
-    
     font-size: 23px !important;
-    width: 0px;
+    width: 0px !important;
   }
 }

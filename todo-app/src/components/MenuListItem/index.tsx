@@ -42,7 +42,7 @@ export function MenuListItem(props: IMenuListItemProps) {
       <span className={props.item.textClass ? props.item.textClass : ""}>
         {props.item.text}
       </span>
-      {props.item.secondIcon ? (
+      {(props.item.secondIcon  || props.item.secondIcon === "f") ? (
         <i
           className={
             "material-icons list-icons second-list-icon " +
@@ -52,7 +52,7 @@ export function MenuListItem(props: IMenuListItemProps) {
             props.item.secondIconEvent ? props.item.secondIconEvent : hello
           }
         >
-          {props.item.secondIcon}
+          {props.item.secondIcon === "f" ? "" : props.item.secondIcon}
         </i>
       ) : (
         ""

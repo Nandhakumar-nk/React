@@ -7,11 +7,12 @@ import { RightMenuBox } from "../RightMenuBox";
 
 import { IState } from "../../store";
 import { ACTION_TYPES } from "../../constants/actionTypes";
-import { stepTaskAdded } from "../../actions/stepTasks/stepTaskAdded";
-import { taskImportantClicked } from "../../actions/stepTasks/taskImportantClicked";
-import { taskCompletedClicked } from "../../actions/stepTasks/taskCompletedClicked";
-import { stepTaskCompletedClicked } from "../../actions/stepTasks/stepTaskCompletedClicked";
-
+import {
+  stepTaskAdded,
+  taskImportantClicked,
+  taskCompletedClicked,
+  stepTaskCompletedClicked,
+} from "../../actions/stepTasks";
 import "./styles.scss";
 
 interface IStepTask {

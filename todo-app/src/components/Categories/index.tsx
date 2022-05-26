@@ -7,10 +7,12 @@ import { ITask } from "../StepTasks";
 
 import { IState } from "../../store";
 import { ACTION_TYPES } from "../../constants/actionTypes";
-import { categoryAdded } from "../../actions/categories/categoryAdded";
-import { defaultCategoryClicked } from "../../actions/categories/defaultCategoryClicked";
-import { dynamicCategoryClicked } from "../../actions/categories/dynamicCategoryClicked";
-import { inputBoxFocused } from "../../actions/categories/inputBoxFocused";
+import {
+  categoryAdded,
+  defaultCategoryClicked,
+  dynamicCategoryClicked,
+  inputBoxFocused,
+} from "../../actions/categories";
 import { getDefaultCategories } from "../../helpers/getDefaultCategories";
 
 import "./styles.scss";

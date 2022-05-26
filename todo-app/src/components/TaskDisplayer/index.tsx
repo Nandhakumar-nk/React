@@ -7,8 +7,8 @@ import { BoxedIcon } from "../BoxedIcon";
 
 import { IState } from "../../store";
 import { ACTION_TYPES } from "../../constants/actionTypes";
-import { taskAdded } from "../../actions/taskDisplayer/taskAdded";
-import { inputBoxFocused } from "../../actions/categories/inputBoxFocused";
+import { taskAdded } from "../../actions/taskDisplayer";
+import { inputBoxFocused } from "../../actions/categories";
 
 import "./styles.scss";
 

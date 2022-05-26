@@ -8,7 +8,7 @@ import TaskDisplayer from "./components/TaskDisplayer";
 import StepTasks from "./components/StepTasks";
 
 import { IState } from "./store";
-import { defaultCategoryClicked } from "./actions/categories/defaultCategoryClicked";
+import { defaultCategoryClicked } from "./actions/categories";
 
 interface IAppState {}
 

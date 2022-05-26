@@ -3,9 +3,11 @@ import React from "react";
 import { connect } from "react-redux";
 
 import { ITask } from "../StepTasks";
-import { taskCompletedClicked } from "../../actions/stepTasks/taskCompletedClicked";
-import { taskImportantClicked } from "../../actions/stepTasks/taskImportantClicked";
-import { taskClicked } from "../../actions/taskElement/taskClicked";
+import {
+  taskCompletedClicked,
+  taskImportantClicked,
+} from "../../actions/stepTasks";
+import { taskClicked } from "../../actions/taskElement";
 
 import "./styles.scss";
 

@@ -3,8 +3,11 @@ import { switchRootClass } from "../helpers/switchRootClass";
 import { initialState, IState } from "../store";
 
 export function rootReducer(state: IState = initialState, action: any): IState {
+  console.log("rootReducer execution");
+  console.log(action.type);
+
   switch (action.type) {
-    case ACTION_TYPES.OPERATION_SUCCESS:
+    case ACTION_TYPES.API_CALL_SUCCESS:
       return {
         ...state,
         ...action.data,

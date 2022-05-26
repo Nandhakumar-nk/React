@@ -41,14 +41,16 @@ class TaskElement extends React.Component<
       <div className="task" onClick={() => this.props.taskClicked(taskId)}>
         <div className="radio-container">
           <i
-            className="material-icons add-icon radio-icon blue-icon"
+            className={
+              (isCompleted ? "fa fa-check-circle" : "fa fa-circle-thin") +
+              " add-icon radio-icon blue-icon"
+            }
             onClick={(event) => {
               event.stopPropagation();
               this.props.taskCompletedClicked(taskId, !isCompleted);
             }}
             title={isCompleted ? "undo completed" : "mark as completed"}
           >
-            {isCompleted ? "check_circle" : "radio_button_unchecked_outlined"}
           </i>
         </div>
 

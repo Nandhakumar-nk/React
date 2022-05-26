@@ -77,6 +77,7 @@ class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
             <i className="material-icons menu-icon">menu_outlined</i>
           </div>
         </div>
+        <div className="categories-container">
         <div className="scrollable-container">
           <ul>
             {getDefaultCategories(this.props.importantTasks).map(
@@ -118,12 +119,15 @@ class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
             note_add_outlined
           </i>
         </div>
+        </div>
+        
 
         <div className="left-bottom-container">
           {this.bottomIcons.map((icon, index) => {
+            let iconColor = (icon === "done_outline_outlined") ? "blue-icon":"";
             return (
               <i
-                className="material-icons left-bottom-icons grey-red-bg"
+                className={"material-icons left-bottom-icons grey-red-bg " + iconColor}
                 key={index}
               >
                 {icon}

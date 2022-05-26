@@ -81,7 +81,7 @@ class TasksContainer extends React.Component<
 
     for (
       let tasksLength = this.props.tasks.length + completedTasksCount;
-      tasksLength < 9;
+      tasksLength < 7;
       tasksLength++
     ) {
       elements.push(

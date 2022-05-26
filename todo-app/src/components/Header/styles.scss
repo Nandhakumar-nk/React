@@ -11,16 +11,14 @@
     .todo {
         display: inline-block;
         color: white;
-        margin-top: 15px;
-        margin-left: 10px;
         font-size: 15px;
         font-weight: 550;
-        width: 50px;
+        margin-left: 1%;
     }
     .top-middle-container {
-        width: 400px;
+        width: 34%;
         height: 30px;
-        margin-left: 450px;
+        margin-left: 23.5%;
         padding: 0px 2px;
         border-radius: 2px;
         background: #bddcf7;
@@ -32,8 +30,8 @@
             width: 10%;
         }
         .search-box {
-            width: 400px;
-            height: 26px;
+            width: 85%;
+            height: 93%;
             border: none;
             outline: none;
             background: #bddcf7;
@@ -46,7 +44,7 @@
         }
     }
     .top-right-distance {
-        margin-left: 22.2%;
+        margin-left: 20%;
     }
     .top-right-container {
         display: flex;

@@ -7,8 +7,13 @@
 .new-list-container {
     display: flex;
     position: relative;
-    height: 33px;
+    height: 35px;
     align-items: center;
+}
+
+.note-add-icon {
+    position: relative;
+    right: 2px;
 }
 
 .new-list-input-box {
@@ -31,29 +36,23 @@
     color: #006fd7;
 }
 
-.note-add-icon {
-    position: absolute;
-    width: 20px;
-    right: 20px;
-}
+
 
 .left-bottom-container {
     border-top: 1px solid #e8e8ee;
     height: 45px;
-    position: absolute;
-    bottom: 0px;
 }
 
 .left-bottom-icons {
     color: #767678;
     font-size: 17px !important;
     cursor: pointer;
-    height: 44px;
-    max-width: 24.5px;
-    padding: 17px;
+    
+    max-width: 7%;
+    padding: 6.5%;
 }
 
-.categories-container {
-    max-height: 580px;
+.scrollable-container {
+    max-height: 46.5%;
     overflow: auto;
 }

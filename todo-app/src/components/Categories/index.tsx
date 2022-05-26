@@ -23,7 +23,7 @@ export interface ICategory {
 }
 
 interface ICategoriesState {
-  category:string;
+  category: string;
 }
 
 interface ICategoriesProps {
@@ -86,22 +86,22 @@ class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
 
   constructor(props: ICategoriesProps) {
     super(props);
-    this.state = {category:""};
+    this.state = { category: "" };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.keyCode === 13 && this.state.category.length > 0) {
-      console.log("category submitted:"+this.state.category);
+      console.log("category submitted:" + this.state.category);
       this.props.categoryAdded(this.state.category);
-      this.setState({category:""});
+      this.setState({ category: "" });
     }
   }
 
   handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    console.log("category:"+this.state.category);
-    this.setState({category:event.target.value});
+    console.log("category:" + this.state.category);
+    this.setState({ category: event.target.value });
   }
 
   render() {
@@ -115,8 +115,7 @@ class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
             <i className="material-icons menu-icon">menu_outlined</i>
           </div>
         </div>
-
-        <div className="categories-container">
+        <div className="scrollable-container">
           <ul>
             {getDefaultCategories(this.props.importantTasks).map(
               (category, index) => {
@@ -188,7 +187,6 @@ class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
     console.log("importantTasks:" + this.props.importantTasks);
     console.log(this.props.importantTasks);
   }
-
 }
 
 const mapStateToProps = (state: IState) => ({
@@ -206,8 +204,7 @@ const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
     dispatch(dynamicCategoryClicked(categoryId)),
   inputBoxFocused: (displayShedulingIcons: boolean) =>
     dispatch(inputBoxFocused(displayShedulingIcons)),
-  menuButtonClicked: () =>
-    dispatch({type:ACTION_TYPES.MENU_BUTTON_CLICKED}),
+  menuButtonClicked: () => dispatch({ type: ACTION_TYPES.MENU_BUTTON_CLICKED }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Categories);

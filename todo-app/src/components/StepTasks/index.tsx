@@ -171,7 +171,7 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
         <div className="right-bottom-container">
           <i
             className="material-icons hide-icon"
-            onClick={() => this.props.hideIconClicked}
+            onClick={this.props.hideIconClicked}
           >
             drive_file_move_outlined
           </i>
@@ -184,6 +184,12 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
 
   componentDidMount() {
     console.log("\ncomponentDidMount() lifecycle - StepTasks");
+    console.log("currentTask:");
+    console.log(this.props.currentTask);
+  }
+
+  componentDidUpdate() {
+    console.log("\ncomponentDidUpdate() lifecycle - StepTasks");
     console.log("currentTask:");
     console.log(this.props.currentTask);
   }

@@ -37,9 +37,21 @@ export function rootReducer(state: IState = initialState, action: any): IState {
         ...action.data,
       };
     case ACTION_TYPES.TASK_CLICKED:
+      console.log("TASK_CLICKED reducer execution");
       action.data.displayRightContainer = true;
       action.data.rootClass = switchRootClass(state.displayLeftContainer, true);
-      console.log("TASK_ADDED reducer execution");
+      action.data.displayShedulingIcons = false;
+
+      return state;
+    case ACTION_TYPES.CATEGORY_ADDED:
+    case ACTION_TYPES.DEFAULT_CATEGORY_CLICKED:
+    case ACTION_TYPES.DYNAMIC_CATEGORY_CLICKED:
+      console.log("CATEGORY_ADDED reducer execution");
+      action.data.displayRightContainer = false;
+      action.data.rootClass = switchRootClass(
+        state.displayLeftContainer,
+        false
+      );
       return state;
     default:
       console.log("default reducer execution");

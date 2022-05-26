@@ -10,5 +10,6 @@ export function stepTaskAdded(taskId:string,stepTask: String) {
       stepTask,
       isCompleted: false
     },
+    data: {}
   };
 }

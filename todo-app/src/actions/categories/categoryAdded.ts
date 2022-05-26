@@ -8,5 +8,6 @@ export function categoryAdded(categoryName: String) {
     payload: {
         title: categoryName,
       },
+    data:{}
   };
 }

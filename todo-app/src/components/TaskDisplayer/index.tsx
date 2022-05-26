@@ -135,6 +135,14 @@ class TaskDisplayer extends React.Component<
     console.log("displayLeftContainer:" + this.props.displayLeftContainer);
     console.log("displayShedulingIcons:" + this.props.displayShedulingIcons);
   }
+
+  componentDidUpdate() {
+    console.log("\ncomponentDidUpdate() lifecycle - TaskDisplayer");
+    console.log("categoryTitle:" + this.props.categoryTitle);
+    console.log("selectedCategoryId:" + this.props.selectedCategoryId);
+    console.log("displayLeftContainer:" + this.props.displayLeftContainer);
+    console.log("displayShedulingIcons:" + this.props.displayShedulingIcons);
+  }
 }
 
 const mapStateToProps = (state: IState) => ({

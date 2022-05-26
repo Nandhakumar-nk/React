@@ -11,5 +11,6 @@ export function taskAdded(categoryId: string, task: String) {
       isCompleted: false,
       isImportant: false,
     },
+    data: {}
   };
 }

@@ -6,7 +6,6 @@ import { TasksService } from "../services/tasks";
 
 export function* fetchTask(action: any) {
   console.log("fetchTask generator function execution");
-  let payload = {};
 
   try {
     const response: AxiosResponse = yield call(
@@ -17,13 +16,20 @@ export function* fetchTask(action: any) {
     console.log("response:");
     console.log(response);
 
-    const categoryId:string= yield select(state => state.selectedCategoryId);
+    const categoryId: string = yield select(
+      (state) => state.selectedCategoryId
+    );
 
-    payload = { categoryId };
-    let data = { currentTask: response.data, ...action.data };
-    yield put({ type: ACTION_TYPES.FETCH_CATEGORY, payload, data });
+    action.payload.categoryId = categoryId;
+    action.data.currentTask = response.data;
+    yield put({
+      type: ACTION_TYPES.FETCH_CATEGORY,
+      payload: action.payload,
+      data: action.data,
+    });
   } catch (error) {
     console.log("error ocurred inside fetchTask generator function");
-    yield put({ type: ACTION_TYPES.OPERATION_FAILED, payload });
+    console.log(error);
+    yield put({ type: ACTION_TYPES.OPERATION_FAILED });
   }
 }

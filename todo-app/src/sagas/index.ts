@@ -13,7 +13,6 @@ export function* rootSaga() {
   console.log("rootSaga execution");
 
   yield takeEvery(ACTION_TYPES.CATEGORY_ADDED, addCategory);
-  yield takeEvery(ACTION_TYPES.GET_RECENT_DATA, getRecentData);
   yield takeEvery(ACTION_TYPES.DYNAMIC_CATEGORY_CLICKED, fetchCategory);
   yield takeEvery(ACTION_TYPES.DEFAULT_CATEGORY_CLICKED, getRecentData);
 
@@ -26,6 +25,7 @@ export function* rootSaga() {
 
   yield takeEvery(ACTION_TYPES.TASK_CLICKED, fetchTask);
 
+  yield takeEvery(ACTION_TYPES.GET_RECENT_DATA, getRecentData);
   yield takeEvery(ACTION_TYPES.FETCH_TASK, fetchTask);
   yield takeEvery(ACTION_TYPES.FETCH_CATEGORY, fetchCategory);
 }

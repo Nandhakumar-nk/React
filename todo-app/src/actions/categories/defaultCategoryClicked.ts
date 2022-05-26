@@ -5,7 +5,8 @@ export function defaultCategoryClicked(categoryTitle: String) {
 
   return {
     type: ACTION_TYPES.DEFAULT_CATEGORY_CLICKED,
-    payload: {
+    payload: {},
+    data: {
       categoryTitle,
       tasks: [],
       completedTasks: [],

@@ -9,5 +9,6 @@ export function taskCompletedClicked(taskId:string, isCompleted: boolean) {
       taskId,
       data: {isCompleted}
     },
+    data: {}
   };
 }

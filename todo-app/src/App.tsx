@@ -3,9 +3,9 @@ import React from "react";
 import { connect } from "react-redux";
 
 import Header from "./components/Header";
-import Categories, { ICategory } from "./components/Categories";
+import Categories from "./components/Categories";
 import TaskDisplayer from "./components/TaskDisplayer";
-import StepTasks, { ITask } from "./components/StepTasks";
+import StepTasks from "./components/StepTasks";
 
 import { IState } from "./store";
 import { defaultCategoryClicked } from "./actions/categories/defaultCategoryClicked";
@@ -25,7 +25,7 @@ class App extends React.Component<IAppProps, IAppState> {
       <div className={"root-container " + this.props.rootClass}>
         <Header />
 
-        {true ? <Categories /> : ""}
+        {this.props.displayLeftContainer ? <Categories /> : ""}
 
         <TaskDisplayer />
 
@@ -41,10 +41,17 @@ class App extends React.Component<IAppProps, IAppState> {
     console.log("displayRightContainer:" + this.props.displayRightContainer);
     console.log("rootClass:" + this.props.rootClass);
   }
+
+  componentDidUpdate() {
+    console.log("\ncomponentDidUpdate() lifecycle - App");
+    console.log("displayLeftContainer:" + this.props.displayLeftContainer);
+    console.log("displayRightContainer:" + this.props.displayRightContainer);
+    console.log("rootClass:" + this.props.rootClass);
+  }
 }
 
 const mapStateToProps = (state: IState) => ({
-  displayLeftContainer: state.displayRightContainer,
+  displayLeftContainer: state.displayLeftContainer,
   displayRightContainer: state.displayRightContainer,
   rootClass: state.rootClass,
 });

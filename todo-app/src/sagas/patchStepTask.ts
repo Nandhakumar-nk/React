@@ -6,7 +6,6 @@ import { StepTasksService } from "../services/stepTasks";
 
 export function* patchStepTask(action: any) {
   console.log("patchStepTask generator function execution");
-  let payload = {};
 
   try {
     const response: AxiosResponse = yield call(
@@ -20,9 +19,14 @@ export function* patchStepTask(action: any) {
 
     const taskId: string = yield select((state) => state.currentTask._id);
 
-    yield put({ type: ACTION_TYPES.FETCH_TASK, payload: { taskId } });
+    action.payload.taskId = taskId;
+    yield put({
+      type: ACTION_TYPES.FETCH_TASK,
+      payload: action.payload,
+      data: action.data,
+    });
   } catch (error) {
     console.log("error ocurred inside patchStepTask generator function");
-    yield put({ type: ACTION_TYPES.OPERATION_FAILED, payload });
+    yield put({ type: ACTION_TYPES.OPERATION_FAILED });
   }
 }

@@ -9,5 +9,6 @@ export function stepTaskCompletedClicked(stepTaskId: string, isCompleted: boolea
       stepTaskId,
       data:{isCompleted}
     },
+    data: {}
   };
 }

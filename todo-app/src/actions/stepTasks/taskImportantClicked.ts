@@ -9,5 +9,6 @@ export function taskImportantClicked(taskId:string, isImportant: boolean) {
       taskId,
       data:{isImportant}
     },
+    data: {}
   };
 }

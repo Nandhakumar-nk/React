@@ -181,6 +181,14 @@ class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
     console.log(this.props.importantTasks);
   }
 
+  componentDidUpdate() {
+    console.log("\ncomponentDidUpdate() lifecycle - Categories");
+    console.log("categories:");
+    console.log(this.props.categories);
+    console.log("importantTasks:" + this.props.importantTasks);
+    console.log(this.props.importantTasks);
+  }
+
 }
 
 const mapStateToProps = (state: IState) => ({

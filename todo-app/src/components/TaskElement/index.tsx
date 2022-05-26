@@ -2,8 +2,6 @@ import React from "react";
 
 import { connect } from "react-redux";
 
-import axios from "axios";
-
 import { ITask } from "../StepTasks";
 import { taskCompletedClicked } from "../../actions/stepTasks/taskCompletedClicked";
 import { taskImportantClicked } from "../../actions/stepTasks/taskImportantClicked";
@@ -91,6 +89,10 @@ class TaskElement extends React.Component<
 
   componentDidMount() {
     console.log("\ncomponentDidMount() lifecycle - TaskElement");
+  }
+
+  componentDidUpdate() {
+    console.log("\ncomponentDidUpdate() lifecycle - TaskElement");
   }
 }
 

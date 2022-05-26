@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { call, put, select } from "redux-saga/effects";
+import { call, put } from "redux-saga/effects";
 
 import { ACTION_TYPES } from "../constants/actionTypes";
 import { ITask } from "../components/StepTasks";
@@ -8,7 +8,6 @@ import { CategoriesService } from "../services/categories";
 export function* fetchCategory(action: any) {
   console.log("fetchCategory generator function execution");
   console.log(action);
-  let payload:any;
 
   try {
     const response: AxiosResponse = yield call(
@@ -16,25 +15,25 @@ export function* fetchCategory(action: any) {
       action.payload.categoryId
     );
 
-    console.log("response");
+    console.log("response:");
     console.log(response);
 
-    payload = {
-      categoryTitle: response.data.title,
-      selectedCategoryId: response.data._id,
-      tasks: response.data.tasks.filter(
-        (task: ITask) => task.isCompleted === false
-      ),
-      completedTasks: response.data.tasks.filter(
-        (task: ITask) => task.isCompleted === true
-      ),
-    };
+    action.data.categoryTitle = response.data.title;
+    action.data.selectedCategoryId = response.data._id;
+    action.data.tasks = response.data.tasks.filter(
+      (task: ITask) => task.isCompleted === false
+    );
+    action.data.completedTasks = response.data.tasks.filter(
+      (task: ITask) => task.isCompleted === true
+    );
 
-    if(action.payload.data) payload.currentTask = action.payload.data;
-    yield put({ type: ACTION_TYPES.GET_RECENT_DATA, payload });
+    yield put({
+      type: ACTION_TYPES.GET_RECENT_DATA,
+      payload: action.payload,
+      data: action.data,
+    });
   } catch (error) {
     console.log("error ocurred inside fetchCategory generator function");
-    payload={};
-    yield put({ type: ACTION_TYPES.OPERATION_FAILED, payload });
+    yield put({ type: ACTION_TYPES.OPERATION_FAILED });
   }
 }

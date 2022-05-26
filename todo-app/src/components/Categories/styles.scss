@@ -1,58 +1,56 @@
 .add-icon {
-    width: 30px;
-    font-size: 22px !important;
-    margin-left: 15px !important;
+  width: 30px;
+  font-size: 22px !important;
+  margin-left: 15px !important;
 }
 
 .new-list-container {
-    display: flex;
-    position: relative;
-    height: 35px;
-    align-items: center;
+  display: flex;
+  position: relative;
+  height: 35px;
+  align-items: center;
 }
 
 .note-add-icon {
-    position: relative;
-    right: 2px;
+  position: relative;
+  right: 2px;
 }
 
 .new-list-input-box {
-    height: 80%;
-    width: 68%;
-    border: none;
-    outline: none;
-    background: #f4f4f4;
+  height: 80%;
+  width: 68%;
+  border: none;
+  outline: none;
+  background: #f4f4f4;
 }
 
 .new-list-container .new-list-input-box:hover {
-    background: #fcfcfc !important;
+  background: #fcfcfc !important;
 }
 
 .new-list-container :focus {
-    background: #fcfcfc !important;
+  background: #fcfcfc !important;
 }
 
 .new-list-input-box::placeholder {
-    color: #006fd7;
+  color: #006fd7;
 }
 
-
-
 .left-bottom-container {
-    border-top: 1px solid #e8e8ee;
-    height: 45px;
+  border-top: 1px solid #dadae4;
+  height: 45px;
 }
 
 .left-bottom-icons {
-    color: #767678;
-    font-size: 17px !important;
-    cursor: pointer;
-    
-    max-width: 7%;
-    padding: 6.5%;
+  color: #767678;
+  font-size: 17px !important;
+  cursor: pointer;
+
+  max-width: 7%;
+  padding: 6.5%;
 }
 
 .scrollable-container {
-    max-height: 46.5%;
-    overflow: auto;
+  max-height: 46.5%;
+  overflow: auto;
 }

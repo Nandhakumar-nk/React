@@ -46,10 +46,6 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
       </div>
     );
   }
-
-  componentDidMount() {
-    console.log("\ncomponentDidMount() lifecycle - Header");
-  }
 }
 
 export default Header;

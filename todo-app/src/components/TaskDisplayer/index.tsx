@@ -13,7 +13,7 @@ import { inputBoxFocused } from "../../actions/categories/inputBoxFocused";
 import "./styles.scss";
 
 interface ITaskDisplayerState {
-  task:string;
+  task: string;
 }
 
 interface ITaskDisplayerProps {
@@ -32,22 +32,20 @@ class TaskDisplayer extends React.Component<
 > {
   constructor(props: ITaskDisplayerProps) {
     super(props);
-    this.state = {task:""};
+    this.state = { task: "" };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(this: any, event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.keyCode === 13 && this.state.task.length > 0) {
-      console.log("task submitted:"+this.state.task);
       this.props.taskAdded(this.props.selectedCategoryId, this.state.task);
-      this.setState({task:""});
+      this.setState({ task: "" });
     }
   }
 
   handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    console.log("task:"+this.state.task);
-    this.setState({task:event.target.value});
+    this.setState({ task: event.target.value });
   }
 
   render() {
@@ -126,22 +124,6 @@ class TaskDisplayer extends React.Component<
         <TasksContainer />
       </div>
     );
-  }
-
-  componentDidMount() {
-    console.log("\ncomponentDidMount() lifecycle - TaskDisplayer");
-    console.log("categoryTitle:" + this.props.categoryTitle);
-    console.log("selectedCategoryId:" + this.props.selectedCategoryId);
-    console.log("displayLeftContainer:" + this.props.displayLeftContainer);
-    console.log("displayShedulingIcons:" + this.props.displayShedulingIcons);
-  }
-
-  componentDidUpdate() {
-    console.log("\ncomponentDidUpdate() lifecycle - TaskDisplayer");
-    console.log("categoryTitle:" + this.props.categoryTitle);
-    console.log("selectedCategoryId:" + this.props.selectedCategoryId);
-    console.log("displayLeftContainer:" + this.props.displayLeftContainer);
-    console.log("displayShedulingIcons:" + this.props.displayShedulingIcons);
   }
 }
 

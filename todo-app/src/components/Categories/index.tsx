@@ -11,6 +11,7 @@ import { categoryAdded } from "../../actions/categories/categoryAdded";
 import { defaultCategoryClicked } from "../../actions/categories/defaultCategoryClicked";
 import { dynamicCategoryClicked } from "../../actions/categories/dynamicCategoryClicked";
 import { inputBoxFocused } from "../../actions/categories/inputBoxFocused";
+import { getDefaultCategories } from "../../helpers/getDefaultCategories";
 
 import "./styles.scss";
 
@@ -36,45 +37,6 @@ interface ICategoriesProps {
   menuButtonClicked: () => void;
 }
 
-function getDefaultCategories(importantTasks: ITask[]) {
-  const categories: ICategory[] = [
-    {
-      _id: "My Day",
-      title: "My Day",
-      tasks: [],
-      iconName: "light_mode_outlined",
-    },
-    {
-      _id: "Important",
-      title: "Important",
-      tasks: importantTasks,
-      iconName: "star_border",
-    },
-    {
-      _id: "Planned",
-      title: "Planned",
-      tasks: [],
-      iconName: "event_outlined",
-    },
-    {
-      _id: "Assigned to me",
-      title: "Assigned to me",
-      tasks: [],
-      iconName: "person_outline",
-      textColor: "green-icon",
-    },
-    {
-      _id: "Tasks",
-      title: "Tasks",
-      tasks: [],
-      iconName: "home_outlined",
-      textColor: "blue-icon",
-    },
-  ];
-
-  return categories;
-}
-
 class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
   bottomIcons = [
     "email_outlined",
@@ -93,14 +55,12 @@ class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
 
   handleSubmit(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.keyCode === 13 && this.state.category.length > 0) {
-      console.log("category submitted:" + this.state.category);
       this.props.categoryAdded(this.state.category);
       this.setState({ category: "" });
     }
   }
 
   handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    console.log("category:" + this.state.category);
     this.setState({ category: event.target.value });
   }
 
@@ -170,22 +130,6 @@ class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
         </div>
       </div>
     );
-  }
-
-  componentDidMount() {
-    console.log("\ncomponentDidMount() lifecycle - Categories");
-    console.log("categories:");
-    console.log(this.props.categories);
-    console.log("importantTasks:" + this.props.importantTasks);
-    console.log(this.props.importantTasks);
-  }
-
-  componentDidUpdate() {
-    console.log("\ncomponentDidUpdate() lifecycle - Categories");
-    console.log("categories:");
-    console.log(this.props.categories);
-    console.log("importantTasks:" + this.props.importantTasks);
-    console.log(this.props.importantTasks);
   }
 }
 

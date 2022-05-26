@@ -1,21 +1,12 @@
 import { AxiosResponse } from "axios";
-import { call, put} from "redux-saga/effects";
+import { call, put } from "redux-saga/effects";
 
 import { ACTION_TYPES } from "../constants/actionTypes";
 import { TasksService } from "../services/tasks";
 
 export function* addTask(action: any): any {
-  console.log("addTask generator function execution");
-
   try {
-    const response: AxiosResponse = yield call(
-      TasksService.post,
-      action.payload
-    );
-
-    console.log("response:");
-    console.log(response);
-
+    yield call(TasksService.post, action.payload);
     yield put({
       type: ACTION_TYPES.FETCH_CATEGORY,
       payload: action.payload,
@@ -23,6 +14,7 @@ export function* addTask(action: any): any {
     });
   } catch (error) {
     console.log("error ocurred inside addTask generator function");
+    console.log(error);
     yield put({ type: ACTION_TYPES.OPERATION_FAILED });
   }
 }

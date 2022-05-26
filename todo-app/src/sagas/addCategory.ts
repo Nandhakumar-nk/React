@@ -6,16 +6,11 @@ import { ITask } from "../components/StepTasks";
 import { CategoriesService } from "../services/categories";
 
 export function* addCategory(action: any) {
-  console.log("addCategory generator function execution");
-
   try {
     const response: AxiosResponse = yield call(
       CategoriesService.post,
       action.payload
     );
-
-    console.log("response:");
-    console.log(response);
 
     action.data.categoryTitle = response.data.title;
     action.data.selectedCategoryId = response.data._id;
@@ -33,18 +28,7 @@ export function* addCategory(action: any) {
     });
   } catch (error) {
     console.log("error ocurred inside addCategory generator function");
+    console.log(error);
     yield put({ type: ACTION_TYPES.OPERATION_FAILED });
   }
 }
-
-// action.data = {
-//   ...action.data,
-//   categoryTitle: response.data.title,
-//   selectedCategoryId: response.data._id,
-//   tasks: response.data.tasks.filter(
-//     (task: ITask) => task.isCompleted === false
-//   ),
-//   completedTasks: response.data.tasks.filter(
-//     (task: ITask) => task.isCompleted === true
-//   ),
-// };

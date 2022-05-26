@@ -51,14 +51,12 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
 
   handleSubmit(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.keyCode === 13 && this.state.stepTask.length > 0) {
-      console.log("stepTask submitted:" + this.state.stepTask);
       this.props.stepTaskAdded(this.props.currentTask._id, this.state.stepTask);
       this.setState({ stepTask: "" });
     }
   }
 
   handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-    console.log("stepTask:" + this.state.stepTask);
     this.setState({ stepTask: event.target.value });
   }
 
@@ -180,18 +178,6 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
         </div>
       </div>
     );
-  }
-
-  componentDidMount() {
-    console.log("\ncomponentDidMount() lifecycle - StepTasks");
-    console.log("currentTask:");
-    console.log(this.props.currentTask);
-  }
-
-  componentDidUpdate() {
-    console.log("\ncomponentDidUpdate() lifecycle - StepTasks");
-    console.log("currentTask:");
-    console.log(this.props.currentTask);
   }
 }
 

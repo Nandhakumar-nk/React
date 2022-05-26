@@ -35,18 +35,7 @@ class App extends React.Component<IAppProps, IAppState> {
   }
 
   componentDidMount() {
-    console.log("\ncomponentDidMount() lifecycle - App");
     this.props.defaultCategoryClicked("My Day");
-    console.log("displayLeftContainer:" + this.props.displayLeftContainer);
-    console.log("displayRightContainer:" + this.props.displayRightContainer);
-    console.log("rootClass:" + this.props.rootClass);
-  }
-
-  componentDidUpdate() {
-    console.log("\ncomponentDidUpdate() lifecycle - App");
-    console.log("displayLeftContainer:" + this.props.displayLeftContainer);
-    console.log("displayRightContainer:" + this.props.displayRightContainer);
-    console.log("rootClass:" + this.props.rootClass);
   }
 }
 
@@ -62,9 +51,3 @@ const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
-
-// App.defaultProps = {
-//   displayRightContainer: false,
-//   displayLeftContainer: true,
-//   rootClass: ""
-// }

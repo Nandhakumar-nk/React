@@ -10,8 +10,6 @@ import { patchStepTask } from "./patchStepTask";
 import { addTask } from "./addTask";
 
 export function* rootSaga() {
-  console.log("rootSaga execution");
-
   yield takeEvery(ACTION_TYPES.CATEGORY_ADDED, addCategory);
   yield takeEvery(ACTION_TYPES.DYNAMIC_CATEGORY_CLICKED, fetchCategory);
   yield takeEvery(ACTION_TYPES.DEFAULT_CATEGORY_CLICKED, getRecentData);

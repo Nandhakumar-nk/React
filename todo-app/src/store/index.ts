@@ -48,6 +48,4 @@ function configureStore(state: IState = initialState) {
   return store;
 }
 
-
-
 export default configureStore;

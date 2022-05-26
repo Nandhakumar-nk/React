@@ -6,17 +6,11 @@ import { ITask } from "../components/StepTasks";
 import { CategoriesService } from "../services/categories";
 
 export function* fetchCategory(action: any) {
-  console.log("fetchCategory generator function execution");
-  console.log(action);
-
   try {
     const response: AxiosResponse = yield call(
       CategoriesService.get,
       action.payload.categoryId
     );
-
-    console.log("response:");
-    console.log(response);
 
     action.data.categoryTitle = response.data.title;
     action.data.selectedCategoryId = response.data._id;
@@ -34,6 +28,7 @@ export function* fetchCategory(action: any) {
     });
   } catch (error) {
     console.log("error ocurred inside fetchCategory generator function");
+    console.log(error);
     yield put({ type: ACTION_TYPES.OPERATION_FAILED });
   }
 }

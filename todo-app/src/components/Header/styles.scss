@@ -1,72 +1,72 @@
 .header-container {
+  display: flex;
+  background: #006fd7;
+  height: 48px;
+  .apps-icon {
+    color: white !important;
+    margin-left: 12px !important;
+    margin-top: 13px !important;
+    font-size: 20px !important;
+  }
+  .todo {
+    display: inline-block;
+    color: white;
+    font-size: 15px;
+    font-weight: 550;
+    margin-left: 1%;
+  }
+  .top-middle-container {
+    width: 34%;
+    height: 30px;
+    margin-left: 23.5%;
+    padding: 0px 2px;
+    border-radius: 2px;
+    background: #bddcf7;
     display: flex;
-    background: #006fd7;
+    .search-icon {
+      font-size: 22px !important;
+      margin-top: 5px !important;
+      margin-left: 6px !important;
+      width: 10%;
+    }
+    .search-box {
+      width: 85%;
+      height: 93%;
+      border: none;
+      outline: none;
+      background: #bddcf7;
+    }
+    .search-box:hover {
+      background: #fcfcfc;
+    }
+    .search-box :focus {
+      background: rgb(252, 252, 252);
+    }
+  }
+  .top-right-distance {
+    margin-left: 20%;
+  }
+  .top-right-container {
+    display: flex;
+    width: 45px;
     height: 48px;
-    .apps-icon {
-        color: white !important;
-        margin-left: 12px !important;
-        margin-top: 13px !important;
-        font-size: 20px !important;
-    }
-    .todo {
-        display: inline-block;
-        color: white;
-        font-size: 15px;
-        font-weight: 550;
-        margin-left: 1%;
-    }
-    .top-middle-container {
-        width: 34%;
-        height: 30px;
-        margin-left: 23.5%;
-        padding: 0px 2px;
-        border-radius: 2px;
-        background: #bddcf7;
-        display: flex;
-        .search-icon {
-            font-size: 22px !important;
-            margin-top: 5px !important;
-            margin-left: 6px !important;
-            width: 10%;
-        }
-        .search-box {
-            width: 85%;
-            height: 93%;
-            border: none;
-            outline: none;
-            background: #bddcf7;
-        }
-        .search-box:hover {
-            background: #fcfcfc;
-        }
-        .search-box :focus {
-            background: rgb(252, 252, 252);
-        }
-    }
-    .top-right-distance {
-        margin-left: 20%;
-    }
-    .top-right-container {
-        display: flex;
-        width: 45px;
-        height: 48px;
-        padding: 0px !important;
-        align-self: flex-end;
-        justify-content: center;
-        align-items: center;
-        float: right;
-    }
+    padding: 0px !important;
+    align-self: flex-end;
+    justify-content: center;
+    align-items: center;
+    float: right;
+  }
 }
 
 .top-left-container {
-    width: 48px;
-    height: 48px;
-    float: left;
+  width: 48px;
+  height: 48px;
+  float: left;
 }
 
 .top-right-icons {
-    color: white !important;
-    font-size: 18px !important;
-    width: 15px !important;
-    outline: none;
+  color: white !important;
+  font-size: 18px !important;
+  width: 15px !important;
+  outline: none;
 }

@@ -78,56 +78,57 @@ class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
           </div>
         </div>
         <div className="categories-container">
-        <div className="scrollable-container">
-          <ul>
-            {getDefaultCategories(this.props.importantTasks).map(
-              (category, index) => {
+          <div className="scrollable-container">
+            <ul>
+              {getDefaultCategories(this.props.importantTasks).map(
+                (category, index) => {
+                  return (
+                    <CategoryListItem
+                      category={category}
+                      key={category._id}
+                      switchCategory={this.props.defaultCategoryClicked}
+                    />
+                  );
+                }
+              )}
+              <li></li>
+              {this.props.categories.map((category, index) => {
                 return (
                   <CategoryListItem
                     category={category}
                     key={category._id}
-                    switchCategory={this.props.defaultCategoryClicked}
+                    switchCategory={this.props.dynamicCategoryClicked}
                   />
                 );
-              }
-            )}
-            <li></li>
-            {this.props.categories.map((category, index) => {
-              return (
-                <CategoryListItem
-                  category={category}
-                  key={category._id}
-                  switchCategory={this.props.dynamicCategoryClicked}
-                />
-              );
-            })}
-          </ul>
-        </div>
+              })}
+            </ul>
+          </div>
 
-        <div className="new-list-container">
-          <i className="material-icons add-icon blue-icon">add</i>
-          <input
-            className="new-list-input-box new-list"
-            type="text"
-            placeholder="New List"
-            value={this.state.category}
-            onChange={this.handleChange}
-            onClick={() => this.props.inputBoxFocused(false)}
-            onKeyUp={this.handleSubmit}
-          />
-          <i className="material-icons add-icon blue-icon note-add-icon">
-            note_add_outlined
-          </i>
+          <div className="new-list-container">
+            <i className="material-icons add-icon blue-icon">add</i>
+            <input
+              className="new-list-input-box new-list"
+              type="text"
+              placeholder="New List"
+              value={this.state.category}
+              onChange={this.handleChange}
+              onClick={() => this.props.inputBoxFocused(false)}
+              onKeyUp={this.handleSubmit}
+            />
+            <i className="material-icons add-icon blue-icon note-add-icon">
+              note_add_outlined
+            </i>
+          </div>
         </div>
-        </div>
-        
 
         <div className="left-bottom-container">
           {this.bottomIcons.map((icon, index) => {
-            let iconColor = (icon === "done_outline_outlined") ? "blue-icon":"";
+            let iconColor = icon === "done_outline_outlined" ? "blue-icon" : "";
             return (
               <i
-                className={"material-icons left-bottom-icons grey-red-bg " + iconColor}
+                className={
+                  "material-icons left-bottom-icons grey-red-bg " + iconColor
+                }
                 key={index}
               >
                 {icon}

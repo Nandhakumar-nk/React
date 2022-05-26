@@ -109,6 +109,7 @@ class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
             className="new-list-input-box new-list"
             type="text"
             placeholder="New List"
+            value={this.state.category}
             onChange={this.handleChange}
             onClick={() => this.props.inputBoxFocused(false)}
             onKeyUp={this.handleSubmit}

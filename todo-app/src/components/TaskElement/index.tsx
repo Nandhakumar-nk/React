@@ -25,15 +25,8 @@ class TaskElement extends React.Component<
   ITaskElementProps,
   ITaskElementState
 > {
-  taskClicked: (taskId: string) => void;
-  taskCompletedClicked: (taskId: string, isCompleted: boolean) => void;
-  taskImportantClicked: (taskId: string, isImportant: boolean) => void;
-
   constructor(props: ITaskElementProps) {
     super(props);
-    this.taskClicked = this.props.taskClicked.bind(this);
-    this.taskCompletedClicked = this.props.taskCompletedClicked.bind(this);
-    this.taskImportantClicked = this.props.taskImportantClicked.bind(this);
   }
 
   render() {

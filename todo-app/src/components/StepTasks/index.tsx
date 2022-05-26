@@ -128,6 +128,7 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
                 className="step-task-input-box new-list"
                 type="text"
                 placeholder="Add Step"
+                value={this.state.stepTask}
                 onChange={this.handleChange}
                 onKeyUp={this.handleSubmit}
               />

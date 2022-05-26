@@ -94,6 +94,7 @@ class TaskDisplayer extends React.Component<
             className="add-task-input-box"
             type="text"
             placeholder="Add a task"
+            value={this.state.task}
             onChange={this.handleChange}
             onClick={() => this.props.inputBoxFocused(true)}
             onKeyUp={this.handleSubmit}

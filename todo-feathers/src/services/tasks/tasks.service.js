@@ -12,24 +12,8 @@ module.exports = function(app) {
 
     // Initialize our service with any options it requires
     app.use('/tasks', new Tasks(options, app));
-    app.use("/importantTasks", {
-
-        async find(params) {
-            let importantTasks;
-            try {
-                importantTasks = await app.service('tasks').find({
-                    query: {
-                        isImportant: true,
-                        isCompleted: false
-                    }
-                });
-            } catch (error) {
-                console.log("error:" + error);
-            }
-
-            return importantTasks;
-        }
-    })
+    //custom service
+    //app.use('/importantTasks', {rest methods});
 
     // Get our initialized service so that we can register hooks
     const service = app.service('tasks');

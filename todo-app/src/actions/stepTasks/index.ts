@@ -2,7 +2,7 @@ import { ACTION_TYPES } from "../../constants/actionTypes";
 
 export function stepTaskAdded(taskId: string, stepTask: String) {
   return {
-    type: ACTION_TYPES.NEW_STEPTASK_SUBMITTED,
+    type: ACTION_TYPES.CREATE_STEPTASK_REQUEST,
     payload: {
       taskId,
       stepTask,
@@ -17,7 +17,7 @@ export function stepTaskCompletedClicked(
   isCompleted: boolean
 ) {
   return {
-    type: ACTION_TYPES.STEPTASK_COMPLETED_ICON_CLICKED,
+    type: ACTION_TYPES.MARK_AS_COMPLETED_STEPTASK_REQUEST,
     payload: {
       stepTaskId,
       data: { isCompleted },
@@ -28,7 +28,7 @@ export function stepTaskCompletedClicked(
 
 export function taskCompletedClicked(taskId: string, isCompleted: boolean) {
   return {
-    type: ACTION_TYPES.TASK_COMPLETED_ICON_CLICKED,
+    type: ACTION_TYPES.MARK_AS_COMPLETED_TASK_REQUEST,
     payload: {
       taskId,
       data: { isCompleted },
@@ -39,7 +39,7 @@ export function taskCompletedClicked(taskId: string, isCompleted: boolean) {
 
 export function taskImportantClicked(taskId: string, isImportant: boolean) {
   return {
-    type: ACTION_TYPES.TASK_IMPORTANT_ICON_CLICKED,
+    type: ACTION_TYPES.MARK_AS_IMPORTANT_TASK_REQUEST,
     payload: {
       taskId,
       data: { isImportant },

@@ -2,7 +2,7 @@ import { ACTION_TYPES } from "../../constants/actionTypes";
 
 export function categoryAdded(categoryName: String) {
   return {
-    type: ACTION_TYPES.NEW_CATEGORY_SUBMITTED,
+    type: ACTION_TYPES.CREATE_CATEGORY_REQUEST,
     payload: {
       title: categoryName,
     },
@@ -12,7 +12,7 @@ export function categoryAdded(categoryName: String) {
 
 export function defaultCategoryClicked(categoryTitle: String) {
   return {
-    type: ACTION_TYPES.DEFAULT_CATEGORY_CLICKED,
+    type: ACTION_TYPES.FETCH_DEFAULT_CATEGORY_REQUEST,
     payload: {},
     data: {
       categoryTitle,
@@ -31,7 +31,7 @@ export function defaultCategoryClicked(categoryTitle: String) {
 
 export function dynamicCategoryClicked(categoryId: String) {
   return {
-    type: ACTION_TYPES.DYNAMIC_CATEGORY_CLICKED,
+    type: ACTION_TYPES.FETCH_CATEGORY_REQUEST,
     payload: { categoryId },
     data: {},
   };

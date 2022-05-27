@@ -29,15 +29,15 @@ export function rootReducer(state: IState = initialState, action: any): IState {
         ...state,
         ...action.data,
       };
-    case ACTION_TYPES.TASK_CLICKED:
+    case ACTION_TYPES.FETCH_TASK_REQUEST:
       action.data.displayRightContainer = true;
       action.data.rootClass = switchRootClass(state.displayLeftContainer, true);
       action.data.displayShedulingIcons = false;
 
       return state;
-    case ACTION_TYPES.NEW_CATEGORY_SUBMITTED:
-    case ACTION_TYPES.DEFAULT_CATEGORY_CLICKED:
-    case ACTION_TYPES.DYNAMIC_CATEGORY_CLICKED:
+    case ACTION_TYPES.CREATE_CATEGORY_REQUEST:
+    case ACTION_TYPES.FETCH_DEFAULT_CATEGORY_REQUEST:
+    case ACTION_TYPES.FETCH_CATEGORY_REQUEST:
       action.data.displayRightContainer = false;
       action.data.rootClass = switchRootClass(
         state.displayLeftContainer,

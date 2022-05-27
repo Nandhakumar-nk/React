@@ -1,15 +1,14 @@
 import axios from "axios";
 
-export class CategoriesService {
-  static API_URL: string = "http://192.168.0.102:3030/";
+export const createCategory = (data: any) =>
+  axios({
+    method: "post",
+    url: `${process.env.REACT_APP_API_URL}categories`,
+    data,
+  });
 
-  static post = (data: any) =>
-    axios({
-      method: "post",
-      url: `${CategoriesService.API_URL}categories`,
-      data,
-    });
+export const getCategory = (id: string) =>
+  axios.get(`${process.env.REACT_APP_API_URL}categories/${id}`);
 
-  static get = (id: string = "") =>
-    axios.get(`${CategoriesService.API_URL}categories/${id}`);
-}
+export const getCategories = () =>
+  axios.get(`${process.env.REACT_APP_API_URL}categories`);

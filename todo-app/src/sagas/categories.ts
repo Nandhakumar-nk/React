@@ -1,17 +1,18 @@
 import { AxiosResponse } from "axios";
-import { call, put, takeEvery } from "redux-saga/effects";
+import { call, put } from "redux-saga/effects";
 
 import { ACTION_TYPES } from "../constants/actionTypes";
 import { ITask } from "../components/StepTasks";
-import { CategoriesService } from "../services/categories";
-import { TasksService } from "../services/tasks";
+import {
+  createCategory,
+  getCategory,
+  getCategories,
+} from "../services/categories";
+import { getImportantTasks } from "../services/tasks";
 
 export function* addCategory(action: any) {
   try {
-    const response: AxiosResponse = yield call(
-      CategoriesService.post,
-      action.payload
-    );
+    const response: AxiosResponse = yield call(createCategory, action.payload);
 
     action.data.categoryTitle = response.data.title;
     action.data.selectedCategoryId = response.data._id;
@@ -23,7 +24,7 @@ export function* addCategory(action: any) {
     );
 
     yield put({
-      type: ACTION_TYPES.GET_RECENT_DATA,
+      type: ACTION_TYPES.GET_UPDATED_DATA,
       payload: action.payload,
       data: action.data,
     });
@@ -37,7 +38,7 @@ export function* addCategory(action: any) {
 export function* fetchCategory(action: any) {
   try {
     const response: AxiosResponse = yield call(
-      CategoriesService.get,
+      getCategory,
       action.payload.categoryId
     );
 
@@ -51,7 +52,7 @@ export function* fetchCategory(action: any) {
     );
 
     yield put({
-      type: ACTION_TYPES.GET_RECENT_DATA,
+      type: ACTION_TYPES.GET_UPDATED_DATA,
       payload: action.payload,
       data: action.data,
     });
@@ -62,14 +63,10 @@ export function* fetchCategory(action: any) {
   }
 }
 
-export function* getRecentData(action: any):any {
+export function* getUpdatedData(action: any): any {
   try {
-    yield takeEvery(ACTION_TYPES.GET_RECENT_DATA, getRecentData);
-    const categoriesResponse: AxiosResponse = yield call(CategoriesService.get);
-    const importantTasksResponse: AxiosResponse = yield call(
-      TasksService.get,
-      "?isImportant=true&isCompleted=false"
-    );
+    const categoriesResponse: AxiosResponse = yield call(getCategories);
+    const importantTasksResponse: AxiosResponse = yield call(getImportantTasks);
 
     action.data.categories = categoriesResponse.data;
     action.data.importantTasks = importantTasksResponse.data;

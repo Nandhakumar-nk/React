@@ -1,22 +1,26 @@
 import axios from "axios";
 
-export class TasksService {
-  static API_URL: string = "http://192.168.0.102:3030/";
+export const createTask = (data: any) =>
+  axios({
+    method: "post",
+    url: `${process.env.REACT_APP_API_URL}tasks`,
+    data,
+  });
 
-  static post = (data: any) =>
-    axios({
-      method: "post",
-      url: `${TasksService.API_URL}tasks`,
-      data,
-    });
+export const getTask = (id: string) =>
+  axios.get(`${process.env.REACT_APP_API_URL}tasks/${id}`);
 
-  static get = (id: string = "") =>
-    axios.get(`${TasksService.API_URL}tasks/${id}`);
+export const getTasks = () =>
+  axios.get(`${process.env.REACT_APP_API_URL}tasks`);
 
-  static patch = (id: string, data: any) =>
-    axios({
-      method: "patch",
-      url: `${TasksService.API_URL}tasks/${id}`,
-      data,
-    });
-}
+export const getImportantTasks = () =>
+  axios.get(
+    `${process.env.REACT_APP_API_URL}tasks/?isImportant=true&isCompleted=false`
+  );
+
+export const editTaskDetails = (id: string, data: any) =>
+  axios({
+    method: "patch",
+    url: `${process.env.REACT_APP_API_URL}tasks/${id}`,
+    data,
+  });

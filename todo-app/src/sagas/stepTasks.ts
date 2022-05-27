@@ -1,11 +1,11 @@
 import { call, put, select } from "redux-saga/effects";
 
 import { ACTION_TYPES } from "../constants/actionTypes";
-import { StepTasksService } from "../services/stepTasks";
+import { editStepTaskDetails, createStepTask } from "../services/stepTasks";
 
 export function* addStepTask(action: any) {
   try {
-    yield call(StepTasksService.post, action.payload);
+    yield call(createStepTask, action.payload);
     yield put({
       type: ACTION_TYPES.FETCH_TASK,
       payload: action.payload,
@@ -18,10 +18,10 @@ export function* addStepTask(action: any) {
   }
 }
 
-export function* patchStepTask(action: any) {
+export function* editStepTask(action: any) {
   try {
     yield call(
-      StepTasksService.patch,
+      editStepTaskDetails,
       action.payload.stepTaskId,
       action.payload.data
     );

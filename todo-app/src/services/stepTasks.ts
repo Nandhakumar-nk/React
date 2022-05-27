@@ -1,22 +1,18 @@
 import axios from "axios";
 
-export class StepTasksService {
-  static API_URL: string = "http://192.168.0.102:3030/";
+export const createStepTask = (data: any) =>
+  axios({
+    method: "post",
+    url: `${process.env.REACT_APP_API_URL}stepTasks`,
+    data,
+  });
 
-  static post = (data: any) =>
-    axios({
-      method: "post",
-      url: `${StepTasksService.API_URL}stepTasks`,
-      data,
-    });
+export const getStepTask = (id: string) =>
+  axios.get(`${process.env.REACT_APP_API_URL}stepTasks/${id}`);
 
-  static get = (id: string = "") =>
-    axios.get(`${StepTasksService.API_URL}stepTasks/${id}`);
-
-  static patch = (id: string, data: any) =>
-    axios({
-      method: "patch",
-      url: `${StepTasksService.API_URL}stepTasks/${id}`,
-      data,
-    });
-}
+export const editStepTaskDetails = (id: string, data: any) =>
+  axios({
+    method: "patch",
+    url: `${process.env.REACT_APP_API_URL}stepTasks/${id}`,
+    data,
+  });

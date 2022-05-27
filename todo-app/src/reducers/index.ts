@@ -3,9 +3,6 @@ import { switchRootClass } from "../helpers/switchRootClass";
 import { initialState, IState } from "../store";
 
 export function rootReducer(state: IState = initialState, action: any): IState {
-  console.log("rootReducer execution");
-  console.log(action.type);
-
   switch (action.type) {
     case ACTION_TYPES.API_CALL_SUCCESS:
       return {
@@ -21,7 +18,7 @@ export function rootReducer(state: IState = initialState, action: any): IState {
           state.displayRightContainer
         ),
       };
-    case ACTION_TYPES.HIDE_ICON_CLICKED:
+    case ACTION_TYPES.HIDE_RIGHT_CONTAINER_ICON_CLICKED:
       return {
         ...state,
         displayRightContainer: false,
@@ -38,7 +35,7 @@ export function rootReducer(state: IState = initialState, action: any): IState {
       action.data.displayShedulingIcons = false;
 
       return state;
-    case ACTION_TYPES.CATEGORY_ADDED:
+    case ACTION_TYPES.NEW_CATEGORY_SUBMITTED:
     case ACTION_TYPES.DEFAULT_CATEGORY_CLICKED:
     case ACTION_TYPES.DYNAMIC_CATEGORY_CLICKED:
       action.data.displayRightContainer = false;

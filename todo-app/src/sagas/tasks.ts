@@ -2,11 +2,11 @@ import { AxiosResponse } from "axios";
 import { call, put, select } from "redux-saga/effects";
 
 import { ACTION_TYPES } from "../constants/actionTypes";
-import { TasksService } from "../services/tasks";
+import { createTask, getTask, editTaskDetails } from "../services/tasks";
 
 export function* addTask(action: any): any {
   try {
-    yield call(TasksService.post, action.payload);
+    yield call(createTask, action.payload);
     yield put({
       type: ACTION_TYPES.FETCH_CATEGORY,
       payload: action.payload,
@@ -21,10 +21,7 @@ export function* addTask(action: any): any {
 
 export function* fetchTask(action: any) {
   try {
-    const response: AxiosResponse = yield call(
-      TasksService.get,
-      action.payload.taskId
-    );
+    const response: AxiosResponse = yield call(getTask, action.payload.taskId);
     const categoryId: string = yield select(
       (state) => state.selectedCategoryId
     );
@@ -44,10 +41,10 @@ export function* fetchTask(action: any) {
   }
 }
 
-export function* patchTask(action: any) {
+export function* editTask(action: any) {
   try {
     const response: AxiosResponse = yield call(
-      TasksService.patch,
+      editTaskDetails,
       action.payload.taskId,
       action.payload.data
     );

@@ -37,7 +37,7 @@ export function MenuListItem(props: IMenuListItemProps) {
         }
         onClick={props.item.iconEvent ? props.item.iconEvent : hello}
       >
-        {props.item.icon}
+        {props.item.icon == "f" ? "":props.item.icon}
       </i>
       <span className={props.item.textClass ? props.item.textClass : ""}>
         {props.item.text}

@@ -69,10 +69,11 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
             <ul className="right-menu-container">
               <MenuListItem
                 item={{
-                  icon: this.props.currentTask.isCompleted
-                    ? "check_circle"
-                    : "radio_button_unchecked_outlined",
-                  iconClass: " blue-icon radio-icon",
+                  iconClass:
+                    (this.props.currentTask.isCompleted
+                      ? " fa fa-check-circle"
+                      : " fa fa-circle-thin") + " blue-icon radio-icon",
+                  icon: "f",
                   iconEvent: () => {
                     this.props.taskCompletedClicked(
                       this.props.currentTask._id,
@@ -114,7 +115,7 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
                       text: stepTask.stepTask,
                       textClass: stepTask.isCompleted ? " text-strike" : "",
                       secondIcon: "f",
-                      secondIconClass: "fa fa-times-circle-o close-icon",
+                      secondIconClass: "fa fa-times-circle-o",
                       borderBottom: true,
                     }}
                   />
@@ -200,7 +201,7 @@ const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
     dispatch(taskCompletedClicked(taskId, isCompleted)),
   stepTaskCompletedClicked: (stepTaskId: string, isCompleted: boolean) =>
     dispatch(stepTaskCompletedClicked(stepTaskId, isCompleted)),
-  hideIconClicked: () => dispatch({ type: ACTION_TYPES.HIDE_ICON_CLICKED }),
+  hideIconClicked: () => dispatch({ type: ACTION_TYPES.HIDE_RIGHT_CONTAINER_ICON_CLICKED }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StepTasks);

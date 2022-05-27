@@ -24,13 +24,8 @@
 .task-right {
   font-size: 16px;
   font-weight: 550;
-  color: rgb(69, 69, 69);
+  color: #454545;
   margin-left: 6px;
-}
-
-.close-icon {
-  font-weight: 100;
-  width: 0px !important;
 }
 
 .step-task-input-box {
@@ -71,7 +66,6 @@
   display: flex;
   border-top: 1px solid #e8e8ee;
   height: 8%;
-  background-color: red;
   .hide-icon {
     margin-top: 12px !important;
     margin-left: 15px !important;
@@ -88,4 +82,10 @@
     font-size: 23px !important;
     width: 0px !important;
   }
+}
+
+.fa-times-circle-o {
+  font-weight: 100 !important;
+  width: 0px !important;
+  color: #c5bbbb !important;
 }

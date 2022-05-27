@@ -19,6 +19,7 @@ body {
         grid-area: top-container;
         background-color: #0278d7;
         color: #ffffff;
+        width: 100vw;
     }
     .left-container {
         grid-area: left-container;
@@ -126,7 +127,8 @@ ul {
 .radio-icon {
     width: 0px !important;
     margin-right: 23px !important;
-    font-size: 23px !important;
+    font-size: 22px !important;
+    margin-left: 9px;
 }
 
 .blue-icon {

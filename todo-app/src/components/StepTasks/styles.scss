@@ -21,11 +21,17 @@
   font-size: 18px !important;
 }
 
+.radio-icon-right {
+  font-size: 22px;
+  position: relative;
+  right: 2px;
+}
+
 .task-right {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 550;
   color: #454545;
-  margin-left: 6px;
+  margin-left: 2px;
 }
 
 .step-task-input-box {
@@ -37,6 +43,13 @@
 
 .step-task-input-box::placeholder {
   color: #006fd7;
+}
+
+.fa-remove:before, .fa-close:before, .fa-times:before {
+  font-size: 15px;
+  color: #b3b3b3;
+  font-weight: 100;
+  margin-left: 3px;
 }
 
 .border-bottom {
@@ -72,20 +85,14 @@
     font-size: 20px !important;
   }
   .created-text {
-    width: 159px;
+    width: 170px;
     font-size: 11px;
     margin-top: 15px;
     margin-left: 20%;
   }
-  .delete-icon {
-    margin-top: 8px !important;
-    font-size: 23px !important;
-    width: 0px !important;
+  .fa-trash-o {
+    margin-top: 10px;
+    font-size: 19px;
+    margin-left: 6px;
   }
-}
-
-.fa-times-circle-o {
-  font-weight: 100 !important;
-  width: 0px !important;
-  color: #c5bbbb !important;
 }

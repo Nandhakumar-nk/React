@@ -43,7 +43,7 @@ class TaskElement extends React.Component<
           <i
             className={
               (isCompleted ? "fa fa-check-circle" : "fa fa-circle-thin") +
-              " add-icon radio-icon blue-icon"
+              " radio-icon blue-icon"
             }
             onClick={(event) => {
               event.stopPropagation();

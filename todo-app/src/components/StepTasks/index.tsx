@@ -38,7 +38,10 @@ interface IStepTasksProps {
   createStepTaskRequest: (taskId: string, stepTask: string) => void;
   markAsImportantTaskRequest: (taskId: string, isImportant: boolean) => void;
   markAsCompletedTaskRequest: (taskId: string, isCompleted: boolean) => void;
-  markAsCompletedStepTaskRequest: (stepTaskId: string, isCompleted: boolean) => void;
+  markAsCompletedStepTaskRequest: (
+    stepTaskId: string,
+    isCompleted: boolean
+  ) => void;
   hideIconClicked: () => void;
 }
 
@@ -52,7 +55,10 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
 
   handleSubmit(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.keyCode === 13 && this.state.stepTask.length > 0) {
-      this.props.createStepTaskRequest(this.props.currentTask._id, this.state.stepTask);
+      this.props.createStepTaskRequest(
+        this.props.currentTask._id,
+        this.state.stepTask
+      );
       this.setState({ stepTask: "" });
     }
   }
@@ -72,7 +78,7 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
                   iconClass:
                     (this.props.currentTask.isCompleted
                       ? " fa fa-check-circle"
-                      : " fa fa-circle-thin") + " blue-icon radio-icon",
+                      : " fa fa-circle-thin") + " blue-icon radio-icon-right",
                   icon: "f",
                   iconEvent: () => {
                     this.props.markAsCompletedTaskRequest(
@@ -102,10 +108,11 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
                 return (
                   <MenuListItem
                     item={{
-                      icon: stepTask.isCompleted
-                        ? "check_circle"
-                        : "radio_button_unchecked_outlined",
-                      iconClass: " blue-icon completed-icon",
+                      iconClass:
+                        (stepTask.isCompleted
+                          ? " fa fa-check-circle"
+                          : " fa fa-circle-thin") + " completed-icon blue-icon",
+                      icon: "f",
                       iconEvent: () => {
                         this.props.markAsCompletedStepTaskRequest(
                           stepTask._id,
@@ -115,7 +122,7 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
                       text: stepTask.stepTask,
                       textClass: stepTask.isCompleted ? " text-strike" : "",
                       secondIcon: "f",
-                      secondIconClass: "fa fa-times-circle-o",
+                      secondIconClass: "fa fa-times",
                       borderBottom: true,
                     }}
                   />
@@ -181,7 +188,7 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
             drive_file_move_outlined
           </i>
           <span className="created-text">Created Today</span>
-          <i className="material-icons delete-icon">delete_outlined</i>
+          <i className="fa fa-trash-o delete-icon"></i>
         </div>
       </div>
     );
@@ -206,7 +213,8 @@ const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
     dispatch(markAsCompletedTaskRequest(taskId, isCompleted)),
   markAsCompletedStepTaskRequest: (stepTaskId: string, isCompleted: boolean) =>
     dispatch(markAsCompletedStepTaskRequest(stepTaskId, isCompleted)),
-  hideIconClicked: () => dispatch({ type: ACTION_TYPES.HIDE_RIGHT_CONTAINER_ICON_CLICKED }),
+  hideIconClicked: () =>
+    dispatch({ type: ACTION_TYPES.HIDE_RIGHT_CONTAINER_ICON_CLICKED }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(StepTasks);

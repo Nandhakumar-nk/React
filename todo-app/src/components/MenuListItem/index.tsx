@@ -39,7 +39,7 @@ export function MenuListItem(props: IMenuListItemProps) {
       >
         {props.item.icon == "f" ? "":props.item.icon}
       </i>
-      <span className={props.item.textClass ? props.item.textClass : ""}>
+      <span className={"right-list-text " + (props.item.textClass ? props.item.textClass : "")}>
         {props.item.text}
       </span>
       {(props.item.secondIcon  || props.item.secondIcon === "f") ? (

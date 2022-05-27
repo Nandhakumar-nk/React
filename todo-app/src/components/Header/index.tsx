@@ -27,8 +27,9 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
           <input className="search-box" type="text" />
         </div>
 
-        <BoxedIcon
-          divClass="top-right-container top-right-distance blue-bg"
+<div className="top-right">
+<BoxedIcon
+          divClass="top-right-container blue-bg"
           iconClass="top-right-icons fa fa-cog"
         />
         <BoxedIcon
@@ -43,6 +44,8 @@ class Header extends React.Component<IHeaderProps, IHeaderState> {
           divClass="top-right-container blue-bg"
           iconClass="top-right-icons fa fa-user"
         />
+</div>
+        
       </div>
     );
   }

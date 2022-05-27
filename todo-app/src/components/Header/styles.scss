@@ -43,19 +43,21 @@
       background: rgb(252, 252, 252);
     }
   }
-  .top-right-distance {
-    margin-left: 20.5%;
-  }
-  .top-right-container {
+
+  .top-right {
+    margin-left: auto;
     display: flex;
-    width: 45px;
-    height: 48px;
-    padding: 0px !important;
-    align-self: flex-end;
-    justify-content: center;
-    align-items: center;
-    float: right;
+    .top-right-container {
+      display: flex;
+      width: 45px;
+      height: 48px;
+      padding: 0px !important;
+      align-self: flex-end;
+      justify-content: center;
+      align-items: center;
+    }
   }
+  
 }
 
 .top-left-container {
@@ -65,6 +67,7 @@
 }
 
 .top-right-icons {
+  position: static;
   color: white !important;
   font-size: 18px !important;
   width: 15px !important;

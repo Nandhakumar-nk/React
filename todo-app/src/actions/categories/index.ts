@@ -1,6 +1,6 @@
 import { ACTION_TYPES } from "../../constants/actionTypes";
 
-export function categoryAdded(categoryName: String) {
+export function createCategoryRequest(categoryName: String) {
   return {
     type: ACTION_TYPES.CREATE_CATEGORY_REQUEST,
     payload: {
@@ -10,7 +10,7 @@ export function categoryAdded(categoryName: String) {
   };
 }
 
-export function defaultCategoryClicked(categoryTitle: String) {
+export function fetchDefaultCategoryRequest(categoryTitle: String) {
   return {
     type: ACTION_TYPES.FETCH_DEFAULT_CATEGORY_REQUEST,
     payload: {},
@@ -29,7 +29,7 @@ export function defaultCategoryClicked(categoryTitle: String) {
   };
 }
 
-export function dynamicCategoryClicked(categoryId: String) {
+export function fetchCategoryRequest(categoryId: String) {
   return {
     type: ACTION_TYPES.FETCH_CATEGORY_REQUEST,
     payload: { categoryId },

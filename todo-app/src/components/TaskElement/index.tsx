@@ -4,10 +4,10 @@ import { connect } from "react-redux";
 
 import { ITask } from "../StepTasks";
 import {
-  taskCompletedClicked,
-  taskImportantClicked,
+  markAsCompletedTaskRequest,
+  markAsImportantTaskRequest,
 } from "../../actions/stepTasks";
-import { taskClicked } from "../../actions/taskElement";
+import { fetchTaskRequest } from "../../actions/taskElement";
 
 import "./styles.scss";
 
@@ -16,9 +16,9 @@ interface ITaskElementState {}
 interface ITaskElementProps {
   task: ITask;
   key: string;
-  taskClicked: (taskId: string) => void;
-  taskImportantClicked: (taskId: string, isImportant: boolean) => void;
-  taskCompletedClicked: (taskId: string, isCompleted: boolean) => void;
+  fetchTaskRequest: (taskId: string) => void;
+  markAsImportantTaskRequest: (taskId: string, isImportant: boolean) => void;
+  markAsCompletedTaskRequest: (taskId: string, isCompleted: boolean) => void;
 }
 
 class TaskElement extends React.Component<
@@ -38,7 +38,7 @@ class TaskElement extends React.Component<
     );
 
     return (
-      <div className="task" onClick={() => this.props.taskClicked(taskId)}>
+      <div className="task" onClick={() => this.props.fetchTaskRequest(taskId)}>
         <div className="radio-container">
           <i
             className={
@@ -47,7 +47,7 @@ class TaskElement extends React.Component<
             }
             onClick={(event) => {
               event.stopPropagation();
-              this.props.taskCompletedClicked(taskId, !isCompleted);
+              this.props.markAsCompletedTaskRequest(taskId, !isCompleted);
             }}
             title={isCompleted ? "undo completed" : "mark as completed"}
           >
@@ -74,7 +74,7 @@ class TaskElement extends React.Component<
           }
           onClick={(event) => {
             event.stopPropagation();
-            this.props.taskImportantClicked(taskId, !isImportant);
+            this.props.markAsImportantTaskRequest(taskId, !isImportant);
           }}
           title={isImportant ? "remove from important" : "mark as important"}
         >
@@ -86,11 +86,11 @@ class TaskElement extends React.Component<
 }
 
 const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
-  taskClicked: (taskId: string) => dispatch(taskClicked(taskId)),
-  taskImportantClicked: (taskId: string, isImportant: boolean) =>
-    dispatch(taskImportantClicked(taskId, isImportant)),
-  taskCompletedClicked: (taskId: string, isCompleted: boolean) =>
-    dispatch(taskCompletedClicked(taskId, isCompleted)),
+  fetchTaskRequest: (taskId: string) => dispatch(fetchTaskRequest(taskId)),
+  markAsImportantTaskRequest: (taskId: string, isImportant: boolean) =>
+    dispatch(markAsImportantTaskRequest(taskId, isImportant)),
+  markAsCompletedTaskRequest: (taskId: string, isCompleted: boolean) =>
+    dispatch(markAsCompletedTaskRequest(taskId, isCompleted)),
 });
 
 export default connect(null, mapDispatchToProps)(TaskElement);

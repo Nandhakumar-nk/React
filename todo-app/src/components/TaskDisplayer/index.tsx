@@ -7,7 +7,7 @@ import { BoxedIcon } from "../BoxedIcon";
 
 import { IState } from "../../store";
 import { ACTION_TYPES } from "../../constants/actionTypes";
-import { taskAdded } from "../../actions/taskDisplayer";
+import { createTaskRequest } from "../../actions/taskDisplayer";
 import { inputBoxFocused } from "../../actions/categories";
 
 import "./styles.scss";
@@ -21,7 +21,7 @@ interface ITaskDisplayerProps {
   selectedCategoryId: string;
   displayLeftContainer: boolean;
   displayShedulingIcons: boolean;
-  taskAdded: (categoryId: string, task: string) => void;
+  createTaskRequest: (categoryId: string, task: string) => void;
   inputBoxFocused: (displayShedulingIcons: boolean) => void;
   menuButtonClicked: () => void;
 }
@@ -39,7 +39,7 @@ class TaskDisplayer extends React.Component<
 
   handleSubmit(this: any, event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.keyCode === 13 && this.state.task.length > 0) {
-      this.props.taskAdded(this.props.selectedCategoryId, this.state.task);
+      this.props.createTaskRequest(this.props.selectedCategoryId, this.state.task);
       this.setState({ task: "" });
     }
   }
@@ -136,8 +136,8 @@ const mapStateToProps = (state: IState) => ({
 });
 
 const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
-  taskAdded: (categoryId: string, task: string) =>
-    dispatch(taskAdded(categoryId, task)),
+  createTaskRequest: (categoryId: string, task: string) =>
+    dispatch(createTaskRequest(categoryId, task)),
   inputBoxFocused: (displayShedulingIcons: boolean) =>
     dispatch(inputBoxFocused(displayShedulingIcons)),
   menuButtonClicked: () => dispatch({ type: ACTION_TYPES.MENU_BUTTON_CLICKED }),

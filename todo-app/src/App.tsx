@@ -8,7 +8,7 @@ import TaskDisplayer from "./components/TaskDisplayer";
 import StepTasks from "./components/StepTasks";
 
 import { IState } from "./store";
-import { defaultCategoryClicked } from "./actions/categories";
+import { fetchDefaultCategoryRequest } from "./actions/categories";
 
 interface IAppState {}
 
@@ -16,7 +16,7 @@ export interface IAppProps {
   displayRightContainer: boolean;
   displayLeftContainer: boolean;
   rootClass: string;
-  defaultCategoryClicked: (categoryTitle: string) => void;
+  fetchDefaultCategoryRequest: (categoryTitle: string) => void;
 }
 
 class App extends React.Component<IAppProps, IAppState> {
@@ -35,7 +35,7 @@ class App extends React.Component<IAppProps, IAppState> {
   }
 
   componentDidMount() {
-    this.props.defaultCategoryClicked("My Day");
+    this.props.fetchDefaultCategoryRequest("My Day");
   }
 }
 
@@ -46,8 +46,8 @@ const mapStateToProps = (state: IState) => ({
 });
 
 const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
-  defaultCategoryClicked: (categoryTitle: string) =>
-    dispatch(defaultCategoryClicked(categoryTitle)),
+  fetchDefaultCategoryRequest: (categoryTitle: string) =>
+    dispatch(fetchDefaultCategoryRequest(categoryTitle)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

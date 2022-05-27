@@ -8,9 +8,9 @@ import { ITask } from "../StepTasks";
 import { IState } from "../../store";
 import { ACTION_TYPES } from "../../constants/actionTypes";
 import {
-  categoryAdded,
-  defaultCategoryClicked,
-  dynamicCategoryClicked,
+  createCategoryRequest,
+  fetchDefaultCategoryRequest,
+  fetchCategoryRequest,
   inputBoxFocused,
 } from "../../actions/categories";
 import { getDefaultCategories } from "../../helpers/getDefaultCategories";
@@ -32,9 +32,9 @@ interface ICategoriesState {
 interface ICategoriesProps {
   categories: ICategory[];
   importantTasks: ITask[];
-  categoryAdded: (categoryName: string) => void;
-  defaultCategoryClicked: (categoryTitle: string) => void;
-  dynamicCategoryClicked: (categoryId: string) => void;
+  createCategoryRequest: (categoryName: string) => void;
+  fetchDefaultCategoryRequest: (categoryTitle: string) => void;
+  fetchCategoryRequest: (categoryId: string) => void;
   inputBoxFocused: (displayShedulingIcons: boolean) => void;
   menuButtonClicked: () => void;
 }
@@ -57,7 +57,7 @@ class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
 
   handleSubmit(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.keyCode === 13 && this.state.category.length > 0) {
-      this.props.categoryAdded(this.state.category);
+      this.props.createCategoryRequest(this.state.category);
       this.setState({ category: "" });
     }
   }
@@ -86,7 +86,7 @@ class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
                     <CategoryListItem
                       category={category}
                       key={category._id}
-                      switchCategory={this.props.defaultCategoryClicked}
+                      switchCategory={this.props.fetchDefaultCategoryRequest}
                     />
                   );
                 }
@@ -97,7 +97,7 @@ class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
                   <CategoryListItem
                     category={category}
                     key={category._id}
-                    switchCategory={this.props.dynamicCategoryClicked}
+                    switchCategory={this.props.fetchCategoryRequest}
                   />
                 );
               })}
@@ -148,12 +148,12 @@ const mapStateToProps = (state: IState) => ({
 });
 
 const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
-  categoryAdded: (categoryName: string) =>
-    dispatch(categoryAdded(categoryName)),
-  defaultCategoryClicked: (categoryTitle: string) =>
-    dispatch(defaultCategoryClicked(categoryTitle)),
-  dynamicCategoryClicked: (categoryId: string) =>
-    dispatch(dynamicCategoryClicked(categoryId)),
+  createCategoryRequest: (categoryName: string) =>
+    dispatch(createCategoryRequest(categoryName)),
+  fetchDefaultCategoryRequest: (categoryTitle: string) =>
+    dispatch(fetchDefaultCategoryRequest(categoryTitle)),
+  fetchCategoryRequest: (categoryId: string) =>
+    dispatch(fetchCategoryRequest(categoryId)),
   inputBoxFocused: (displayShedulingIcons: boolean) =>
     dispatch(inputBoxFocused(displayShedulingIcons)),
   menuButtonClicked: () => dispatch({ type: ACTION_TYPES.MENU_BUTTON_CLICKED }),

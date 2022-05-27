@@ -8,10 +8,10 @@ import { RightMenuBox } from "../RightMenuBox";
 import { IState } from "../../store";
 import { ACTION_TYPES } from "../../constants/actionTypes";
 import {
-  stepTaskAdded,
-  taskImportantClicked,
-  taskCompletedClicked,
-  stepTaskCompletedClicked,
+  createStepTaskRequest,
+  markAsImportantTaskRequest,
+  markAsCompletedTaskRequest,
+  markAsCompletedStepTaskRequest,
 } from "../../actions/stepTasks";
 import "./styles.scss";
 
@@ -35,10 +35,10 @@ interface IStepTasksState {
 
 interface IStepTasksProps {
   currentTask: ITask;
-  stepTaskAdded: (taskId: string, stepTask: string) => void;
-  taskImportantClicked: (taskId: string, isImportant: boolean) => void;
-  taskCompletedClicked: (taskId: string, isCompleted: boolean) => void;
-  stepTaskCompletedClicked: (stepTaskId: string, isCompleted: boolean) => void;
+  createStepTaskRequest: (taskId: string, stepTask: string) => void;
+  markAsImportantTaskRequest: (taskId: string, isImportant: boolean) => void;
+  markAsCompletedTaskRequest: (taskId: string, isCompleted: boolean) => void;
+  markAsCompletedStepTaskRequest: (stepTaskId: string, isCompleted: boolean) => void;
   hideIconClicked: () => void;
 }
 
@@ -52,7 +52,7 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
 
   handleSubmit(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.keyCode === 13 && this.state.stepTask.length > 0) {
-      this.props.stepTaskAdded(this.props.currentTask._id, this.state.stepTask);
+      this.props.createStepTaskRequest(this.props.currentTask._id, this.state.stepTask);
       this.setState({ stepTask: "" });
     }
   }
@@ -75,7 +75,7 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
                       : " fa fa-circle-thin") + " blue-icon radio-icon",
                   icon: "f",
                   iconEvent: () => {
-                    this.props.taskCompletedClicked(
+                    this.props.markAsCompletedTaskRequest(
                       this.props.currentTask._id,
                       !this.props.currentTask.isCompleted
                     );
@@ -91,7 +91,7 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
                     ? "blue-icon"
                     : "",
                   secondIconEvent: () => {
-                    this.props.taskImportantClicked(
+                    this.props.markAsImportantTaskRequest(
                       this.props.currentTask._id,
                       !this.props.currentTask.isImportant
                     );
@@ -107,7 +107,7 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
                         : "radio_button_unchecked_outlined",
                       iconClass: " blue-icon completed-icon",
                       iconEvent: () => {
-                        this.props.stepTaskCompletedClicked(
+                        this.props.markAsCompletedStepTaskRequest(
                           stepTask._id,
                           !stepTask.isCompleted
                         );
@@ -193,14 +193,14 @@ const mapStateToProps = (state: IState) => ({
 });
 
 const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
-  stepTaskAdded: (taskId: string, stepTask: string) =>
-    dispatch(stepTaskAdded(taskId, stepTask)),
-  taskImportantClicked: (taskId: string, isImportant: boolean) =>
-    dispatch(taskImportantClicked(taskId, isImportant)),
-  taskCompletedClicked: (taskId: string, isCompleted: boolean) =>
-    dispatch(taskCompletedClicked(taskId, isCompleted)),
-  stepTaskCompletedClicked: (stepTaskId: string, isCompleted: boolean) =>
-    dispatch(stepTaskCompletedClicked(stepTaskId, isCompleted)),
+  createStepTaskRequest: (taskId: string, stepTask: string) =>
+    dispatch(createStepTaskRequest(taskId, stepTask)),
+  markAsImportantTaskRequest: (taskId: string, isImportant: boolean) =>
+    dispatch(markAsImportantTaskRequest(taskId, isImportant)),
+  markAsCompletedTaskRequest: (taskId: string, isCompleted: boolean) =>
+    dispatch(markAsCompletedTaskRequest(taskId, isCompleted)),
+  markAsCompletedStepTaskRequest: (stepTaskId: string, isCompleted: boolean) =>
+    dispatch(markAsCompletedStepTaskRequest(stepTaskId, isCompleted)),
   hideIconClicked: () => dispatch({ type: ACTION_TYPES.HIDE_RIGHT_CONTAINER_ICON_CLICKED }),
 });
 

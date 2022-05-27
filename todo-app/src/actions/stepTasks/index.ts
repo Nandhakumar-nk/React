@@ -1,6 +1,6 @@
 import { ACTION_TYPES } from "../../constants/actionTypes";
 
-export function stepTaskAdded(taskId: string, stepTask: String) {
+export function createStepTaskRequest(taskId: string, stepTask: String) {
   return {
     type: ACTION_TYPES.CREATE_STEPTASK_REQUEST,
     payload: {
@@ -12,7 +12,7 @@ export function stepTaskAdded(taskId: string, stepTask: String) {
   };
 }
 
-export function stepTaskCompletedClicked(
+export function markAsCompletedStepTaskRequest(
   stepTaskId: string,
   isCompleted: boolean
 ) {
@@ -26,7 +26,7 @@ export function stepTaskCompletedClicked(
   };
 }
 
-export function taskCompletedClicked(taskId: string, isCompleted: boolean) {
+export function markAsCompletedTaskRequest(taskId: string, isCompleted: boolean) {
   return {
     type: ACTION_TYPES.MARK_AS_COMPLETED_TASK_REQUEST,
     payload: {
@@ -37,7 +37,7 @@ export function taskCompletedClicked(taskId: string, isCompleted: boolean) {
   };
 }
 
-export function taskImportantClicked(taskId: string, isImportant: boolean) {
+export function markAsImportantTaskRequest(taskId: string, isImportant: boolean) {
   return {
     type: ACTION_TYPES.MARK_AS_IMPORTANT_TASK_REQUEST,
     payload: {

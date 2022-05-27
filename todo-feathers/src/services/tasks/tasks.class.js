@@ -53,4 +53,19 @@ exports.Tasks = class Tasks extends Service {
 
         return task;
     }
+
+    async patch(id, data, params) {
+        let task;
+
+        try {
+            task = await super.patch(id, data, {
+                query: { $populate: 'stepTasks' }
+            });
+
+        } catch (error) {
+            console.log("error:" + error);
+        }
+
+        return task;
+    }
 };

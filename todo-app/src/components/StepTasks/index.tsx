@@ -186,6 +186,11 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
       </div>
     );
   }
+
+  componentDidUpdate() {
+    console.log("currentTask:");
+    console.log(this.props.currentTask);
+  }
 }
 
 const mapStateToProps = (state: IState) => ({

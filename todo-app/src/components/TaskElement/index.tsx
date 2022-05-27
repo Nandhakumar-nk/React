@@ -4,8 +4,8 @@ import { connect } from "react-redux";
 
 import { ITask } from "../StepTasks";
 import {
-  taskCompletedClicked,
-  taskImportantClicked,
+  taskCompletedIconClicked,
+  taskImportantIconClicked,
 } from "../../actions/stepTasks";
 import { taskClicked } from "../../actions/taskElement";
 
@@ -17,8 +17,8 @@ interface ITaskElementProps {
   task: ITask;
   key: string;
   taskClicked: (taskId: string) => void;
-  taskImportantClicked: (taskId: string, isImportant: boolean) => void;
-  taskCompletedClicked: (taskId: string, isCompleted: boolean) => void;
+  taskImportantIconClicked: (taskId: string, isImportant: boolean) => void;
+  taskCompletedIconClicked: (taskId: string, isCompleted: boolean) => void;
 }
 
 class TaskElement extends React.Component<
@@ -47,7 +47,7 @@ class TaskElement extends React.Component<
             }
             onClick={(event) => {
               event.stopPropagation();
-              this.props.taskCompletedClicked(taskId, !isCompleted);
+              this.props.taskCompletedIconClicked(taskId, !isCompleted);
             }}
             title={isCompleted ? "undo completed" : "mark as completed"}
           >
@@ -74,7 +74,7 @@ class TaskElement extends React.Component<
           }
           onClick={(event) => {
             event.stopPropagation();
-            this.props.taskImportantClicked(taskId, !isImportant);
+            this.props.taskImportantIconClicked(taskId, !isImportant);
           }}
           title={isImportant ? "remove from important" : "mark as important"}
         >
@@ -87,10 +87,10 @@ class TaskElement extends React.Component<
 
 const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
   taskClicked: (taskId: string) => dispatch(taskClicked(taskId)),
-  taskImportantClicked: (taskId: string, isImportant: boolean) =>
-    dispatch(taskImportantClicked(taskId, isImportant)),
-  taskCompletedClicked: (taskId: string, isCompleted: boolean) =>
-    dispatch(taskCompletedClicked(taskId, isCompleted)),
+  taskImportantIconClicked: (taskId: string, isImportant: boolean) =>
+    dispatch(taskImportantIconClicked(taskId, isImportant)),
+  taskCompletedIconClicked: (taskId: string, isCompleted: boolean) =>
+    dispatch(taskCompletedIconClicked(taskId, isCompleted)),
 });
 
 export default connect(null, mapDispatchToProps)(TaskElement);

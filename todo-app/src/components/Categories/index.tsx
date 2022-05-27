@@ -8,7 +8,7 @@ import { ITask } from "../StepTasks";
 import { IState } from "../../store";
 import { ACTION_TYPES } from "../../constants/actionTypes";
 import {
-  categoryAdded,
+  newCategorySubmitted,
   defaultCategoryClicked,
   dynamicCategoryClicked,
   inputBoxFocused,
@@ -32,7 +32,7 @@ interface ICategoriesState {
 interface ICategoriesProps {
   categories: ICategory[];
   importantTasks: ITask[];
-  categoryAdded: (categoryName: string) => void;
+  newCategorySubmitted: (categoryName: string) => void;
   defaultCategoryClicked: (categoryTitle: string) => void;
   dynamicCategoryClicked: (categoryId: string) => void;
   inputBoxFocused: (displayShedulingIcons: boolean) => void;
@@ -57,7 +57,7 @@ class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
 
   handleSubmit(event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.keyCode === 13 && this.state.category.length > 0) {
-      this.props.categoryAdded(this.state.category);
+      this.props.newCategorySubmitted(this.state.category);
       this.setState({ category: "" });
     }
   }
@@ -148,8 +148,8 @@ const mapStateToProps = (state: IState) => ({
 });
 
 const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
-  categoryAdded: (categoryName: string) =>
-    dispatch(categoryAdded(categoryName)),
+  newCategorySubmitted: (categoryName: string) =>
+    dispatch(newCategorySubmitted(categoryName)),
   defaultCategoryClicked: (categoryTitle: string) =>
     dispatch(defaultCategoryClicked(categoryTitle)),
   dynamicCategoryClicked: (categoryId: string) =>

@@ -1,6 +1,6 @@
 import { ACTION_TYPES } from "../../constants/actionTypes";
 
-export function categoryAdded(categoryName: String) {
+export function newCategorySubmitted(categoryName: String) {
   return {
     type: ACTION_TYPES.NEW_CATEGORY_SUBMITTED,
     payload: {

@@ -1,6 +1,6 @@
 import { ACTION_TYPES } from "../../constants/actionTypes";
 
-export function stepTaskAdded(taskId: string, stepTask: String) {
+export function newStepTaskSubmitted(taskId: string, stepTask: String) {
   return {
     type: ACTION_TYPES.NEW_STEPTASK_SUBMITTED,
     payload: {
@@ -12,7 +12,7 @@ export function stepTaskAdded(taskId: string, stepTask: String) {
   };
 }
 
-export function stepTaskCompletedClicked(
+export function stepTaskCompletedIconClicked(
   stepTaskId: string,
   isCompleted: boolean
 ) {
@@ -26,7 +26,7 @@ export function stepTaskCompletedClicked(
   };
 }
 
-export function taskCompletedClicked(taskId: string, isCompleted: boolean) {
+export function taskCompletedIconClicked(taskId: string, isCompleted: boolean) {
   return {
     type: ACTION_TYPES.TASK_COMPLETED_ICON_CLICKED,
     payload: {
@@ -37,7 +37,7 @@ export function taskCompletedClicked(taskId: string, isCompleted: boolean) {
   };
 }
 
-export function taskImportantClicked(taskId: string, isImportant: boolean) {
+export function taskImportantIconClicked(taskId: string, isImportant: boolean) {
   return {
     type: ACTION_TYPES.TASK_IMPORTANT_ICON_CLICKED,
     payload: {

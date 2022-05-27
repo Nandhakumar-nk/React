@@ -38,6 +38,7 @@ class TaskElement extends React.Component<
     );
 
     return (
+      <React.Fragment>
       <div className="task" onClick={() => this.props.fetchTaskRequest(taskId)}>
         <div className="radio-container">
           <i
@@ -81,6 +82,8 @@ class TaskElement extends React.Component<
           {isImportant ? "star" : "star_border"}
         </i>
       </div>
+      <hr className="bottom-border"/>
+      </React.Fragment>
     );
   }
 }

@@ -49,7 +49,8 @@ class TasksContainer extends React.Component<
     if (this.props.completedTasks.length > 0) {
       reversedIndex = this.props.completedTasks.length - 1;
       elements.push(
-        <div className="empty-task" key="completedTitle">
+        <React.Fragment>
+          <div className="empty-task" key="completedTitle">
           <i
             className={
               (this.state.completedTasksDisplay
@@ -63,6 +64,9 @@ class TasksContainer extends React.Component<
             {this.props.completedTasks.length}
           </span>
         </div>
+        <hr className="bottom-border"/>
+        </React.Fragment>
+        
       );
       completedTasksCount = 1;
 

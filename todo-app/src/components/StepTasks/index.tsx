@@ -14,6 +14,8 @@ import {
   markAsCompletedStepTaskRequest,
 } from "../../actions/stepTasks";
 import "./styles.scss";
+import { Bars } from "react-loader-spinner";
+import { LoaderComponent } from "../LoaderComponent";
 
 interface IStepTask {
   _id: string;
@@ -35,6 +37,7 @@ interface IStepTasksState {
 
 interface IStepTasksProps {
   currentTask: ITask;
+  isStepTasksLoading: boolean;
   createStepTaskRequest: (taskId: string, stepTask: string) => void;
   markAsImportantTaskRequest: (taskId: string, isImportant: boolean) => void;
   markAsCompletedTaskRequest: (taskId: string, isCompleted: boolean) => void;
@@ -104,30 +107,41 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
                   },
                 }}
               />
-              {this.props.currentTask.stepTasks.map((stepTask: IStepTask) => {
-                return (
-                  <MenuListItem
-                    item={{
-                      iconClass:
-                        (stepTask.isCompleted
-                          ? " fa fa-check-circle"
-                          : " fa fa-circle-thin") + " completed-icon blue-icon",
-                      icon: "f",
-                      iconEvent: () => {
-                        this.props.markAsCompletedStepTaskRequest(
-                          stepTask._id,
-                          !stepTask.isCompleted
-                        );
-                      },
-                      text: stepTask.stepTask,
-                      textClass: stepTask.isCompleted ? " text-strike" : "",
-                      secondIcon: "f",
-                      secondIconClass: "fa fa-times",
-                      borderBottom: true,
-                    }}
-                  />
-                );
-              })}
+              {this.props.isStepTasksLoading ? (
+                <LoaderComponent height="30" width="30" />
+              ) : (
+                <React.Fragment>
+                  {this.props.currentTask.stepTasks.map(
+                    (stepTask: IStepTask) => {
+                      return (
+                        <MenuListItem
+                          item={{
+                            iconClass:
+                              (stepTask.isCompleted
+                                ? " fa fa-check-circle"
+                                : " fa fa-circle-thin") +
+                              " completed-icon blue-icon",
+                            icon: "f",
+                            iconEvent: () => {
+                              this.props.markAsCompletedStepTaskRequest(
+                                stepTask._id,
+                                !stepTask.isCompleted
+                              );
+                            },
+                            text: stepTask.stepTask,
+                            textClass: stepTask.isCompleted
+                              ? " text-strike"
+                              : "",
+                            secondIcon: "f",
+                            secondIconClass: "fa fa-times",
+                            borderBottom: true,
+                          }}
+                        />
+                      );
+                    }
+                  )}
+                </React.Fragment>
+              )}
               <li className="right-menu-list">
                 <i className="material-icons right-icons add-icon blue-icon">
                   {" "}
@@ -202,6 +216,7 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
 
 const mapStateToProps = (state: IState) => ({
   currentTask: state.currentTask,
+  isStepTasksLoading: state.isStepTasksLoading,
 });
 
 const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({

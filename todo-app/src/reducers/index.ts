@@ -4,11 +4,12 @@ import { switchRootClass } from "../helpers/switchRootClass";
 import { initialState, IState } from "../store";
 
 export function rootReducer(state: IState = initialState, action: any): IState {
+  let loadingId:any = "";
 
   switch (action.type) {
-    case ACTION_TYPES.API_CALL_SUCCESS:
+    case ACTION_TYPES.GET_CATEGORIES_AND_IMPORTANT_TASKS_SUCCESS:
       if(action.payload.loadingId) {
-        toast.update(action.payload.loadingId, { render: "Sorry!Failed to fetch tasks!", type: "error", isLoading: false, autoClose:3000, theme:"colored" });
+        //toast.update(action.payload.loadingId, { render: "Sorry!Failed to fetch tasks!", type: "error", isLoading: false, autoClose:3000, theme:"colored" });
       }
       
       return {
@@ -36,7 +37,7 @@ export function rootReducer(state: IState = initialState, action: any): IState {
         ...action.data,
       };
     case ACTION_TYPES.FETCH_TASK_REQUEST:
-      const loadingId = toast.loading("fetching tasks", {type: "info",theme:"colored"});
+      //loadingId = toast.loading("Fetching tasks...", {type: "info",theme:"colored"});
       action.payload.loadingId = loadingId;
       action.data.displayRightContainer = true;
       action.data.rootClass = switchRootClass(state.displayLeftContainer, true);
@@ -44,6 +45,8 @@ export function rootReducer(state: IState = initialState, action: any): IState {
 
       return state;
     case ACTION_TYPES.CREATE_CATEGORY_REQUEST:
+      loadingId = toast.loading("Adding Category...", {type: "info"});
+      action.payload.loadingId = loadingId;
     case ACTION_TYPES.FETCH_DEFAULT_CATEGORY_REQUEST:
     case ACTION_TYPES.FETCH_CATEGORY_REQUEST:
       action.data.displayRightContainer = false;

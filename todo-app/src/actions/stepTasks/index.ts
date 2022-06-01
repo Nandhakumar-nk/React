@@ -26,7 +26,18 @@ export function markAsCompletedStepTaskRequest(
   };
 }
 
-export function markAsCompletedTaskRequest(taskId: string, isCompleted: boolean) {
+export function editTaskDetailsRequest(payload: any) {
+  return {
+    type: ACTION_TYPES.EDIT_TASK_DETAILS_REQUEST,
+    payload,
+    data: {},
+  };
+}
+
+export function markAsCompletedTaskRequest(
+  taskId: string,
+  isCompleted: boolean
+) {
   return {
     type: ACTION_TYPES.MARK_AS_COMPLETED_TASK_REQUEST,
     payload: {
@@ -37,7 +48,10 @@ export function markAsCompletedTaskRequest(taskId: string, isCompleted: boolean)
   };
 }
 
-export function markAsImportantTaskRequest(taskId: string, isImportant: boolean) {
+export function markAsImportantTaskRequest(
+  taskId: string,
+  isImportant: boolean
+) {
   return {
     type: ACTION_TYPES.MARK_AS_IMPORTANT_TASK_REQUEST,
     payload: {

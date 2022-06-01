@@ -22,14 +22,14 @@ export interface IAppProps {
 
 class App extends React.Component<IAppProps, IAppState> {
   render() {
+    
     return (
-      <div className={"root-container " + this.props.rootClass}>
+      <div className={"root-container " + this.props.rootClass} >
         <Header />
 
         {this.props.displayLeftContainer ? <Categories /> : ""}
 
         <TaskDisplayer />
-
         {this.props.displayRightContainer ? <StepTasks /> : ""}
         <ToastContainer></ToastContainer>
       </div>

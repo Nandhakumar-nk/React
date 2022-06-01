@@ -8,6 +8,7 @@ body {
 }
 
 .root-container {
+    backdrop-filter: blur(8px); // This be the blur
     display: grid;
     height: 100vh;
     grid-template-columns: 0.2fr 0.80fr;
@@ -148,4 +149,14 @@ ul {
 .show-both-containers {
     grid-template-columns: 0.20fr 0.55fr 0.25fr;
     grid-template-areas: "top-container top-container top-container" "left-container middle-container right-container";
+}
+
+.loading-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading-icon-tasks {
+    margin-top: 20%;
 }

@@ -14,7 +14,7 @@ export function* addStepTask(action: any) {
   } catch (error) {
     console.log("error ocurred inside addCategory generator function");
     console.log(error);
-    yield put({ type: ACTION_TYPES.API_CALL_FAILED });
+    yield put({ type: ACTION_TYPES.CREATE_STEPTASK_FAIL });
   }
 }
 
@@ -37,6 +37,6 @@ export function* editStepTask(action: any) {
   } catch (error) {
     console.log("error ocurred inside patchStepTask generator function");
     console.log(error);
-    yield put({ type: ACTION_TYPES.API_CALL_FAILED });
+    yield put({ type: ACTION_TYPES.MARK_AS_COMPLETED_STEPTASK_FAIL });
   }
 }

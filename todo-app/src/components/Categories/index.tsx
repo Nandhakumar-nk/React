@@ -16,6 +16,7 @@ import {
 import { getDefaultCategories } from "../../helpers/getDefaultCategories";
 
 import "./styles.scss";
+import { LoaderComponent } from "../LoaderComponent";
 
 export interface ICategory {
   _id: string;
@@ -32,6 +33,7 @@ interface ICategoriesState {
 interface ICategoriesProps {
   categories: ICategory[];
   importantTasks: ITask[];
+  isCategoriesLoading: boolean;
   createCategoryRequest: (categoryName: string) => void;
   fetchDefaultCategoryRequest: (categoryTitle: string) => void;
   fetchCategoryRequest: (categoryId: string) => void;
@@ -87,21 +89,26 @@ class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
                       category={category}
                       key={category._id}
                       switchCategory={this.props.fetchDefaultCategoryRequest}
-                      
                     />
                   );
                 }
               )}
               <li></li>
-              {this.props.categories.map((category, index) => {
-                return (
-                  <CategoryListItem
-                    category={category}
-                    key={category._id}
-                    switchCategory={this.props.fetchCategoryRequest}
-                  />
-                );
-              })}
+              {this.props.isCategoriesLoading ? (
+                <LoaderComponent height="30" width="30" />
+              ) : (
+                <React.Fragment>
+                  {this.props.categories.map((category, index) => {
+                    return (
+                      <CategoryListItem
+                        category={category}
+                        key={category._id}
+                        switchCategory={this.props.fetchCategoryRequest}
+                      />
+                    );
+                  })}
+                </React.Fragment>
+              )}
             </ul>
           </div>
 
@@ -146,6 +153,7 @@ const mapStateToProps = (state: IState) => ({
   categories: state.categories,
   importantTasks: state.importantTasks,
   displayLeftContainer: state.displayRightContainer,
+  isCategoriesLoading: state.isCategoriesLoading,
 });
 
 const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({

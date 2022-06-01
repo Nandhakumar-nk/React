@@ -15,7 +15,7 @@ export function* addTask(action: any): any {
   } catch (error) {
     console.log("error ocurred inside addTask generator function");
     console.log(error);
-    yield put({ type: ACTION_TYPES.API_CALL_FAILED });
+    yield put({ type: ACTION_TYPES.CREATE_TASK_FAIL });
   }
 }
 
@@ -37,7 +37,7 @@ export function* fetchTask(action: any) {
   } catch (error) {
     console.log("error ocurred inside fetchTask generator function");
     console.log(error);
-    yield put({ type: ACTION_TYPES.API_CALL_FAILED });
+    yield put({ type: ACTION_TYPES.FETCH_TASK_FAIL });
   }
 }
 
@@ -65,6 +65,6 @@ export function* editTask(action: any) {
   } catch (error) {
     console.log("error ocurred inside patchTask generator function");
     console.log(error);
-    yield put({ type: ACTION_TYPES.API_CALL_FAILED });
+    //yield put({ type: ACTION_TYPES.GET_CATEGORIES_AND_IMPORTANT_TASKS_FAIL });
   }
 }

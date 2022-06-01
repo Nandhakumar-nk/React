@@ -11,6 +11,8 @@ import { createTaskRequest } from "../../actions/taskDisplayer";
 import { inputBoxFocused } from "../../actions/categories";
 
 import "./styles.scss";
+import { CategoryListItem } from "../CategoryListItem";
+import { LoaderComponent } from "../LoaderComponent";
 
 interface ITaskDisplayerState {
   task: string;
@@ -21,6 +23,7 @@ interface ITaskDisplayerProps {
   selectedCategoryId: string;
   displayLeftContainer: boolean;
   displayShedulingIcons: boolean;
+  isTasksLoading: boolean;
   createTaskRequest: (categoryId: string, task: string) => void;
   inputBoxFocused: (displayShedulingIcons: boolean) => void;
   menuButtonClicked: () => void;
@@ -39,7 +42,10 @@ class TaskDisplayer extends React.Component<
 
   handleSubmit(this: any, event: React.KeyboardEvent<HTMLInputElement>) {
     if (event.keyCode === 13 && this.state.task.length > 0) {
-      this.props.createTaskRequest(this.props.selectedCategoryId, this.state.task);
+      this.props.createTaskRequest(
+        this.props.selectedCategoryId,
+        this.state.task
+      );
       this.setState({ task: "" });
     }
   }
@@ -121,8 +127,15 @@ class TaskDisplayer extends React.Component<
             ""
           )}
         </div>
-
-        <TasksContainer />
+        {this.props.isTasksLoading ? (
+          <LoaderComponent
+            height="30"
+            width="30"
+            divClass="loading-icon-tasks"
+          />
+        ) : (
+          <TasksContainer />
+        )}
       </div>
     );
   }
@@ -133,6 +146,7 @@ const mapStateToProps = (state: IState) => ({
   selectedCategoryId: state.selectedCategoryId,
   displayLeftContainer: state.displayLeftContainer,
   displayShedulingIcons: state.displayShedulingIcons,
+  isTasksLoading: state.isTasksLoading,
 });
 
 const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({

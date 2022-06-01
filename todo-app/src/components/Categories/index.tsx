@@ -87,6 +87,7 @@ class Categories extends React.Component<ICategoriesProps, ICategoriesState> {
                       category={category}
                       key={category._id}
                       switchCategory={this.props.fetchDefaultCategoryRequest}
+                      
                     />
                   );
                 }

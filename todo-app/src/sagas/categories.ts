@@ -42,7 +42,10 @@ export function* fetchCategory(action: any) {
       action.payload.categoryId
     );
 
-    action.data.categoryTitle = response.data.title;
+    if(!(action.data.categoryTitle && (action.data.categoryTitle === "Important"))) {
+      action.data.categoryTitle = response.data.title;
+    }
+    
     action.data.selectedCategoryId = response.data._id;
     action.data.tasks = response.data.tasks.filter(
       (task: ITask) => task.isCompleted === false

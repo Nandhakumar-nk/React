@@ -1,10 +1,17 @@
+import { toast } from "react-toastify";
 import { ACTION_TYPES } from "../constants/actionTypes";
 import { switchRootClass } from "../helpers/switchRootClass";
 import { initialState, IState } from "../store";
 
 export function rootReducer(state: IState = initialState, action: any): IState {
+
   switch (action.type) {
     case ACTION_TYPES.API_CALL_SUCCESS:
+      //toast.success("Task fetched successfully!", { position: toast.POSITION.TOP_RIGHT });
+      if(action.payload.loadingId) {
+        toast.update(action.payload.loadingId, { render: "Sorry!Failed to fetch tasks!", type: "error", isLoading: false, autoClose:3000 });
+      }
+      
       return {
         ...state,
         ...action.data,
@@ -30,6 +37,8 @@ export function rootReducer(state: IState = initialState, action: any): IState {
         ...action.data,
       };
     case ACTION_TYPES.FETCH_TASK_REQUEST:
+      const loadingId = toast.loading("fetching tasks");
+      action.payload.loadingId = loadingId;
       action.data.displayRightContainer = true;
       action.data.rootClass = switchRootClass(state.displayLeftContainer, true);
       action.data.displayShedulingIcons = false;
@@ -43,6 +52,9 @@ export function rootReducer(state: IState = initialState, action: any): IState {
         state.displayLeftContainer,
         false
       );
+      return state;
+    case ACTION_TYPES.FETCH_CATEGORY:
+      action.data.categoryTitle = state.categoryTitle;
       return state;
     default:
       return state;

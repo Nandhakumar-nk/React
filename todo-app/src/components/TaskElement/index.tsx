@@ -25,10 +25,6 @@ class TaskElement extends React.Component<
   ITaskElementProps,
   ITaskElementState
 > {
-  constructor(props: ITaskElementProps) {
-    super(props);
-  }
-
   render() {
     const taskId = this.props.task._id;
     const isImportant = this.props.task.isImportant;
@@ -39,50 +35,52 @@ class TaskElement extends React.Component<
 
     return (
       <React.Fragment>
-      <div className="task" onClick={() => this.props.fetchTaskRequest(taskId)}>
-        <div className="radio-container">
+        <div
+          className="task"
+          onClick={() => this.props.fetchTaskRequest(taskId)}
+        >
+          <div className="radio-container">
+            <i
+              className={
+                (isCompleted ? "fa fa-check-circle" : "fa fa-circle-thin") +
+                " radio-icon blue-icon"
+              }
+              onClick={(event) => {
+                event.stopPropagation();
+                this.props.markAsCompletedTaskRequest(taskId, !isCompleted);
+              }}
+              title={isCompleted ? "undo completed" : "mark as completed"}
+            ></i>
+          </div>
+
+          <div className={"tasks-text" + (isCompleted ? " text-strike" : "")}>
+            {this.props.task.task}{" "}
+            {this.props.task.stepTasks.length > 0 ? (
+              <span className="step-task-count">
+                {completedStepTasks.length +
+                  " of " +
+                  this.props.task.stepTasks.length}{" "}
+              </span>
+            ) : (
+              ""
+            )}
+          </div>
+
           <i
             className={
-              (isCompleted ? "fa fa-check-circle" : "fa fa-circle-thin") +
-              " radio-icon blue-icon"
+              "material-icons list-icons star-container" +
+              (isImportant ? " blue-icon" : "")
             }
             onClick={(event) => {
               event.stopPropagation();
-              this.props.markAsCompletedTaskRequest(taskId, !isCompleted);
+              this.props.markAsImportantTaskRequest(taskId, !isImportant);
             }}
-            title={isCompleted ? "undo completed" : "mark as completed"}
+            title={isImportant ? "remove from important" : "mark as important"}
           >
+            {isImportant ? "star" : "star_border"}
           </i>
         </div>
-
-        <div className={"tasks-text" + (isCompleted ? " text-strike" : "")}>
-          {this.props.task.task}{" "}
-          {this.props.task.stepTasks.length > 0 ? (
-            <span className="step-task-count">
-              {completedStepTasks.length +
-                " of " +
-                this.props.task.stepTasks.length}{" "}
-            </span>
-          ) : (
-            ""
-          )}
-        </div>
-
-        <i
-          className={
-            "material-icons list-icons star-container" +
-            (isImportant ? " blue-icon" : "")
-          }
-          onClick={(event) => {
-            event.stopPropagation();
-            this.props.markAsImportantTaskRequest(taskId, !isImportant);
-          }}
-          title={isImportant ? "remove from important" : "mark as important"}
-        >
-          {isImportant ? "star" : "star_border"}
-        </i>
-      </div>
-      <hr className="bottom-border"/>
+        <hr className="bottom-border" />
       </React.Fragment>
     );
   }

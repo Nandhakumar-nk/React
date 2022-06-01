@@ -1,4 +1,6 @@
 import React from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { ICategory } from "../Categories";
 
@@ -14,6 +16,7 @@ export function CategoryListItem(props: ICategoryListItemProps) {
   const uncompletedTasks = props.category.tasks.filter(
     (task) => task.isCompleted === false
   );
+
   return (
     <li onClick={() => props.switchCategory(props.category._id)}>
       <span className={"material-icons list-icons " + iconColor}>

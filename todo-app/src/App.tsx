@@ -9,6 +9,7 @@ import StepTasks from "./components/StepTasks";
 
 import { IState } from "./store";
 import { fetchDefaultCategoryRequest } from "./actions/categories";
+import { ToastContainer } from "react-toastify";
 
 interface IAppState {}
 
@@ -30,6 +31,7 @@ class App extends React.Component<IAppProps, IAppState> {
         <TaskDisplayer />
 
         {this.props.displayRightContainer ? <StepTasks /> : ""}
+        <ToastContainer></ToastContainer>
       </div>
     );
   }

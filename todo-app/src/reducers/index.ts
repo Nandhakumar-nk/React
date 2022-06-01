@@ -7,9 +7,8 @@ export function rootReducer(state: IState = initialState, action: any): IState {
 
   switch (action.type) {
     case ACTION_TYPES.API_CALL_SUCCESS:
-      //toast.success("Task fetched successfully!", { position: toast.POSITION.TOP_RIGHT });
       if(action.payload.loadingId) {
-        toast.update(action.payload.loadingId, { render: "Sorry!Failed to fetch tasks!", type: "error", isLoading: false, autoClose:3000 });
+        toast.update(action.payload.loadingId, { render: "Sorry!Failed to fetch tasks!", type: "error", isLoading: false, autoClose:3000, theme:"colored" });
       }
       
       return {
@@ -37,7 +36,7 @@ export function rootReducer(state: IState = initialState, action: any): IState {
         ...action.data,
       };
     case ACTION_TYPES.FETCH_TASK_REQUEST:
-      const loadingId = toast.loading("fetching tasks");
+      const loadingId = toast.loading("fetching tasks", {type: "info",theme:"colored"});
       action.payload.loadingId = loadingId;
       action.data.displayRightContainer = true;
       action.data.rootClass = switchRootClass(state.displayLeftContainer, true);

@@ -51,22 +51,21 @@ class TasksContainer extends React.Component<
       elements.push(
         <React.Fragment>
           <div className="empty-task" key="completedTitle">
-          <i
-            className={
-              (this.state.completedTasksDisplay
-                ? "fa fa-angle-down"
-                : "fa fa-angle-right") + " dropdown-icon"
-            }
-            onClick={this.toggleCompletedTasks}
-          ></i>
-          <span className="completed-heading">Completed</span>
-          <span className="completed-count">
-            {this.props.completedTasks.length}
-          </span>
-        </div>
-        <hr className="bottom-border"/>
+            <i
+              className={
+                (this.state.completedTasksDisplay
+                  ? "fa fa-angle-down"
+                  : "fa fa-angle-right") + " dropdown-icon"
+              }
+              onClick={this.toggleCompletedTasks}
+            ></i>
+            <span className="completed-heading">Completed</span>
+            <span className="completed-count">
+              {this.props.completedTasks.length}
+            </span>
+          </div>
+          <hr className="bottom-border" />
         </React.Fragment>
-        
       );
       completedTasksCount = 1;
 
@@ -89,7 +88,10 @@ class TasksContainer extends React.Component<
       tasksLength++
     ) {
       elements.push(
-        <div className="empty-task" key={tasksLength.toString()}></div>
+        <React.Fragment>
+          <div className="empty-task" key={tasksLength.toString()}></div>
+          <hr className="bottom-border" />
+        </React.Fragment>
       );
     }
 

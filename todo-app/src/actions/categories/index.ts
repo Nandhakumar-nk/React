@@ -10,12 +10,14 @@ export function createCategoryRequest(categoryName: String) {
   };
 }
 
-export function fetchDefaultCategoryRequest(categoryTitle: String) {
+export function fetchDefaultCategoryRequest(categoryId: String) {
   return {
     type: ACTION_TYPES.FETCH_DEFAULT_CATEGORY_REQUEST,
-    payload: {},
+    payload: {
+      categoryId:"0",
+    },
     data: {
-      categoryTitle,
+      categoryTitle:categoryId,
       tasks: [],
       completedTasks: [],
       currentTask: {

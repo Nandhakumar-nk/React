@@ -49,7 +49,7 @@ class TasksContainer extends React.Component<
     if (this.props.completedTasks.length > 0) {
       reversedIndex = this.props.completedTasks.length - 1;
       elements.push(
-        <React.Fragment>
+        <React.Fragment key={"completedTask"}>
           <div className="empty-task" key="completedTitle">
             <i
               className={
@@ -88,8 +88,8 @@ class TasksContainer extends React.Component<
       tasksLength++
     ) {
       elements.push(
-        <React.Fragment>
-          <div className="empty-task" key={tasksLength.toString()}></div>
+        <React.Fragment key={tasksLength.toString()}>
+          <div className="empty-task"></div>
           <hr className="bottom-border" />
         </React.Fragment>
       );

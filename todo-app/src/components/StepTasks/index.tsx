@@ -135,6 +135,8 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
                             secondIconClass: "fa fa-times",
                             borderBottom: true,
                           }}
+
+                          key={stepTask._id}
                         />
                       );
                     }
@@ -205,11 +207,6 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
         </div>
       </div>
     );
-  }
-
-  componentDidUpdate() {
-    console.log("currentTask:");
-    console.log(this.props.currentTask);
   }
 }
 

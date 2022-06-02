@@ -9,6 +9,7 @@ import StepTasks from "./components/StepTasks";
 
 import { IState } from "./store";
 import { fetchDefaultCategoryRequest } from "./actions/categories";
+import { DEFAULT_CATEGORIES } from "./constants/defaultCategories";
 import { ToastContainer } from "react-toastify";
 
 import 'react-toastify/dist/ReactToastify.css';
@@ -38,7 +39,7 @@ class App extends React.Component<IAppProps, IAppState> {
   }
 
   componentDidMount() {
-    this.props.fetchDefaultCategoryRequest("My Day");
+    this.props.fetchDefaultCategoryRequest(DEFAULT_CATEGORIES.MY_DAY);
   }
 }
 

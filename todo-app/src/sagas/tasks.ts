@@ -33,9 +33,10 @@ export function* addTask(action: any): any {
 export function* fetchTask(action: any) {
   try {
     const response: AxiosResponse = yield call(getTask, action.payload.taskId);
-    const [categoryId, categoryTitle]: string[] = yield select(
-      (state) => [state.selectedCategoryId, state.categoryTitle]
-    );
+    const [categoryId, categoryTitle]: string[] = yield select((state) => [
+      state.selectedCategoryId,
+      state.categoryTitle,
+    ]);
 
     action.payload.categoryId = categoryId;
     action.data.currentTask = response.data;
@@ -54,6 +55,19 @@ export function* fetchTask(action: any) {
 }
 
 export function* markAsImportantTask(action: any) {
+  const [successMessage, errorMessage, type]: string[] = action.payload.data
+    .isImportant
+    ? [
+        "Marked as important task!",
+        "Oops! Mark as important task failed!",
+        "success",
+      ]
+    : [
+        "Removed from important tasks!",
+        "Oops! Removing from important Tasks Failed!",
+        "info",
+      ];
+
   try {
     const response: AxiosResponse = yield call(
       editTaskDetails,
@@ -61,7 +75,7 @@ export function* markAsImportantTask(action: any) {
       action.payload.data
     );
 
-    showSuccessToaster(action, "Marked as Important Task!");
+    showSuccessToaster(action, successMessage, type);
     const [categoryId, currentTask, categoryTitle]: any[] = yield select(
       (state) => [
         state.selectedCategoryId,
@@ -82,12 +96,25 @@ export function* markAsImportantTask(action: any) {
     });
   } catch (error) {
     console.log(error);
-    showErrorToaster("Oops! Mark as important task failed!");
+    showErrorToaster(errorMessage);
     yield put({ type: ACTION_TYPES.MARK_AS_IMPORTANT_TASK_FAIL });
   }
 }
 
 export function* markAsCompletedTask(action: any) {
+  const [successMessage, errorMessage, type]: string[] = action.payload.data
+    .isCompleted
+    ? [
+        "Marked as completed task!",
+        "Oops! Mark as completed task failed!",
+        "success",
+      ]
+    : [
+        "Removed from completed task!",
+        "Oops! Removing from completed Tasks failed!",
+        "info",
+      ];
+
   try {
     const response: AxiosResponse = yield call(
       editTaskDetails,
@@ -95,7 +122,7 @@ export function* markAsCompletedTask(action: any) {
       action.payload.data
     );
 
-    showSuccessToaster(action, "Marked as completed Task!");
+    showSuccessToaster(action, successMessage, type);
     const [categoryId, currentTask, categoryTitle]: any[] = yield select(
       (state) => [
         state.selectedCategoryId,
@@ -116,7 +143,7 @@ export function* markAsCompletedTask(action: any) {
     });
   } catch (error) {
     console.log(error);
-    showErrorToaster("Oops! Mark as completed task failed!");
+    showErrorToaster(errorMessage);
     yield put({ type: ACTION_TYPES.MARK_AS_COMPLETED_TASK_FAIL });
   }
 }

@@ -1,4 +1,3 @@
-import { toast } from "react-toastify";
 import { ACTION_TYPES } from "../constants/actionTypes";
 import { switchRootClass } from "../helpers/switchRootClass";
 import { initialState, IState } from "../store";
@@ -44,7 +43,7 @@ export function rootReducer(state: IState = initialState, action: any): IState {
       return {
         ...state,
         isCategoriesLoading: false,
-        categories: action.data.categories,
+        ...action.data
       };
     case ACTION_TYPES.FETCH_CATEGORIES_FAIL:
       return {

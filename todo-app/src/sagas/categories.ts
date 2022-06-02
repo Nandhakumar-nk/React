@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { call, put, select } from "redux-saga/effects";
+import { call, put } from "redux-saga/effects";
 
 import { ACTION_TYPES } from "../constants/actionTypes";
 import { ITask } from "../components/StepTasks";
@@ -9,6 +9,7 @@ import {
   getCategories,
 } from "../services/categories";
 import { getImportantTasks } from "../services/tasks";
+import { DEFAULT_CATEGORIES } from "../constants/defaultCategories";
 import {
   showErrorToaster,
   showLoadingToaster,
@@ -16,7 +17,6 @@ import {
 } from "../helpers/toasters";
 
 export function* addCategory(action: any) {
-  console.log("\n\nadd category");
   try {
     showLoadingToaster("Adding Category...");
     const response: AxiosResponse = yield call(createCategory, action.payload);
@@ -49,8 +49,14 @@ export function* fetchCategory(action: any) {
 
     action.data.importantTasks = importantTasksResponse.data;
     action.data.completedTasks = [];
+    if(action.data.categoryTitle === DEFAULT_CATEGORIES.IMPORTANT) {
+      action.data.tasks = importantTasksResponse.data;
+    }
     if (
-      ((action.payload.categoryId !== '0') && action.data.categoryTitle && (action.data.categoryTitle !== "Important"))
+      !(
+        action.data.categoryTitle &&
+        Object.values(DEFAULT_CATEGORIES).includes(action.data.categoryTitle)
+      )
     ) {
       const response: AxiosResponse = yield call(
         getCategory,
@@ -82,7 +88,7 @@ export function* fetchCategory(action: any) {
 export function* fetchCategories(action: any): any {
   try {
     const categoriesResponse: AxiosResponse = yield call(getCategories);
-  
+
     action.data.categories = categoriesResponse.data;
     yield put({
       type: ACTION_TYPES.FETCH_CATEGORIES_SUCCESS,

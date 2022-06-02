@@ -6,11 +6,11 @@ export function showLoadingToaster(message: string): any {
   });
 }
 
-export function showSuccessToaster(action: any, message: string): any {
+export function showSuccessToaster(action: any, message: string, type:any = "success"): any {
   if (!action.payload.sucessToasterAlreadyDisplayed) {
     toast.dismiss();
-    toast.success(message, {
-      type: "success",
+    toast(message, {
+      type,
       autoClose: 3000,
       theme: "colored",
     });

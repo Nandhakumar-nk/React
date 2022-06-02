@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 
 import TasksContainer from "../TasksContainer";
 import { BoxedIcon } from "../BoxedIcon";
+import { LoaderComponent } from "../LoaderComponent";
 
 import { IState } from "../../store";
 import { ACTION_TYPES } from "../../constants/actionTypes";
@@ -11,8 +12,6 @@ import { createTaskRequest } from "../../actions/taskDisplayer";
 import { inputBoxFocused } from "../../actions/categories";
 
 import "./styles.scss";
-import { CategoryListItem } from "../CategoryListItem";
-import { LoaderComponent } from "../LoaderComponent";
 
 interface ITaskDisplayerState {
   task: string;

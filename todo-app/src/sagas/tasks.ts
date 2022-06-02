@@ -8,6 +8,11 @@ export function* addTask(action: any): any {
   try {
     yield call(createTask, action.payload);
     yield put({
+      type: ACTION_TYPES.CREATE_TASK_SUCCESS,
+      payload: action.payload,
+      data: action.data,
+    });
+    yield put({
       type: ACTION_TYPES.FETCH_CATEGORY,
       payload: action.payload,
       data: action.data,
@@ -30,6 +35,11 @@ export function* fetchTask(action: any) {
     action.data.currentTask = response.data;
 
     yield put({
+      type: ACTION_TYPES.FETCH_TASK_SUCCESS,
+      payload: action.payload,
+      data: action.data,
+    });
+    yield put({
       type: ACTION_TYPES.FETCH_CATEGORY,
       payload: action.payload,
       data: action.data,
@@ -41,7 +51,7 @@ export function* fetchTask(action: any) {
   }
 }
 
-export function* editTask(action: any) {
+export function* markAsImportantTask(action: any) {
   try {
     const response: AxiosResponse = yield call(
       editTaskDetails,
@@ -58,13 +68,79 @@ export function* editTask(action: any) {
       action.data.currentTask = response.data;
 
     yield put({
+      type: ACTION_TYPES.MARK_AS_IMPORTANT_TASK_SUCCESS,
+      payload: action.payload,
+      data: action.data,
+    });
+    yield put({
       type: ACTION_TYPES.FETCH_CATEGORY,
       payload: action.payload,
       data: action.data,
     });
   } catch (error) {
-    console.log("error ocurred inside patchTask generator function");
+    console.log("error ocurred inside markAsImportantTask generator function");
     console.log(error);
-    //yield put({ type: ACTION_TYPES.GET_CATEGORIES_AND_IMPORTANT_TASKS_FAIL });
+    yield put({ type: ACTION_TYPES.MARK_AS_IMPORTANT_TASK_FAIL });
   }
 }
+
+export function* markAsCompletedTask(action: any) {
+  try {
+    const response: AxiosResponse = yield call(
+      editTaskDetails,
+      action.payload.taskId,
+      action.payload.data
+    );
+    const [categoryId, currentTask]: any[] = yield select((state) => [
+      state.selectedCategoryId,
+      state.currentTask,
+    ]);
+
+    action.payload.categoryId = categoryId;
+    if (currentTask._id === response.data._id)
+      action.data.currentTask = response.data;
+
+    yield put({
+      type: ACTION_TYPES.MARK_AS_COMPLETED_TASK_SUCCESS,
+      payload: action.payload,
+      data: action.data,
+    });
+    yield put({
+      type: ACTION_TYPES.FETCH_CATEGORY,
+      payload: action.payload,
+      data: action.data,
+    });
+  } catch (error) {
+    console.log("error ocurred inside markAsCompletedTask generator function");
+    console.log(error);
+    yield put({ type: ACTION_TYPES.MARK_AS_COMPLETED_TASK_FAIL });
+  }
+}
+
+// export function* editTask(action: any) {
+//   try {
+//     const response: AxiosResponse = yield call(
+//       editTaskDetails,
+//       action.payload.taskId,
+//       action.payload.data
+//     );
+//     const [categoryId, currentTask]: any[] = yield select((state) => [
+//       state.selectedCategoryId,
+//       state.currentTask,
+//     ]);
+
+//     action.payload.categoryId = categoryId;
+//     if (currentTask._id === response.data._id)
+//       action.data.currentTask = response.data;
+
+//     yield put({
+//       type: ACTION_TYPES.FETCH_CATEGORY,
+//       payload: action.payload,
+//       data: action.data,
+//     });
+//   } catch (error) {
+//     console.log("error ocurred inside patchTask generator function");
+//     console.log(error);
+//     //yield put({ type: ACTION_TYPES.GET_CATEGORIES_AND_IMPORTANT_TASKS_FAIL });
+//   }
+// }

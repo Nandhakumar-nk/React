@@ -24,6 +24,11 @@ export function* addCategory(action: any) {
     );
 
     yield put({
+      type: ACTION_TYPES.CREATE_CATEGORY_SUCCESS,
+      payload: action.payload,
+      data: action.data,
+    });
+    yield put({
       type: ACTION_TYPES.GET_CATEGORIES_AND_IMPORTANT_TASKS,
       payload: action.payload,
       data: action.data,
@@ -57,14 +62,19 @@ export function* fetchCategory(action: any) {
     );
 
     yield put({
-      type: ACTION_TYPES.FETCH_CATEGORY_FAIL,
+      type: ACTION_TYPES.FETCH_CATEGORY_SUCCESS,
+      payload: action.payload,
+      data: action.data,
+    });
+    yield put({
+      type: ACTION_TYPES.GET_CATEGORIES_AND_IMPORTANT_TASKS,
       payload: action.payload,
       data: action.data,
     });
   } catch (error) {
     console.log("error ocurred inside fetchCategory generator function");
     console.log(error);
-    yield put({ type: ACTION_TYPES.GET_CATEGORIES_AND_IMPORTANT_TASKS_FAIL });
+    yield put({ type: ACTION_TYPES.FETCH_CATEGORY_FAIL });
   }
 }
 
@@ -86,7 +96,7 @@ export function* getCategoriesAndImportantTasks(action: any): any {
       data: action.data,
     });
   } catch (error) {
-    console.log("error ocurred inside getRecentData generator function");
+    console.log("error ocurred inside getCategoriesAndImportantTasks generator function");
     console.log(error);
     yield put({ type: ACTION_TYPES.GET_CATEGORIES_AND_IMPORTANT_TASKS_FAIL });
   }

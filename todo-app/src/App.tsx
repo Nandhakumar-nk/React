@@ -11,6 +11,8 @@ import { IState } from "./store";
 import { fetchDefaultCategoryRequest } from "./actions/categories";
 import { ToastContainer } from "react-toastify";
 
+import 'react-toastify/dist/ReactToastify.css';
+
 interface IAppState {}
 
 export interface IAppProps {
@@ -22,9 +24,8 @@ export interface IAppProps {
 
 class App extends React.Component<IAppProps, IAppState> {
   render() {
-    
     return (
-      <div className={"root-container " + this.props.rootClass} >
+      <div className={"root-container " + this.props.rootClass}>
         <Header />
 
         {this.props.displayLeftContainer ? <Categories /> : ""}

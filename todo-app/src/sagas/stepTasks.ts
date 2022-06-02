@@ -7,6 +7,11 @@ export function* addStepTask(action: any) {
   try {
     yield call(createStepTask, action.payload);
     yield put({
+      type: ACTION_TYPES.CREATE_STEPTASK_SUCCESS,
+      payload: action.payload,
+      data: action.data,
+    });
+    yield put({
       type: ACTION_TYPES.FETCH_TASK,
       payload: action.payload,
       data: action.data,
@@ -18,7 +23,7 @@ export function* addStepTask(action: any) {
   }
 }
 
-export function* editStepTask(action: any) {
+export function* markAsCompletedStepTask(action: any) {
   try {
     yield call(
       editStepTaskDetails,
@@ -30,12 +35,19 @@ export function* editStepTask(action: any) {
     action.payload.taskId = taskId;
 
     yield put({
+      type: ACTION_TYPES.MARK_AS_COMPLETED_STEPTASK_SUCCESS,
+      payload: action.payload,
+      data: action.data,
+    });
+    yield put({
       type: ACTION_TYPES.FETCH_TASK,
       payload: action.payload,
       data: action.data,
     });
   } catch (error) {
-    console.log("error ocurred inside patchStepTask generator function");
+    console.log(
+      "error ocurred inside markAsCompletedStepTask generator function"
+    );
     console.log(error);
     yield put({ type: ACTION_TYPES.MARK_AS_COMPLETED_STEPTASK_FAIL });
   }

@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 
 import { MenuListItem } from "../MenuListItem";
 import { RightMenuBox } from "../RightMenuBox";
+import { LoaderComponent } from "../LoaderComponent";
 
 import { IState } from "../../store";
 import { ACTION_TYPES } from "../../constants/actionTypes";
@@ -14,8 +15,6 @@ import {
   markAsCompletedStepTaskRequest,
 } from "../../actions/stepTasks";
 import "./styles.scss";
-import { Bars } from "react-loader-spinner";
-import { LoaderComponent } from "../LoaderComponent";
 
 interface IStepTask {
   _id: string;

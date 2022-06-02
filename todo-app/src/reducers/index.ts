@@ -5,30 +5,23 @@ import { initialState, IState } from "../store";
 
 export function rootReducer(state: IState = initialState, action: any): IState {
   switch (action.type) {
-    case ACTION_TYPES.CREATE_CATEGORY_REQUEST:
-    case ACTION_TYPES.FETCH_DEFAULT_CATEGORY_REQUEST:
-      action.data.displayRightContainer = false;
-      action.data.rootClass = switchRootClass(
-        state.displayLeftContainer,
-        false
-      );
-      return state;
     case ACTION_TYPES.CREATE_CATEGORY_SUCCESS:
       return {
         ...state,
         isCategoriesLoading: true,
+        displayRightContainer: false,
+        rootClass: switchRootClass(state.displayLeftContainer, false),
+        ...action.data,
       };
     case ACTION_TYPES.CREATE_CATEGORY_FAIL:
       return state;
+    case ACTION_TYPES.FETCH_DEFAULT_CATEGORY_REQUEST:
     case ACTION_TYPES.FETCH_CATEGORY_REQUEST:
-      action.data.displayRightContainer = false;
-      action.data.rootClass = switchRootClass(
-        state.displayLeftContainer,
-        false
-      );
       return {
         ...state,
         isTasksLoading: true,
+        displayRightContainer: false,
+        rootClass: switchRootClass(state.displayLeftContainer, false),
       };
     case ACTION_TYPES.FETCH_CATEGORY_SUCCESS:
       return {
@@ -80,10 +73,29 @@ export function rootReducer(state: IState = initialState, action: any): IState {
         isTasksLoading: true,
         ...action.data,
       };
-    case ACTION_TYPES.FETCH_CATEGORIES_FAIL:
+    case ACTION_TYPES.FETCH_TASK_FAIL:
       return {
         ...state,
         isStepTasksLoading: false,
+      };
+    case ACTION_TYPES.MARK_AS_IMPORTANT_TASK_SUCCESS:
+    case ACTION_TYPES.MARK_AS_COMPLETED_TASK_SUCCESS:
+      return {
+        ...state,
+        isTasksLoading: true,
+      };
+    case ACTION_TYPES.MARK_AS_IMPORTANT_TASK_FAIL:
+    case ACTION_TYPES.MARK_AS_COMPLETED_TASK_FAIL:
+      return state;
+
+    case ACTION_TYPES.MARK_AS_COMPLETED_STEPTASK_SUCCESS:
+      return {
+        ...state,
+        isStepTasksLoading: true,
+      };
+    case ACTION_TYPES.MARK_AS_COMPLETED_STEPTASK_FAIL:
+      return {
+        ...state,
       };
     case ACTION_TYPES.MENU_BUTTON_CLICKED:
       return {

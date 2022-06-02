@@ -45,8 +45,12 @@ export function* addCategory(action: any) {
 
 export function* fetchCategory(action: any) {
   try {
+    const importantTasksResponse: AxiosResponse = yield call(getImportantTasks);
+
+    action.data.importantTasks = importantTasksResponse.data;
+    action.data.completedTasks = [];
     if (
-      !(action.data.categoryTitle && action.data.categoryTitle === "Important")
+      ((action.payload.categoryId !== '0') && action.data.categoryTitle && (action.data.categoryTitle !== "Important"))
     ) {
       const response: AxiosResponse = yield call(
         getCategory,
@@ -75,26 +79,19 @@ export function* fetchCategory(action: any) {
   }
 }
 
-export function* getCategoriesAndImportantTasks(action: any): any {
+export function* fetchCategories(action: any): any {
   try {
     const categoriesResponse: AxiosResponse = yield call(getCategories);
-    const importantTasksResponse: AxiosResponse = yield call(getImportantTasks);
-
+  
     action.data.categories = categoriesResponse.data;
-    action.data.importantTasks = importantTasksResponse.data;
-    if (action.data.categoryTitle === "Important") {
-      action.data.tasks = importantTasksResponse.data;
-      action.data.completedTasks = [];
-    }
-
     yield put({
-      type: ACTION_TYPES.GET_CATEGORIES_AND_IMPORTANT_TASKS_SUCCESS,
+      type: ACTION_TYPES.FETCH_CATEGORIES_SUCCESS,
       payload: action.payload,
       data: action.data,
     });
   } catch (error) {
     console.log(error);
     showErrorToaster("Oops! Page refreshing failed!");
-    yield put({ type: ACTION_TYPES.GET_CATEGORIES_AND_IMPORTANT_TASKS_FAIL });
+    yield put({ type: ACTION_TYPES.FETCH_CATEGORIES_FAIL });
   }
 }

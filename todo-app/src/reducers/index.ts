@@ -7,40 +7,83 @@ export function rootReducer(state: IState = initialState, action: any): IState {
   switch (action.type) {
     case ACTION_TYPES.CREATE_CATEGORY_REQUEST:
     case ACTION_TYPES.FETCH_DEFAULT_CATEGORY_REQUEST:
-    case ACTION_TYPES.FETCH_CATEGORY_REQUEST:
       action.data.displayRightContainer = false;
       action.data.rootClass = switchRootClass(
         state.displayLeftContainer,
         false
       );
       return state;
-    case ACTION_TYPES.CREATE_CATEGORY_FAIL:
-      return state;
-    case ACTION_TYPES.FETCH_CATEGORY_REQUEST:
-      return {
-        ...state,
-        isTasksLoading: true,
-      };
-    case ACTION_TYPES.GET_CATEGORIES_AND_IMPORTANT_TASKS:
+    case ACTION_TYPES.CREATE_CATEGORY_SUCCESS:
       return {
         ...state,
         isCategoriesLoading: true,
       };
-    case ACTION_TYPES.GET_CATEGORIES_AND_IMPORTANT_TASKS_SUCCESS:
+    case ACTION_TYPES.CREATE_CATEGORY_FAIL:
+      return state;
+    case ACTION_TYPES.FETCH_CATEGORY_REQUEST:
+      action.data.displayRightContainer = false;
+      action.data.rootClass = switchRootClass(
+        state.displayLeftContainer,
+        false
+      );
+      return {
+        ...state,
+        isTasksLoading: true,
+      };
+    case ACTION_TYPES.FETCH_CATEGORY_SUCCESS:
+      return {
+        ...state,
+        isTasksLoading: false,
+        isCategoriesLoading: true,
+        ...action.data,
+      };
+    case ACTION_TYPES.FETCH_CATEGORY_FAIL:
+      return {
+        ...state,
+        isTasksLoading: false,
+      };
+    case ACTION_TYPES.FETCH_CATEGORIES:
+      return {
+        ...state,
+        isCategoriesLoading: true,
+      };
+    case ACTION_TYPES.FETCH_CATEGORIES_SUCCESS:
       return {
         ...state,
         isCategoriesLoading: false,
-        ...action.data,
+        categories: action.data.categories,
       };
-    case ACTION_TYPES.GET_CATEGORIES_AND_IMPORTANT_TASKS_FAIL:
+    case ACTION_TYPES.FETCH_CATEGORIES_FAIL:
       return {
         ...state,
         isCategoriesLoading: false,
       };
-    case ACTION_TYPES.GET_CATEGORIES_AND_IMPORTANT_TASKS_SUCCESS:
+    case ACTION_TYPES.CREATE_STEPTASK_SUCCESS:
       return {
         ...state,
+        isStepTasksLoading: true,
+      };
+    case ACTION_TYPES.CREATE_STEPTASK_FAIL:
+      return state;
+    case ACTION_TYPES.FETCH_TASK_REQUEST:
+      return {
+        ...state,
+        displayRightContainer: true,
+        rootClass: switchRootClass(state.displayLeftContainer, true),
+        displayShedulingIcons: false,
+        isStepTasksLoading: true,
+      };
+    case ACTION_TYPES.FETCH_TASK_SUCCESS:
+      return {
+        ...state,
+        isStepTasksLoading: false,
+        isTasksLoading: true,
         ...action.data,
+      };
+    case ACTION_TYPES.FETCH_CATEGORIES_FAIL:
+      return {
+        ...state,
+        isStepTasksLoading: false,
       };
     case ACTION_TYPES.MENU_BUTTON_CLICKED:
       return {
@@ -62,15 +105,6 @@ export function rootReducer(state: IState = initialState, action: any): IState {
         ...state,
         ...action.data,
       };
-    case ACTION_TYPES.FETCH_TASK_REQUEST:
-      action.data.displayRightContainer = true;
-      action.data.rootClass = switchRootClass(state.displayLeftContainer, true);
-      action.data.displayShedulingIcons = false;
-
-      return state;
-    case ACTION_TYPES.FETCH_CATEGORY:
-      action.data.categoryTitle = state.categoryTitle;
-      return state;
     default:
       return state;
   }

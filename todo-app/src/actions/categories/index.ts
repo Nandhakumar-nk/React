@@ -5,7 +5,6 @@ export function createCategoryRequest(categoryName: String) {
     type: ACTION_TYPES.CREATE_CATEGORY_REQUEST,
     payload: {
       title: categoryName,
-      toastIds: [],
     },
     data: {},
   };

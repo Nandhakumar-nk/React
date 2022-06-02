@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import { call, put } from "redux-saga/effects";
+import { call, put, select } from "redux-saga/effects";
 
 import { ACTION_TYPES } from "../constants/actionTypes";
 import { ITask } from "../components/StepTasks";
@@ -9,11 +9,19 @@ import {
   getCategories,
 } from "../services/categories";
 import { getImportantTasks } from "../services/tasks";
+import {
+  showErrorToaster,
+  showLoadingToaster,
+  showSuccessToaster,
+} from "../helpers/toasters";
 
 export function* addCategory(action: any) {
+  console.log("\n\nadd category");
   try {
+    showLoadingToaster("Adding Category...");
     const response: AxiosResponse = yield call(createCategory, action.payload);
 
+    showSuccessToaster(action, "Category created successfully!");
     action.data.categoryTitle = response.data.title;
     action.data.selectedCategoryId = response.data._id;
     action.data.tasks = response.data.tasks.filter(
@@ -28,52 +36,41 @@ export function* addCategory(action: any) {
       payload: action.payload,
       data: action.data,
     });
-    yield put({
-      type: ACTION_TYPES.GET_CATEGORIES_AND_IMPORTANT_TASKS,
-      payload: action.payload,
-      data: action.data,
-    });
   } catch (error) {
-    console.log("error ocurred inside addCategory generator function");
     console.log(error);
+    showErrorToaster("Oops! Category creation failed!");
     yield put({ type: ACTION_TYPES.CREATE_CATEGORY_FAIL });
   }
 }
 
 export function* fetchCategory(action: any) {
   try {
-    const response: AxiosResponse = yield call(
-      getCategory,
-      action.payload.categoryId
-    );
-
     if (
       !(action.data.categoryTitle && action.data.categoryTitle === "Important")
     ) {
-      action.data.categoryTitle = response.data.title;
-    }
+      const response: AxiosResponse = yield call(
+        getCategory,
+        action.payload.categoryId
+      );
 
-    action.data.selectedCategoryId = response.data._id;
-    action.data.tasks = response.data.tasks.filter(
-      (task: ITask) => task.isCompleted === false
-    );
-    action.data.completedTasks = response.data.tasks.filter(
-      (task: ITask) => task.isCompleted === true
-    );
+      action.data.categoryTitle = response.data.title;
+      action.data.selectedCategoryId = response.data._id;
+      action.data.tasks = response.data.tasks.filter(
+        (task: ITask) => task.isCompleted === false
+      );
+      action.data.completedTasks = response.data.tasks.filter(
+        (task: ITask) => task.isCompleted === true
+      );
+    }
 
     yield put({
       type: ACTION_TYPES.FETCH_CATEGORY_SUCCESS,
       payload: action.payload,
       data: action.data,
     });
-    yield put({
-      type: ACTION_TYPES.GET_CATEGORIES_AND_IMPORTANT_TASKS,
-      payload: action.payload,
-      data: action.data,
-    });
   } catch (error) {
-    console.log("error ocurred inside fetchCategory generator function");
     console.log(error);
+    showErrorToaster("Oops! Tasks loading failed!");
     yield put({ type: ACTION_TYPES.FETCH_CATEGORY_FAIL });
   }
 }
@@ -96,8 +93,8 @@ export function* getCategoriesAndImportantTasks(action: any): any {
       data: action.data,
     });
   } catch (error) {
-    console.log("error ocurred inside getCategoriesAndImportantTasks generator function");
     console.log(error);
+    showErrorToaster("Oops! Page refreshing failed!");
     yield put({ type: ACTION_TYPES.GET_CATEGORIES_AND_IMPORTANT_TASKS_FAIL });
   }
 }

@@ -14,6 +14,7 @@ import {
   markAsCompletedTaskRequest,
   markAsCompletedStepTaskRequest,
 } from "../../actions/stepTasks";
+
 import "./styles.scss";
 
 interface IStepTask {
@@ -135,7 +136,6 @@ class StepTasks extends React.Component<IStepTasksProps, IStepTasksState> {
                             secondIconClass: "fa fa-times",
                             borderBottom: true,
                           }}
-
                           key={stepTask._id}
                         />
                       );

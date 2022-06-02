@@ -19,9 +19,9 @@ export interface IState {
   displayLeftContainer: boolean;
   rootClass: string;
   displayShedulingIcons: boolean;
-  isCategoriesLoading:boolean;
-  isTasksLoading:boolean;
-  isStepTasksLoading:boolean;
+  isCategoriesLoading: boolean;
+  isTasksLoading: boolean;
+  isStepTasksLoading: boolean;
 }
 
 export const initialState: IState = {
@@ -42,14 +42,18 @@ export const initialState: IState = {
   displayRightContainer: false,
   rootClass: "",
   displayShedulingIcons: false,
-  isCategoriesLoading:false,
-  isTasksLoading:false,
-  isStepTasksLoading:false,
+  isCategoriesLoading: false,
+  isTasksLoading: false,
+  isStepTasksLoading: false,
 };
 const sagaMiddleware = createSagaMiddleware();
 
 function configureStore(state: IState = initialState) {
-  const store = createStore(rootReducer, state, applyMiddleware(sagaMiddleware));
+  const store = createStore(
+    rootReducer,
+    state,
+    applyMiddleware(sagaMiddleware)
+  );
   sagaMiddleware.run(rootSaga);
   return store;
 }

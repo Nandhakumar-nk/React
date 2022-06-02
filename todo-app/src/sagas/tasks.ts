@@ -2,12 +2,12 @@ import { AxiosResponse } from "axios";
 import { call, put, select } from "redux-saga/effects";
 
 import { ACTION_TYPES } from "../constants/actionTypes";
+import { createTask, getTask, editTaskDetails } from "../services/tasks";
 import {
   showErrorToaster,
   showLoadingToaster,
   showSuccessToaster,
 } from "../helpers/toasters";
-import { createTask, getTask, editTaskDetails } from "../services/tasks";
 
 export function* addTask(action: any): any {
   try {
@@ -110,7 +110,7 @@ export function* markAsCompletedTask(action: any) {
         "success",
       ]
     : [
-        "Removed from completed task!",
+        "Removed from completed tasks!",
         "Oops! Removing from completed Tasks failed!",
         "info",
       ];

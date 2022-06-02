@@ -10,9 +10,6 @@ export const createTask = (data: any) =>
 export const getTask = (id: string) =>
   axios.get(`${process.env.REACT_APP_API_URL}tasks/${id}`);
 
-export const getTasks = () =>
-  axios.get(`${process.env.REACT_APP_API_URL}tasks`);
-
 export const getImportantTasks = () =>
   axios.get(
     `${process.env.REACT_APP_API_URL}tasks/?isImportant=true&isCompleted=false`

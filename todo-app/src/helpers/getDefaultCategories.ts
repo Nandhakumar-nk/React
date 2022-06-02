@@ -2,7 +2,6 @@ import { ICategory } from "../components/Categories";
 import { ITask } from "../components/StepTasks";
 import { DEFAULT_CATEGORIES } from "../constants/defaultCategories";
 
-
 export function getDefaultCategories(importantTasks: ITask[]) {
   const categories: ICategory[] = [
     {

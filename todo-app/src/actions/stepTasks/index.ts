@@ -26,14 +26,6 @@ export function markAsCompletedStepTaskRequest(
   };
 }
 
-export function editTaskDetailsRequest(payload: any) {
-  return {
-    type: ACTION_TYPES.EDIT_TASK_DETAILS_REQUEST,
-    payload,
-    data: {},
-  };
-}
-
 export function markAsCompletedTaskRequest(
   taskId: string,
   isCompleted: boolean

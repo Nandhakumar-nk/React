@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { connect } from "react-redux";
+
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Header from "./components/Header";
 import Categories from "./components/Categories";
@@ -10,11 +13,8 @@ import StepTasks from "./components/StepTasks";
 import { IState } from "./store";
 import { fetchDefaultCategoryRequest } from "./actions/categories";
 import { DEFAULT_CATEGORIES } from "./constants/defaultCategories";
-import { ToastContainer } from "react-toastify";
 
-import 'react-toastify/dist/ReactToastify.css';
-
-interface IAppState {}
+import "./App.scss";
 
 export interface IAppProps {
   displayRightContainer: boolean;
@@ -23,24 +23,22 @@ export interface IAppProps {
   fetchDefaultCategoryRequest: (categoryTitle: string) => void;
 }
 
-class App extends React.Component<IAppProps, IAppState> {
-  render() {
-    return (
-      <div className={"root-container " + this.props.rootClass}>
-        <Header />
+function App(props: IAppProps) {
+  useEffect(() => {
+    props.fetchDefaultCategoryRequest(DEFAULT_CATEGORIES.MY_DAY);
+  }, []);
 
-        {this.props.displayLeftContainer ? <Categories /> : ""}
+  return (
+    <div className={"root-container " + props.rootClass}>
+      <Header />
 
-        <TaskDisplayer />
-        {this.props.displayRightContainer ? <StepTasks /> : ""}
-        <ToastContainer></ToastContainer>
-      </div>
-    );
-  }
+      {props.displayLeftContainer ? <Categories /> : ""}
 
-  componentDidMount() {
-    this.props.fetchDefaultCategoryRequest(DEFAULT_CATEGORIES.MY_DAY);
-  }
+      <TaskDisplayer />
+      {props.displayRightContainer ? <StepTasks /> : ""}
+      <ToastContainer></ToastContainer>
+    </div>
+  );
 }
 
 const mapStateToProps = (state: IState) => ({

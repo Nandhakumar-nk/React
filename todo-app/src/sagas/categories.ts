@@ -49,7 +49,7 @@ export function* fetchCategory(action: any) {
 
     action.data.importantTasks = importantTasksResponse.data;
     action.data.completedTasks = [];
-    if(action.data.categoryTitle === DEFAULT_CATEGORIES.IMPORTANT) {
+    if (action.data.categoryTitle === DEFAULT_CATEGORIES.IMPORTANT) {
       action.data.tasks = importantTasksResponse.data;
     }
     if (

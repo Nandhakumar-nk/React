@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 
 import { CategoryListItem } from "../CategoryListItem";
 import { ITask } from "../StepTasks";
+import { LoaderComponent } from "../LoaderComponent";
 
 import { IState } from "../../store";
 import { ACTION_TYPES } from "../../constants/actionTypes";
@@ -16,7 +17,6 @@ import {
 import { getDefaultCategories } from "../../helpers/getDefaultCategories";
 
 import "./styles.scss";
-import { LoaderComponent } from "../LoaderComponent";
 
 export interface ICategory {
   _id: string;

@@ -1,6 +1,6 @@
 import { ACTION_TYPES } from "../constants/actionTypes";
-import { switchRootClass } from "../helpers/switchRootClass";
 import { initialState, IState } from "../store";
+import { switchRootClass } from "../helpers/switchRootClass";
 
 export function rootReducer(state: IState = initialState, action: any): IState {
   switch (action.type) {
@@ -43,7 +43,7 @@ export function rootReducer(state: IState = initialState, action: any): IState {
       return {
         ...state,
         isCategoriesLoading: false,
-        ...action.data
+        ...action.data,
       };
     case ACTION_TYPES.FETCH_CATEGORIES_FAIL:
       return {

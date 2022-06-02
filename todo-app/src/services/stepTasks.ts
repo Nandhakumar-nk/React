@@ -7,9 +7,6 @@ export const createStepTask = (data: any) =>
     data,
   });
 
-export const getStepTask = (id: string) =>
-  axios.get(`${process.env.REACT_APP_API_URL}stepTasks/${id}`);
-
 export const editStepTaskDetails = (id: string, data: any) =>
   axios({
     method: "patch",

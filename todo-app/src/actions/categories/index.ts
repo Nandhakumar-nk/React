@@ -14,10 +14,10 @@ export function fetchDefaultCategoryRequest(categoryId: String) {
   return {
     type: ACTION_TYPES.FETCH_DEFAULT_CATEGORY_REQUEST,
     payload: {
-      categoryId:"0",
+      categoryId: "0",
     },
     data: {
-      categoryTitle:categoryId,
+      categoryTitle: categoryId,
       tasks: [],
       completedTasks: [],
       currentTask: {

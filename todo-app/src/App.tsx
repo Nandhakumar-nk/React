@@ -20,12 +20,12 @@ export interface IAppProps {
   displayRightContainer: boolean;
   displayLeftContainer: boolean;
   rootClass: string;
-  fetchDefaultCategoryRequest: (categoryTitle: string) => void;
+  fetchDefaultCategoryRequest: (categoryTitle: string, isInitialLoading:boolean) => void;
 }
 
 function App(props: IAppProps) {
   useEffect(() => {
-    props.fetchDefaultCategoryRequest(DEFAULT_CATEGORIES.MY_DAY);
+    props.fetchDefaultCategoryRequest(DEFAULT_CATEGORIES.MY_DAY, true);
   }, []);
 
   return (
@@ -48,8 +48,8 @@ const mapStateToProps = (state: IState) => ({
 });
 
 const mapDispatchToProps = (dispatch: (arg0: any) => any) => ({
-  fetchDefaultCategoryRequest: (categoryTitle: string) =>
-    dispatch(fetchDefaultCategoryRequest(categoryTitle)),
+  fetchDefaultCategoryRequest: (categoryTitle: string, isInitialLoading:boolean) =>
+    dispatch(fetchDefaultCategoryRequest(categoryTitle, isInitialLoading)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

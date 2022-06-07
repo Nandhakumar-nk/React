@@ -44,6 +44,10 @@ export function* addCategory(action: any) {
 }
 
 export function* fetchCategory(action: any) {
+  const errorMessage: string = action.payload.isInitialLoading
+    ? "Oops! Server Error!"
+    : "Oops! Tasks loading failed!";
+
   try {
     const importantTasksResponse: AxiosResponse = yield call(getImportantTasks);
 
@@ -80,7 +84,7 @@ export function* fetchCategory(action: any) {
     });
   } catch (error) {
     console.log(error);
-    showErrorToaster("Oops! Tasks loading failed!");
+    showErrorToaster(errorMessage);
     yield put({ type: ACTION_TYPES.FETCH_CATEGORY_FAIL });
   }
 }

@@ -10,11 +10,12 @@ export function createCategoryRequest(categoryName: String) {
   };
 }
 
-export function fetchDefaultCategoryRequest(categoryId: String) {
+export function fetchDefaultCategoryRequest(categoryId: string, isInitialLoading:boolean = false) {
   return {
     type: ACTION_TYPES.FETCH_DEFAULT_CATEGORY_REQUEST,
     payload: {
       categoryId: "0",
+      isInitialLoading
     },
     data: {
       categoryTitle: categoryId,
